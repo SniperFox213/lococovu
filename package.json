@@ -1,20 +1,6 @@
 {
   "name": "sapper-postcss-template",
   "description": "A template that includes Sapper for Svelte and PostCSS preprocessing with Tailwind CSS",
-  "keywords": [
-    "sapper",
-    "eslint",
-    "postcss",
-    "purgecss",
-    "svelte",
-    "tailwindcss",
-    "cssnano"
-  ],
-  "homepage": "https://github.com/babichjacob/sapper-postcss-template",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/babichjacob/sapper-postcss-template.git"
-  },
   "license": "MIT",
   "version": "2020.12.12",
   "scripts": {
@@ -28,6 +14,7 @@
   },
   "dependencies": {
     "@google-cloud/compute": "^2.4.1",
+    "@rollup/plugin-json": "^4.1.0",
     "compression": "^1.7.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

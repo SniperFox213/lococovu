@@ -9,6 +9,7 @@ import colors from "kleur";
 import { terser } from "rollup-plugin-terser";
 import config from "sapper/config/rollup";
 import pkg from "./package.json";
+import json from "@rollup/plugin-json";
 
 const { createPreprocessors } = require("./svelte.config.js");
 
@@ -30,6 +31,7 @@ export default {
 		input: config.client.input(),
 		output: { ...config.client.output(), sourcemap },
 		plugins: [
+			json(),
 			replace({
 				"process.browser": true,
 				"process.env.NODE_ENV": JSON.stringify(mode),
@@ -133,6 +135,7 @@ export default {
 		input: config.server.input(),
 		output: { ...config.server.output(), sourcemap },
 		plugins: [
+			json(),
 			replace({
 				"process.browser": false,
 				"process.env.NODE_ENV": JSON.stringify(mode),
