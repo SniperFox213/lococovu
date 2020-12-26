@@ -6,7 +6,4 @@ const router = express.Router();
 import IndexRouter from "./routes/index";
 router.use('/', IndexRouter);
 
-import TestRouter from "./routes/test";
-router.use('/test', TestRouter);
-
 export default router;

@@ -20,7 +20,15 @@ module.exports = {
 		},
 	},
 	theme: {
-		extend: {},
+		extend: {
+			// Background Color
+			backgroundColor: {
+				'icon-button': '#262b3f',
+
+				'input': '#0d0f17',
+				'container': '#151820'
+			}
+		},
 	},
 	variants: {
 		extend: {},
