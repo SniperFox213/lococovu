@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import compute from "../credentials/Compute";
+import compute from "../credentials/Compute.js";
 
 router.get('/', async (req, res) => {
   // Create a new VM using the latest OS image of your choice.
