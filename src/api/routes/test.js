@@ -1,10 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { v4 } from "uuid";
-
-import Compute from "@google-cloud/compute";
-const compute = new Compute();
+import compute from "../credentials/Compute";
 
 router.get('/', async (req, res) => {
   // Create a new VM using the latest OS image of your choice.

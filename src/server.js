@@ -4,7 +4,6 @@ import compression from "compression";
 import * as sapper from "@sapper/server";
 import dotenv from "dotenv";
 
-import gcc from "./api/credentials/gcc.json";
 import api from "./api/index";
 
 dotenv.config();
