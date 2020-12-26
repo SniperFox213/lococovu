@@ -26,3 +26,7 @@ app
 	.listen(PORT, (err) => {
 		if (err) console.log("error", err);
 	});
+
+// Let's now export our app for
+// vercel-sapper builder
+export default app;
