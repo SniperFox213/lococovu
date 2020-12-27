@@ -50,16 +50,6 @@
 				preview: "",
 				description: "Lorem"
 			}
-		},
-		{
-			id: 5,
-			title: "Title #1",
-
-			visual: {
-				image: "https://cdn2.unrealengine.com/Diesel%2Fproductv2%2Fkingdom-come-deliverance%2Fhome%2FEGS_WarhorseStudios_KingdomComeDeliverance_S3-1360x766-1e8502930c6282cb34acf7add01c6832a5bc217e.jpg",
-				preview: "",
-				description: "Lorem"
-			}
 		}
 	];
 </script>
@@ -112,9 +102,9 @@
 		<!-- Links -->
 		<div class="w-full flex-grow mt-3 px-4 md:px-6 relative">
 			<!-- Dashboard -->
-			<div class="my-3 flex items-center w-full text-white opacity-50 py-2 px-2 relative">
+			<div class="my-3 flex items-center w-full text-white py-2 px-2 relative">
 				<!-- Icon -->
-				<svg class="text-white" style="width: 1.2rem; height: 1.2rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+				<svg class="text-indigo-400" style="width: 1.2rem; height: 1.2rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
 				
 				<!-- Notifications Icon -->
 				<div class="absolute top-0 left-0 pl-5 pt-2">
@@ -131,9 +121,9 @@
 			</div>
 
 			<!-- Library -->
-			<div class="my-3 flex items-center w-full text-white py-2 px-2">
+			<div class="my-3 flex items-center w-full text-white py-2 px-2 opacity-50">
 				<!-- Icon -->
-				<svg class="text-indigo-400" style="width: 1.2rem; height: 1.2rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+				<svg class="text-white" style="width: 1.2rem; height: 1.2rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
 
 				<!-- Title -->
 				<p class="text-sm ml-3">Библиотека</p>
@@ -183,9 +173,26 @@
 
 				<!-- Game Types -->
 				<div class="w-2/3 flex items-center">
-					<a class="mx-3 text-white text-sm border-b-2 border-solid border-indigo-400" href="/">Все игры</a>
-					<a class="mx-3 text-gray-200 text-xs opacity-75" href="/">5-ти минутные</a>
-					<a class="mx-3 text-gray-200 text-xs opacity-75" href="/">10-ти минутные</a>
+					<div class="px-4 py-2 text-white text-sm border-b-2 border-solid border-indigo-400">Главная</div>
+					<div class="px-4 py-2 text-gray-200 text-xs opacity-75 relative">
+						Уведомления
+						<!-- Badge -->
+						<div class="absolute top-0 right-0">
+							<div class="rounded-full px-1 bg-red-400 text-white text-xs">
+								3
+							</div>
+						</div>
+					</div>
+
+					<div class="px-4 py-2 text-gray-200 text-xs opacity-75 relative">
+						Друзья
+						<!-- Badge -->
+						<div class="absolute top-0 right-0">
+							<div class="rounded-full px-1 bg-red-400 text-white text-xs">
+								1
+							</div>
+						</div>
+					</div>
 
 					<!-- More Icon -->
 					<div class="mx-3 px-2 py-0 rounded-md bg-icon-button flex justify-center items-center relative">
@@ -194,10 +201,10 @@
 				</div>
 			</div>
 
-			<!-- Instances (Games) -->
+			<!-- Container -->
 			<div class="relative w-full h-min-screen pt-4">
 				<!-- Featured Games -->
-				<div class="w-full relative mb-6">
+				<div class="w-full relative mb-6 px-2">
 					<div style="padding-top: 40%;" class="relative">
 						<div style="background-image: url('https://cdn2.unrealengine.com/egs-thelongdark-hinterlandstudioinc-g1a-00-1920x1080-231d3328f957.jpg?h=1080&resize=1&w=1920'); background-size: cover; background-repeat: no-repeat;" class="shadow-md absolute inset-0 w-full h-full rounded-md"></div>
 
@@ -241,47 +248,99 @@
 						</div>
 					{ /each }
 
-					<!-- More Games to Come... -->
-					<div class="w-1/2 relative px-2 py-2">
-						<div style="padding-top: 45%;" class="relative">
-							<div class="absolute inset-0 w-full h-full flex flex-col justify-center items-center border-2 border-indigo-400 rounded-md px-3 py-2">
+					<!-- More Popular Games -->
+					<div class="w-1/3 relative px-2 py-2">
+						<div style="padding-top: 60%;" class="relative">
+							<div style="" class="absolute border-2 border-solid border-indigo-400 inset-0 w-full h-full rounded-md flex flex-col justify-center items-center pr-2">
 								<!-- Icon -->
-								<img class="w-1/12" src="./icons/hugging-face.png" alt="Happy Icon">
-								
+
 								<!-- Text -->
-								<div class="mt-2 text-center opacity-75">
-									<h1 class="text-white texx-xl font-bold">Больше игр!</h1>
-									<p class="mt-1 text-xs text-gray-100">Каждую неделю мы делаем именно ту мини-игру, которую захотело больше всего пользователей! Вы можете добавить свою идею для игры ну или же проголосовать за будущую игру.</p>
+								<div class="w-2/3 opacity-75 text-center">
+									<h1 class="text-md font-bold text-white">Больше игр</h1>
+									<p class="text-sm text-gray-100 mt-2">Перейти в полную Библиотеку мини-игр</p>
 								</div>
 
-								<!-- Buttons -->
-								<div class="w-full flex mt-2">
-									<!-- Offer a Game -->
-									<button class="mr-2 w-1/2 flex justify-center items-center py-1 bg-input rounded-md">
-										<!-- Icon -->
-										<svg style="width: 0.8rem; height: 0.8rem;" class="text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-
-										<!-- Title -->
-										<p class="text-sm text-white ml-2">Предложить игру</p>
-									</button>
-
-									<!-- See all list of Offered Games -->
-									<button class="ml-2 w-1/2 flex justify-center items-center py-1 bg-input rounded-md">
-										<!-- Icon -->
-										<svg style="width: 0.8rem; height: 0.8rem;" class="text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-
-										<!-- Title -->
-										<p class="text-sm text-white ml-2">Проголосовать</p>
-									</button>
+								<!-- Button -->
+								<div class="absolute right-0 h-full bg-indigo-400 px-2 text-white flex items-center">
+									<!-- Chevron -->
+									<svg style="height: 1rem; width: 1rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<!-- Buy More Credits -->
-					<div class="w-1/2 relative px-2 py-2">
-						<div style="padding-top: 45%;" class="relative">
-							<div style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="absolute inset-0 w-full h-full flex flex-col justify-center items-center rounded-md px-3 py-2">
+				<!-- List all Tags -->
+				<div class="w-full border-b-2 border-solid border-indigo-400 text-left pb-2 mt-12">
+					<h1 class="text-2xl text-white opacity-75 font-bold">Тэги</h1>
+					<p class="text-sm text-white opacity-50 w-1/3">Краткий список всех тэгов, которые существенно упростят поиск Вашей новой любимой мини-игры</p>
+				</div>
+
+				<div class="w-full mt-2 h-full flex flex-wrap">
+					{ #each instances as instance }
+						<div class="w-1/3 relative px-2 py-2">
+							<div style="padding-top: 60%;" class="relative">
+								<div class="absolute bg-icon-button inset-0 w-full h-full rounded-md flex flex-col justify-center items-center">
+
+									<!-- Icon -->
+									<img class="w-1/6" src="./icons/hugging-face.png" alt="Tag Icon">
+
+									<!-- Text -->
+									<div class="w-2/3 text-center mt-2 opacity-75">
+										<h1 class="text-md text-white font-bold">Популярное</h1>
+										<p class="text-sm text-gray-100">Всё то, во что сейчас играют игроки Лококову!</p>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					{ /each }
+
+					<!-- More Popular Games -->
+					<div class="w-1/3 relative px-2 py-2">
+						<div style="padding-top: 60%;" class="relative">
+							<div style="" class="absolute border-2 border-solid border-indigo-400 inset-0 w-full h-full rounded-md flex flex-col justify-center items-center pr-2">
+								<!-- Icon -->
+
+								<!-- Text -->
+								<div class="w-2/3 opacity-75 text-center">
+									<h1 class="text-md font-bold text-white">Все теги</h1>
+									<p class="text-sm text-gray-100 mt-2">Посмотреть полный список тегов, которые упростят поиск интересной Вам игры</p>
+								</div>
+
+								<!-- Button -->
+								<div class="absolute right-0 h-full bg-indigo-400 px-2 text-white flex items-center">
+									<!-- Chevron -->
+									<svg style="height: 1rem; width: 1rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Support Project -->
+				<section class="mt-16 w-full relative px-2">
+					<div style="padding-top: 40%;" class="w-full relative py-2">
+						<div style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="absolute inset-0 w-full h-full rounded-md p-2 flex justify-center items-center">
+							<!-- Image -->
+							<div class="w-2/5 h-2/3 opacity-50 mx-4 px-4 md:px-6 flex flex-col justify-center items-center border-2 border-dashed border-gray-300 rounded-md mx-2">
+								<!-- Title -->
+								<h1 class="text-md text-white text-center">Тут должна была быть красивая картинка</h1>
+
+								<!-- Description -->
+								<p class="mt-2 text-sm text-white opacity-75 text-center">У нас совсем нету денег и умений на создание красивых картинок... Поэтому их тут не будет. Зато вы можете посмотреть на мемы!</p>
+
+								<!-- Button -->
+								<button class="mt-3 bg-input rounded-md px-4 py-2 flex justify-center items-center">
+									
+									<!-- Title -->
+									<p class="text-white text-sm opacity-75">Загрузить рандомный мем</p>
+								</button>
+
+							</div>
+
+							<!-- Texts -->
+							<div class="w-3/5 px-4">
 								<!-- Text -->
 								<div class="mt-2 text-center opacity-75">
 									<h1 class="text-white texx-xl font-bold">Поддержать проект</h1>
@@ -311,8 +370,17 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</section>
 			</div>
+
+			<!-- Footer -->
+			<footer class="w-full mt-12 pb-4 flex flex-col justify-center items-center opacity-50">
+				<!-- Lococovu Logotype -->
+				<img style="height: 1.6rem;" src="./logotype/white-full.svg" alt="Lococovu Logotype">
+			
+				<!-- Texts -->
+				<p class="text-xs text-gray-100 mt-1">Maintained by <span class="border-b border-dotted border-gray-100">community</span>, crafted with :love: by <span class="border-b border-dotted border-gray-100">unfull team</span></p>
+			</footer>
 		</div>
 	</section>
 
