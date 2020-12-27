@@ -112,9 +112,16 @@
 		<!-- Links -->
 		<div class="w-full flex-grow mt-3 px-4 md:px-6 relative">
 			<!-- Dashboard -->
-			<div class="my-3 flex items-center w-full text-white py-2 px-2 opacity-50">
+			<div class="my-3 flex items-center w-full text-white opacity-50 py-2 px-2 relative">
 				<!-- Icon -->
 				<svg class="text-white" style="width: 1.2rem; height: 1.2rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+				
+				<!-- Notifications Icon -->
+				<div class="absolute top-0 left-0 pl-5 pt-2">
+					<div class="rounded-full px-1 bg-red-400 text-white text-xs">
+						4
+					</div>
+				</div>
 
 				<!-- Title -->
 				<div class="ml-3">
@@ -193,6 +200,17 @@
 				<div class="w-full relative mb-6">
 					<div style="padding-top: 40%;" class="relative">
 						<div style="background-image: url('https://cdn2.unrealengine.com/egs-thelongdark-hinterlandstudioinc-g1a-00-1920x1080-231d3328f957.jpg?h=1080&resize=1&w=1920'); background-size: cover; background-repeat: no-repeat;" class="shadow-md absolute inset-0 w-full h-full rounded-md"></div>
+
+						<!-- Helper -->
+						<div class="absolute top-0 right-0 p-2">
+							<div class="bg-white px-4 py-1 opacity-75 rounded-md flex items-center">
+								<!-- Icon -->
+								<svg style="height: 0.9rem; width: 0.9rem;" class="text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+
+								<!-- Helper Text -->
+								<p class="text-sm text-black ml-2">Нажмите на картинку, что бы узнать больше</p>
+							</div>
+						</div>
 
 						<!-- Dots -->
 						<div class="absolute bottom-0 w-full flex justify-center items-center pb-4">
