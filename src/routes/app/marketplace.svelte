@@ -165,6 +165,6 @@
 
 	<!-- Marketplace Container -->
 	<section style="overflow: hidden; overflow-y: auto;" class="w-4/5 h-screen relative">
-
+    
 	</section>
 </main>

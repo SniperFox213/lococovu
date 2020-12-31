@@ -1,0 +1,127 @@
+<script>
+  // Importing modules
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
+
+	import notifications from "../../stores/notifications.js";
+
+  // Importing components
+  import Sidebar from "../../components/Sidebar/index.svelte";
+  import NotificationsScreen from "../../components/Screens/NotificationsScreen/index.svelte";
+
+  let loaded = false;
+
+  onMount(() => {
+
+    // Loading Screen
+    // TODO: сделать, что бы эта шляпа
+    // находилась на экране до тех пор,
+    // пока мы не авторизуем пользователя.
+    setTimeout(() => {
+      loaded = true;
+    }, 1000);
+  });
+
+  // Screen Variable
+  let screen = "main";
+</script>
+
+<!-- 
+  Parallax Background 
+-->
+<style>
+  /* Logotype Animation */
+  #logotype {
+		animation: pulse 1.5s infinite ease-in-out;
+	}
+
+	@keyframes pulse {
+		0%   { opacity: 100% }
+		50%  { opacity: 50% }
+		100% { opacity: 100% }
+	}
+
+  #background {
+    background-image: url(/background/1.svg);
+  }
+</style>
+
+<svelte:window on:mousemove={(e) => {
+  let el = document.getElementById("background");
+
+  el.style.backgroundPositionX = -e.pageX + "px";
+  el.style.backgroundPositionY = -e.pageY + "px";
+}} />
+
+<div id="background" class="absolute inset-0 w-full h-full"></div>
+
+{ #if !loaded }
+  <div style="z-index: 999;" out:fade class="absolute bg-container w-full h-screen flex justify-center items-center">
+    <!-- Logotype -->
+    <img id="logotype" style="width: 3vw;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
+  </div>
+{ /if }
+
+<main class="w-full h-min-screen relative flex">
+  <!-- Sidebar -->
+  <Sidebar />
+
+  <!-- Content (Screens) -->
+  <section style="overflow: hidden; overflow-y: auto;" class="w-4/5 h-screen relative">
+		<div class="absolute inset-0 w-full h-full py-6 px-8">
+			<!-- Mini-header -->
+			<div class="w-full flex items-center px-2">
+				<!-- Search Panel -->
+				<div class="flex w-1/3 bg-input p-2 rounded-md mr-3">
+					<!-- Icon -->
+					<div class="w-1/6">
+						<div class="w-8 h-8 rounded-md bg-icon-button flex justify-center items-center">
+							<svg class="text-white" style="width: 1rem; height: 1rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+						</div>
+					</div>
+
+					<!-- Input itself -->
+					<input class="text-sm w-5/6 text-gray-400 bg-input" placeholder="Во что сегодня хотите поиграть?" type="text">
+				</div>
+
+				<!-- Screens -->
+				<div class="w-2/3 flex items-center">
+					<div on:click={(e) => {
+						screen = "main";
+					}} class="px-4 py-2 { screen == "main" ? "text-white text-sm border-b-2 border-solid border-indigo-400" : "text-gray-200 text-xs opacity-75 relative" }">Главная</div>
+					
+          <!-- Notifications Screen -->
+					<div on:click={(e) => {
+						screen = "notifications";
+					}} class="px-4 py-2 { screen == "notifications" ? "text-white text-sm border-b-2 border-solid border-indigo-400 relative" : "text-gray-200 text-xs opacity-75 relative" }">
+						Уведомления
+
+						{ #if $notifications.length > 0 }
+							<!-- Badge -->
+							<div class="absolute top-0 right-0">
+								<div class="rounded-full px-1 bg-red-400 text-white text-xs">
+									{ $notifications.length }
+								</div>
+							</div>
+						{ /if }
+					</div>
+
+					<!-- More Icon -->
+					<div class="mx-3 px-2 py-0 rounded-md bg-icon-button flex justify-center items-center relative">
+						<svg class="w-2/3 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+					</div>
+				</div>
+			</div>
+
+			<!-- Container -->
+			<div class="relative w-full h-min-screen pt-4">
+        { #if screen == "notifications" }
+          <!-- Notifications Screen -->
+          <NotificationsScreen />
+        { :else }
+          <slot screen={screen} />
+        { /if }
+			</div>
+    </div>
+  </section>
+</main>

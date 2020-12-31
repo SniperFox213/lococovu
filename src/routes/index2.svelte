@@ -127,7 +127,10 @@
 				<svg class="text-white" style="width: 1.2rem; height: 1.2rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
 
 				<!-- Title -->
-				<p class="text-sm ml-3">Библиотека</p>
+				<div class="ml-3">
+					<p class="text-sm">Библиотека</p>
+					<p class="text-xs text-red-400 opacity-75">В разработке</p>
+				</div>
 			</div>
 
 			<!-- Marketplace -->
@@ -136,7 +139,10 @@
 				<svg class="text-white" style="height: 1.2rem; width: 1.2rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
 
 				<!-- Title -->
-				<p class="text-sm ml-3">Магазин</p>
+				<div class="ml-3">
+					<p class="text-sm">Магазин</p>
+					<p class="text-xs text-red-400 opacity-75">В разработке</p>
+				</div>
 			</div>
 
 			<!-- "Footer" -->

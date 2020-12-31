@@ -1,0 +1,23 @@
+[
+  {
+    "id": "index",
+    "icon": "compass",
+    "href": "/app",
+
+    "title": "Исследовать"
+  },
+  {
+    "id": "library",
+    "icon": "grid",
+    "href": "/app/library",
+
+    "title": "Библиотека"
+  },
+  {
+    "id": "marketplace",
+    "icon": "shopping-bag",
+    "href": "/app/marketplace",
+
+    "title": "Магазин"
+  }
+]

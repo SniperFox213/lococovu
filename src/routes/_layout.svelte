@@ -17,21 +17,12 @@
 	$: path = $page.path.slice(1);
 </script>
 
-<style>
-
-#container {
-	background-color: #151820;
-	background-image: url(/background/1.svg);
-	background-attachment: fixed;
-}
-</style>
-
 <svelte:head>
 	<title>
 		{path ? path.charAt(0).toUpperCase() + path.slice(1) : "Index"}
 	</title>
 </svelte:head>
 
-<main id="container" class="w-full min-h-screen">
+<main id="container" class="w-full min-h-screen bg-container">
 	<slot />
 </main>
