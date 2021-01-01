@@ -1,3 +1,11 @@
+<script>
+  // Importing modules
+  import { goto } from "@sapper/app";
+
+  // Importing components
+  import Icon from "../Icons/index.svelte";
+</script>
+
 <svelte:window on:mousemove={(e) => {
   let el = document.getElementById("background");
 
@@ -27,12 +35,22 @@
     <div class="flex">
       <button on:click={(e) => {
         window.location.href = "https://discord.gg/36c2k7PFNj";
-      }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="px-3 py-1 rounded-md flex items-center">
+      }} class="px-4 py-1 rounded-md flex items-center bg-icon-button mx-3">
         <!-- Icon -->
-        <img style="height: 1.2rem; width: 1.2rem;" src="./icons/Discord-Logo-White.svg" alt="Discord Logo">
+        <img style="height: 1rem; width: 1rem;" src="./icons/Discord-Logo-White.svg" alt="Discord Logo">
       
         <!-- Text -->
         <p class="text-sm text-white ml-2">Наш Дискорд</p>
+      </button>
+
+      <button on:click={(e) => {
+        goto('/authorize');
+      }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="mx-3 px-4 py-1 rounded-md flex items-center">
+        <!-- Icon -->
+        <Icon name="log-in" attrs={{ width: "1.25rem", height: "1.25rem", color: "#fff" }} />
+
+        <!-- Text -->
+        <p class="text-base text-white ml-2">Авторизоваться</p>
       </button>
     </div>
   </header>
