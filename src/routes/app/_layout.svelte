@@ -3,6 +3,11 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
+	import Cookie from "cookie-universal";
+	const cookies = Cookie();
+
+	import { goto } from "@sapper/app";
+
 	import notifications from "../../stores/notifications.js";
 
   // Importing components
@@ -12,14 +17,27 @@
   let loaded = false;
 
   onMount(() => {
-
-    // Loading Screen
-    // TODO: сделать, что бы эта шляпа
-    // находилась на экране до тех пор,
-    // пока мы не авторизуем пользователя.
-    setTimeout(() => {
-      loaded = true;
-    }, 1000);
+		// Let's now check if our
+		// player is logged in
+		// TODO
+		
+		if (true) {
+			// And here we'll check if this player
+			// completed tutorial or no
+			if (!cookies.get('tutorial')) {
+				goto('/start');
+			} else {
+				// Loading Screen
+				// TODO: сделать, что бы эта шляпа
+				// находилась на экране до тех пор,
+				// пока мы не авторизуем пользователя.
+				setTimeout(() => {
+					loaded = true;
+				}, 1000);
+			};
+		} else {
+			goto('/authorize');
+		};
   });
 
   // Screen Variable
@@ -145,6 +163,15 @@
         { :else }
           <slot screen={screen} />
         { /if }
+
+				<!-- Footer -->
+				<footer class="w-full mt-12 pb-4 flex flex-col justify-center items-center opacity-50">
+					<!-- Lococovu Logotype -->
+					<img style="height: 1.6rem;" src="./logotype/white-full.svg" alt="Lococovu Logotype">
+				
+					<!-- Texts -->
+					<p class="text-xs text-gray-100 mt-1">Maintained by <span class="border-b border-dotted border-gray-100">community</span>, crafted with :love: by <span class="border-b border-dotted border-gray-100">unfull team</span></p>
+				</footer>
 			</div>
     </div>
   </section>

@@ -32,7 +32,7 @@
   export let id;
 </script>
 
-<div class="relative my-4 mx-6 p-3 flex items-center justify-between bg-icon-button rounded-md { profile.status.type == "away" ? "opacity-75" : profile.status.type == "offline" ? "opacity-50" : "" }">	
+<div class="relative my-4 mx-6 p-3 flex items-center justify-between bg-icon-button rounded-md { profile.status.type == "away" ? "opacity-60" : profile.status.type == "offline" ? "opacity-30" : "opacity-80" }">	
   { #if !profile.loaded }
     <!-- Loading screen -->
     <div out:fade style="z-index: 2;" class="absolute inset-0 w-full h-full bg-icon-button rounded-md flex justify-center items-center">

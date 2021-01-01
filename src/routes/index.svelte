@@ -1,4 +1,13 @@
-<main class="relative bg-container">
+<svelte:window on:mousemove={(e) => {
+  let el = document.getElementById("background");
+
+  el.style.backgroundPositionX = -e.pageX + "px";
+  el.style.backgroundPositionY = -e.pageY + "px";
+}} />
+
+<div id="background" style="background-image: url('./background/1.svg');" class="absolute inset-0 w-full h-full"></div>
+
+<main class="relative">
   <!-- Header -->
   <header class="w-full fixed top-0 py-6 px-8 flex items-center justify-between">
     <!-- Logotype/Links -->
@@ -16,7 +25,9 @@
     
     <!-- Join Discord -->
     <div class="flex">
-      <button style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="px-3 py-1 rounded-md flex items-center">
+      <button on:click={(e) => {
+        window.location.href = "https://discord.gg/36c2k7PFNj";
+      }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="px-3 py-1 rounded-md flex items-center">
         <!-- Icon -->
         <img style="height: 1.2rem; width: 1.2rem;" src="./icons/Discord-Logo-White.svg" alt="Discord Logo">
       

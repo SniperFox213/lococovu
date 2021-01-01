@@ -44,22 +44,32 @@
 
               { #if $notifications.filter(n => n.type == "warning").length > 0 }
                 { #each $notifications.filter(n => n.type == "warning") as notification }
-                  <div class="w-full my-4 p-3 bg-icon-button rounded-md">
-                    <!-- Mini-Header -->
-                    <div class="w-full py-2 flex items-center justify-between">
-                      <!-- Title -->
-                      <div class="flex items-center">
-                        <Icon name="alert-triangle" attrs={{ width: "1.2rem", height: "1.2rem", color: "#fc8181" }} />
-                        <h1 class="text-xl text-white ml-2">Lorem ipsum dolor sit.</h1>
-                      </div>
+                  <div class="w-full my-4 p-3 flex items-center bg-icon-button rounded-md opacity-80">
+                    <!-- Texts -->
+                    <div class="mx-2 flex">
+                      <!-- Heading -->                    
+                      <Icon name="alert-triangle" attrs={{ width: "2rem", height: "2rem", class: "text-red-400" }} />
 
-                      <!-- Button -->
-                      <button class="w-8 h-8 rounded-md bg-input flex justify-center items-center">
-                        <Icon name="chevron-down" attrs={{ width: "1.2rem", height: "1.2rem", color: "#fff" }} />
-                      </button>
+                      <div class="ml-2 mt-1">
+                        <h1 class="text-base text-white">Lorem ipsum dolor sit amet.</h1>
+
+                        <!-- Small Description -->
+                        <p class="mt-1 text-xs text-gray-100">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias, odio?</p>
+                      </div>
                     </div>
 
-                    <p class="text-gray-100 text-sm opacity-75 pr-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis quae, laudantium eligendi voluptate sint in!</p>
+                    <!-- Buttons -->
+                    <div class="flex items-center">
+                      <!-- Do Something -->
+                      <button class="mr-3 w-8 h-8 rounded-md bg-input flex justify-center items-center">
+                        <Icon name="chevron-down" attrs={{ width: "1rem", height: "1rem", class: "text-white" }} />
+                      </button>
+
+                      <!-- Close -->
+                      <button class="w-8 h-8 rounded-md bg-input flex justify-center items-center">
+                        <Icon name="x" attrs={{ width: "1rem", height: "1rem", class: "text-white" }} />
+                      </button>
+                    </div>
                   </div>
                 { /each }
               { :else }
@@ -176,7 +186,7 @@
   { #each $notifications.filter(n => n.type == "other") as notification }
     <div class="w-1/4 relative px-2 py-2">
       <div style="padding-top: 100%;" class="relative">
-        <div class="absolute inset-0 w-full h-full rounded-md bg-icon-button flex flex-col">
+        <div class="absolute inset-0 w-full h-full rounded-md bg-icon-button flex flex-col opacity-80">
 
           <!-- Mini-Header -->
           <div class="w-full flex items-center justify-between p-4">
