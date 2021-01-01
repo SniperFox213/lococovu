@@ -64,8 +64,8 @@
 	</div>
 { /if }
 
-<div style="z-index: 998;" class="lg:hidden absolute inset-0 w-full h-full flex justify-center items-center bg-container">
-	<div class="w-2/3 flex flex-col items-center">
+<div style="z-index: 998;" class="lg:hidden fixed inset-0 w-full h-screen flex justify-center items-center bg-container">
+	<div class="w-full md:w-2/3 flex flex-col items-center px-4 md:px-0">
 		<!-- logotype -->
 		<img class="w-2/12" src="./logotype/small-white.svg" alt="Lococovu Logotype">
 

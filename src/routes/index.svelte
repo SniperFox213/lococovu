@@ -29,13 +29,13 @@
   <!-- Hero Section -->
   <section class="w-full h-screen flex justify-center items-center">
     <!-- Texts -->
-    <div class="w-1/2 pl-24">
-      <h1 class="text-8xl text-white font-medium">Всё ещё в разработке</h1>
+    <div class="w-full md:w-1/2 md:pl-24 px-4 md:px-0">
+      <h1 class="text-3xl md:text-8xl text-white font-medium">Всё ещё в разработке</h1>
 
-      <p class="mt-8 text-base text-gray-100">Весь этот проект находится в глубочайшей стадии разработки. Тем не менее, если вы постараетесь, то вы сможете кое-как найти текущую и рабочую версию сервиса, которая довольно-таки часто обновляется. Тем не менее, проект - в разработке. Вы можете присоединится к нашему <span class="border-b border-dotted border-gray-100">Дискорд серверу</span> для того, что бы поговорить с разработчиками ну или обычными игроками.</p>
+      <p class="mt-2 md:mt-8 text-base text-gray-100">Весь этот проект находится в глубочайшей стадии разработки. Тем не менее, если вы постараетесь, то вы сможете кое-как найти текущую и рабочую версию сервиса, которая довольно-таки часто обновляется. Тем не менее, проект - в разработке. Вы можете присоединится к нашему <span class="border-b border-dotted border-gray-100">Дискорд серверу</span> для того, что бы поговорить с разработчиками ну или обычными игроками.</p>
     </div>
 
-    <div class="w-1/2 flex justify-center items-center"></div>
+    <div class="hidden w-1/2 md:flex justify-center items-center"></div>
   </section>
 
   <!-- Sad Cat emoji -->
