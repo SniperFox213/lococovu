@@ -58,9 +58,33 @@
 { #if !loaded }
   <div style="z-index: 999;" out:fade class="absolute bg-container w-full h-screen flex justify-center items-center">
     <!-- Logotype -->
-    <img id="logotype" style="width: 3vw;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
-  </div>
+		<div class="w-full md:w-2/3 lg:w-1/3 flex justify-center items-center">
+    	<img id="logotype" class="w-1/12" src="./logotype/small-white.svg" alt="Lococovu Logotype">
+		</div>
+	</div>
 { /if }
+
+<div style="z-index: 998;" class="lg:hidden absolute inset-0 w-full h-full flex justify-center items-center bg-container">
+	<div class="w-2/3 flex flex-col items-center">
+		<!-- logotype -->
+		<img class="w-2/12" src="./logotype/small-white.svg" alt="Lococovu Logotype">
+
+		<!-- Heading -->
+		<h1 class="text-2xl ml-2 text-white mt-4 text-center">Нам жаль, но вам лучше зайти с Компьютера</h1>
+
+		<!-- Description -->
+		<p class="my-6 text-md opacity-75 text-gray-100 text-center">На данный момент разработки мы не поддерживаем отображение сайта для мобильных экранов. Ибо сделать весь сайт максимально адаптивным - довольно-таки сложно. Но не переживайте, в скором времени мы обязательно добавим мобильную версию!<br /><br />Кстати, вы можете зайти в наш Дискорд сервер и спросить у разработчиков когда появится мобильная версия.</p>
+
+		<!-- Discord Button -->
+		<button style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="px-3 py-1 rounded-md flex items-center">
+			<!-- Icon -->
+			<img style="height: 1.2rem; width: 1.2rem;" src="./icons/Discord-Logo-White.svg" alt="Discord Logo">
+		
+			<!-- Text -->
+			<p class="text-sm text-white ml-2">Наш Дискорд</p>
+		</button>
+	</div>
+</div>
 
 <main class="w-full h-min-screen relative flex">
   <!-- Sidebar -->
