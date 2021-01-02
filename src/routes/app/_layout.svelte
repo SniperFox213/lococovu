@@ -1,8 +1,9 @@
 <script>
   // Importing modules
   import { onMount } from "svelte";
-  import { fade } from "svelte/transition";
-
+  
+	import profile from "../../stores/profile.js";
+	
 	import Cookie from "cookie-universal";
 	const cookies = Cookie();
 
@@ -14,29 +15,13 @@
   import Sidebar from "../../components/Sidebar/index.svelte";
   import NotificationsScreen from "../../components/Screens/NotificationsScreen/index.svelte";
 
-  let loaded = false;
+	import PageTransition from "../../components/Loader/PageTransition.svelte";
 
   onMount(() => {
-		// Let's now check if our
-		// player is logged in
-		// TODO
-		
-		if (true) {
-			// And here we'll check if this player
-			// completed tutorial or no
-			if (!cookies.get('tutorial')) {
-				goto('/start');
-			} else {
-				// Loading Screen
-				// TODO: сделать, что бы эта шляпа
-				// находилась на экране до тех пор,
-				// пока мы не авторизуем пользователя.
-				setTimeout(() => {
-					loaded = true;
-				}, 1000);
-			};
+		if (!cookies.get('tutorial')) {
+			goto('/start');
 		} else {
-			goto('/authorize');
+			loaded = true;
 		};
   });
 
@@ -48,17 +33,6 @@
   Parallax Background 
 -->
 <style>
-  /* Logotype Animation */
-  #logotype {
-		animation: pulse 1.5s infinite ease-in-out;
-	}
-
-	@keyframes pulse {
-		0%   { opacity: 100% }
-		50%  { opacity: 50% }
-		100% { opacity: 100% }
-	}
-
   #background {
     background-image: url(/background/1.svg);
   }
@@ -71,16 +45,11 @@
   el.style.backgroundPositionY = -Math.round(e.pageY/20) + "px";
 }} />
 
-<div id="background" class="absolute inset-0 w-full h-full"></div>
+<!-- Page Transition Component -->
+<PageTransition />
 
-{ #if !loaded }
-  <div style="z-index: 999;" out:fade class="absolute bg-container w-full h-screen flex justify-center items-center">
-    <!-- Logotype -->
-		<div class="w-full md:w-2/3 lg:w-1/3 flex justify-center items-center">
-    	<img id="logotype" class="w-1/12" src="./logotype/small-white.svg" alt="Lococovu Logotype">
-		</div>
-	</div>
-{ /if }
+<!-- Page's Layout -->
+<div id="background" class="absolute inset-0 w-full h-full"></div>
 
 <div style="z-index: 998;" class="lg:hidden fixed inset-0 w-full h-screen flex justify-center items-center bg-container">
 	<div class="w-full md:w-2/3 flex flex-col items-center px-4 md:px-0">
@@ -105,11 +74,11 @@
 </div>
 
 <main class="w-full h-min-screen relative flex">
-  <!-- Sidebar -->
-  <Sidebar />
+	<!-- Sidebar -->
+	<Sidebar />
 
-  <!-- Content (Screens) -->
-  <section style="overflow: hidden; overflow-y: auto;" class="w-4/5 h-screen relative">
+	<!-- Content (Screens) -->
+	<section style="overflow: hidden; overflow-y: auto;" class="w-4/5 h-screen relative">
 		<div class="absolute inset-0 w-full h-full py-6 px-8">
 			<!-- Mini-header -->
 			<div class="w-full flex items-center px-2">
@@ -132,7 +101,7 @@
 						screen = "main";
 					}} class="px-4 py-2 { screen == "main" ? "text-white text-sm border-b-2 border-solid border-indigo-400" : "text-gray-200 text-xs opacity-75 relative" }">Главная</div>
 					
-          <!-- Notifications Screen -->
+					<!-- Notifications Screen -->
 					<div on:click={(e) => {
 						screen = "notifications";
 					}} class="px-4 py-2 { screen == "notifications" ? "text-white text-sm border-b-2 border-solid border-indigo-400 relative" : "text-gray-200 text-xs opacity-75 relative" }">
@@ -157,12 +126,12 @@
 
 			<!-- Container -->
 			<div class="relative w-full h-min-screen pt-4">
-        { #if screen == "notifications" }
-          <!-- Notifications Screen -->
-          <NotificationsScreen />
-        { :else }
-          <slot screen={screen} />
-        { /if }
+				{ #if screen == "notifications" }
+					<!-- Notifications Screen -->
+					<NotificationsScreen />
+				{ :else }
+					<slot screen={screen} />
+				{ /if }
 
 				<!-- Footer -->
 				<footer class="w-full mt-12 pb-4 flex flex-col justify-center items-center opacity-50">
@@ -173,6 +142,6 @@
 					<p class="text-xs text-gray-100 mt-1">Maintained by <span class="border-b border-dotted border-gray-100">community</span>, crafted with :love: by <span class="border-b border-dotted border-gray-100">unfull team</span></p>
 				</footer>
 			</div>
-    </div>
-  </section>
+		</div>
+	</section>
 </main>

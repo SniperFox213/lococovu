@@ -6,4 +6,8 @@ const router = express.Router();
 import IndexRouter from "./routes/index";
 router.use('/', IndexRouter);
 
+// Profile-related Routes
+import ProfileRouter from "./routes/profile";
+router.use('/profile', ProfileRouter);
+
 export default router;

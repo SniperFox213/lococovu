@@ -3,8 +3,12 @@
   import { onMount } from "svelte";
   import Icon from "../../Icons/index.svelte";
 
+  import Cookie from "cookie-universal";
+  const cookies = Cookie();   
+
   import { goto } from "@sapper/app";
 
+  import profile from "../../stores/profile.js";
   import { stores } from "@sapper/app";
   const { page } = stores();
 
@@ -53,26 +57,31 @@
   </div>
 
   <!-- User Account -->
-  <div class="mt-6 px-6">
-    <div class="p-2 rounded-md bg-indigo-400 flex items-center relative">
+  <div class="mt-6 px-4">
+    <div class="relative p-3 flex items-center justify-between bg-icon-button rounded-md opacity-80">	    
       <!-- Avatar -->
-      <img class="w-10 h-10 rounded-md" src="https://i.redd.it/t3jryj84rd801.png" alt="Avatar Icon">
-
-      <!-- Texts -->
-      <div class="ml-4">
-        <h1 class="text-base text-white font-medium">juiipup</h1>
-        <p class="text-sm text-white">Level 1</p>
+      <div class="relative flex items-center">
+        <div style="background: url({ $profile.internalAvatar }); background-size: cover;" class="w-12 h-12 rounded-md"></div>
+  
+        <!-- Name -->
+        <div class="ml-3 text-left">
+          <h1 class="text-md text-white font-bold">{ $profile.nickname == null ? $profile.displayName : $profile.nickname }</h1>
+  
+          <!-- Status -->
+          <div class="cursor-pointer flex items-center border-b border-dotted border-gray-100">
+            <img style="height: 1.2rem; width: 1.2rem;" src="./icons/desktop-computer.png" alt="">
+            <p class="text-sm text-gray-100 ml-1">Сидит на сайте</p>
+          </div>
+        </div>
       </div>
-
-      <!-- Icon -->
-      <div class="absolute inset-y-0 right-0 h-full rounded-r-md bg-container opacity-75 px-2 flex items-center text-white">
-        <svg style="height: 1rem; width: 1rem;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </div>
+  
+      <!-- Status Badge -->
+      <div class="absolute right-0 h-full w-2 bg-indigo-400 rounded-r-md"></div>
     </div>
   </div>
 
   <!-- Free-hours Status -->
-  <div class="px-6 my-6">
+  <div class="px-4 my-6">
     <div class="w-full h-2 rounded-md bg-input relative">
       <div class="w-1/3 absolute h-2 bg-yellow-400 rounded-md"></div>
     </div>
@@ -90,7 +99,7 @@
   </div>
 
   <!-- Links -->
-  <div class="flex-grow mt-3 px-4 md:px-6 relative">
+  <div class="flex-grow mt-3 px-4 relative">
     
     { #each pages as page }
       <div on:click={(e) => {
@@ -127,7 +136,12 @@
     <div class="absolute bottom-0 pb-8">
       
       <!-- Logout -->
-      <div class="flex items-center w-full text-white py-2 px-2 opacity-50">
+      <div on:click={(e) => {
+        cookies.remove('token', { path: "/" });
+        profile.forceProfile({ id: null });
+
+        goto('/');
+      }} class="cursor-pointer flex items-center w-full text-white py-2 px-2 opacity-50">
         <!-- Icon -->
         <svg style="width: 1rem; width: 1rem;" class="text-red-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
 

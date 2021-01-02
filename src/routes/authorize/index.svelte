@@ -1,10 +1,16 @@
 <script>
   // Importing modules
+  import { fade } from "svelte/transition";
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
 
+  import Spinner from "../../components/Loader/Spinner.svelte";
+
   // Importing components
   import Icon from "../../Icons/index.svelte";
+  import PageTransition from "../../components/Loader/PageTransition.svelte";
+
+  let buttonClicked = false;
 </script>
 
 <svelte:window on:mousemove={(e) => {
@@ -14,7 +20,10 @@
   el.style.backgroundPositionY = -Math.round(e.pageY/20) + "px";
 }} />
 
-<!-- Main Container -->
+<!-- Page Transition Component -->
+<PageTransition />
+
+<!-- Page's Layout -->
 <main class="w-full h-screen relative flex">
   <!-- Authorize -->
   <section class="relative w-full lg:w-1/2 h-full flex flex-col items-center justify-center">
@@ -36,7 +45,7 @@
       <!-- Links -->
       <div class="flex items-center">
         <a class="text-xs text-white mx-4 opacity-50" href="/">Главная</a>
-        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/">Авторизация</a>
+        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Авторизация</a>
       </div>
     </div>
 
@@ -50,7 +59,16 @@
 
       <!-- Buttons -->
       <div class="mt-4 px-4">
-        <button class="w-full my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80">
+        <button on:click={(e) => {
+          buttonClicked = true;
+          window.location.href = "https://authed.unfull.ml/callback?url=https://lococovu.me/authorize/:token&provider=google";
+        }} class="relative w-full cursor-pointer my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80">
+          { #if buttonClicked }
+            <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-icon-button rounded-md">
+              <Spinner color="#fff" />
+            </div>
+          { /if }
+
           <!-- Logotype -->
           <img style="height: 1.5rem; width: 1.5rem;" src="./logotype/google-white.svg" alt="Google Logotype">
 
