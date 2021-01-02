@@ -28,20 +28,20 @@
         <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
         
         <!-- Divider -->
-        <div style="width: 1.2px; height: 1.35rem;" class="mx-2 rounded-md bg-white"></div>
+        <div style="width: 1.2px; height: 1.35rem;" class="hidden lg:block mx-2 rounded-md bg-white"></div>
 
-        <p class="text-md text-white">Авторизация</p>
+        <p class="hidden lg:block text-md text-white">Авторизация</p>
       </div>
 
       <!-- Links -->
       <div class="flex items-center">
         <a class="text-xs text-white mx-4 opacity-50" href="/">Главная</a>
-        <a class="border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/">Авторизация</a>
+        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/">Авторизация</a>
       </div>
     </div>
 
     <!-- Content -->
-    <div style="z-index: 2;" class="w-2/3 flex flex-col items-center justify-center">
+    <div style="z-index: 2;" class="w-full lg:w-2/3 flex flex-col items-center justify-center">
       <!-- Text -->
       <div class="text-center">
         <h1 class="text-2xl text-white">Авторизация</h1>
