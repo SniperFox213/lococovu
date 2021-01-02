@@ -20,8 +20,6 @@
   onMount(() => {
 		if (!cookies.get('tutorial')) {
 			goto('/start');
-		} else {
-			loaded = true;
 		};
   });
 
