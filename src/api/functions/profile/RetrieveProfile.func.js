@@ -81,7 +81,7 @@ export default async (id) => {
     nickname: internal.nickname,
 
     avatar: external.photos[0].value,
-    internalAvatar: "https://d.facdn.net/art/feve/1499642928/1499642928.feve_doggo.png",
+    internalAvatar: external.photos[0].value || "https://d.facdn.net/art/feve/1499642928/1499642928.feve_doggo.png",
 
     displayName: external.displayName,
     email: external.emails[0].value,
