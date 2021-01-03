@@ -26,8 +26,20 @@
       // user to main page.
       cookies.set('token', $page.params.token, { path: "/", expires: moment().add('1', 'year').toDate() });
 
+      // And let's now add this token to
+      // tokens cookie
+      let tokens = cookies.get('tokens', { path: "/" });
+      if (tokens == null) {
+        tokens = [];
+      } else {
+        tokens = tokens.split(',');
+      };
+
+      tokens.push($page.params.token);
+      cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
+
       goto('/');
-    }).catch(() => {
+    }).catch((error) => {
       // Error
       error = true;
     });

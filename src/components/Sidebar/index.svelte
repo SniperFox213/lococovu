@@ -134,7 +134,18 @@
       Sidebar Footer 
     -->
     <div class="absolute bottom-0 pb-8">
-      
+
+      <!-- Accounts -->
+      <div on:click={(e) => {
+        goto('/authorize');
+      }} class="cursor-pointer flex items-center w-full text-white py-2 px-2 opacity-50">
+        <!-- Icon -->
+        <Icon name="list" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+
+        <!-- Title -->
+        <p class="text-sm ml-4">Аккаунты</p>
+      </div>
+
       <!-- Logout -->
       <div on:click={(e) => {
         cookies.remove('token', { path: "/" });
