@@ -21,6 +21,12 @@
 
   if (tokens != null) {
     tokens = tokens.split(',');
+  } else {
+    if (cookies.get('token')) {
+      tokens = [cookies.get('token')];
+    } else {
+      tokens = [];
+    };
   };
 
   onMount(() => {
@@ -41,9 +47,7 @@
           };
         });
       });
-    } else {
-      profiles = [$profile];
-    }
+    };
   });
 
   let buttonClicked = false;
@@ -95,7 +99,7 @@
     </div>
 
     <!-- Content -->
-    <div style="z-index: 2;" class="w-full lg:w-2/3 h-full lg:h-2/3 flex flex-col items-center justify-center px-4">
+    <div style="z-index: 2;" class="w-full lg:w-2/3 h-2/3 flex flex-col items-center justify-center px-4">
       <!-- Text -->
       <div class="text-center">
 
@@ -114,9 +118,9 @@
           <div class="absolute inset-0 w-full h-full">
             { #each profiles.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0)) as p }
               <!-- Current Profile -->
-              <button in:fade class="transition duration-200 ease-in-out relative w-full my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80 { $profile.id == p.id && !loading ? "border-2 border-solid border-indigo-400" : "border-2 border-transparent" }">
+              <button in:fade class="transition duration-200 ease-in-out relative w-full my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80 { $profile.id == p.id && !p.loading ? "border-2 border-solid border-indigo-400" : "border-2 border-transparent" }">
                 <!-- Loading state -->
-                { #if loading }
+                { #if p.loading }
                   <div style="z-index: 999;" transition:fade class="absolute bg-icon-button rounded-md inset-0 w-full h-full flex justify-center items-center">
                     <Spinner size={20} color="#fff" />
                   </div>
@@ -141,14 +145,29 @@
                   <!-- Log out or Log into -->
                   { #if $profile.id != p.id }
                     <button on:click={(e) => {
-                      loading = true;
+
+                      let index          = profiles.findIndex(x => x.id == p.id);
+                      let newProfile     = p;
+                      newProfile.loading = true;
+
+                      profiles[index] = newProfile;
 
                       cookies.set("token", p.token, { path: "/" });
                       profile.loadProfile(p.token)
                       .then(() => {
-                        loading = false;
+                        setTimeout(() => {
+                          let index          = profiles.findIndex(x => x.id == p.id);
+                          let newProfile     = p;
+                          newProfile.loading = false;
+
+                          profiles[index] = newProfile;
+                        }, 250);
                       }).catch(() => {
-                        loading = false;
+                        let index          = profiles.findIndex(x => x.id == p.id);
+                        let newProfile     = p;
+                        newProfile.loading = false;
+
+                        profiles[index] = newProfile;
                       });
                     }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="w-8 h-8 rounded-md flex justify-center items-center">
                       <Icon name="chevron-right" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
