@@ -146,7 +146,7 @@
       <!-- Accounts -->
       <div on:click={(e) => {
         goto('/authorize');
-      }} class="cursor-pointer flex items-center w-full text-white my-2 py-1 px-4 opacity-50 relative">
+      }} class="cursor-pointer flex items-center w-full text-white my-2 py-1 pl-2 pr-4 opacity-50 relative">
         <!-- Icon -->
         <Icon name="list" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
 
