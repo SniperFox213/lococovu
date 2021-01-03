@@ -3,6 +3,8 @@
   import { fade } from "svelte/transition";
   import profile from "../../stores/profile.js";
 
+  import { goto } from "@sapper/app";
+
   import axios from "axios";
   import { onMount } from "svelte";
 
@@ -160,6 +162,8 @@
                           newProfile.loading = false;
 
                           profiles[index] = newProfile;
+
+                          goto('/app');
                         }, 250);
                       }).catch(() => {
                         let index          = profiles.findIndex(x => x.id == p.id);
@@ -167,6 +171,8 @@
                         newProfile.loading = false;
 
                         profiles[index] = newProfile;
+
+                        goto('/app');
                       });
                     }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="w-8 h-8 rounded-md flex justify-center items-center">
                       <Icon name="chevron-right" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />

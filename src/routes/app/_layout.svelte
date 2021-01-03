@@ -2,12 +2,12 @@
   // Importing modules
   import { onMount } from "svelte";
   
-	import profile from "../../stores/profile.js";
-	
 	import Cookie from "cookie-universal";
 	const cookies = Cookie();
 
 	import { goto } from "@sapper/app";
+	import { stores } from "@sapper/app";
+	const { page } = stores();
 
 	import notifications from "../../stores/notifications.js";
 
@@ -17,37 +17,36 @@
 
 	import PageTransition from "../../components/Loader/PageTransition.svelte";
 
+  // Screen Variable
+  let screen = "main";
+
+	let currentPage;
+	page.subscribe((obj) => {
+		if (obj.path != currentPage) {
+			screen = "main";
+			currentPage = obj.path
+		};
+	});
+
   onMount(() => {
 		if (!cookies.get('tutorial')) {
 			goto('/start');
 		};
   });
-
-  // Screen Variable
-  let screen = "main";
 </script>
 
-<!-- 
-  Parallax Background 
--->
-<style>
-  #background {
-    background-image: url(/background/1.svg);
-  }
-</style>
-
 <svelte:window on:mousemove={(e) => {
-  let el = document.getElementById("background");
-
-  el.style.backgroundPositionX = -Math.round(e.pageX/20) + "px";
-  el.style.backgroundPositionY = -Math.round(e.pageY/20) + "px";
+	Array.prototype.forEach.call(document.getElementsByClassName("background"), function(element) {
+		element.style.backgroundPositionX = -Math.round(e.pageX/20) + "px";
+		element.style.backgroundPositionY = -Math.round(e.pageY/20) + "px";
+	});
 }} />
 
 <!-- Page Transition Component -->
 <PageTransition />
 
 <!-- Page's Layout -->
-<div id="background" class="absolute inset-0 w-full h-full"></div>
+<div style="background-image: url('/background/1.svg');" class="background absolute inset-0 w-full h-full"></div>
 
 <div style="z-index: 998;" class="lg:hidden fixed inset-0 w-full h-screen flex justify-center items-center bg-container">
 	<div class="w-full md:w-2/3 flex flex-col items-center px-4 md:px-0">
@@ -77,7 +76,7 @@
 
 	<!-- Content (Screens) -->
 	<section style="overflow: hidden; overflow-y: auto;" class="w-4/5 h-screen relative">
-		<div class="absolute inset-0 w-full h-full py-6 px-8">
+		<div class="absolute inset-0 w-full h-full py-6 px-8 flex flex-col">
 			<!-- Mini-header -->
 			<div class="w-full flex items-center px-2">
 				<!-- Search Panel -->
@@ -123,7 +122,7 @@
 			</div>
 
 			<!-- Container -->
-			<div class="relative w-full h-min-screen pt-4">
+			<div class="relative w-full flex-grow pt-4 flex flex-col">
 				{ #if screen == "notifications" }
 					<!-- Notifications Screen -->
 					<NotificationsScreen />

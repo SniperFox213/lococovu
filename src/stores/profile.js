@@ -25,7 +25,7 @@ function store() {
         // Let's now try to connect to authed
         // servers and try to get some information
         // about this token.
-        axios.get(`https://lococovu.me/api/profile/${token}`)
+        axios.get(`http://localhost:3000/api/profile/${token}`)
         .then((response) => {
           const data = response.data;
 

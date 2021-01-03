@@ -45,19 +45,24 @@ export default async (id) => {
 
   // Internal Profile (from lococovu's database)
   let internal;
+  let friends;
   try {
     internal = await storage.query(
       q.Get(
         q.Match(
-          q.Index("SearchUserById", external.id)
+          q.Index("SearchUserById"), external.id
         )
       )
     );
-  } catch {
+
+    internal = internal.data;
+  } catch (error) {
     // Let's now provide default
     // account information.
     internal = {
       nickname: null,
+
+      friends: [],
 
       level: {
         number: 0
@@ -68,6 +73,26 @@ export default async (id) => {
         credits: 0
       }
     }
+  };
+
+  // And now let's try to find
+  // all friends of this user
+  try {
+    friends = await storage.query(
+      q.Map(
+        q.Paginate(
+          q.Match(
+            q.Index("SearchFriendsById"), external.id
+          )
+        ),
+        q.Lambda("X", q.Get(q.Var("X")))
+      )
+    );
+    internal.friends = friends.data.map((obj) => {
+      return obj.data;
+    });
+  } catch (error) {
+    internal.friends = []
   };
 
   //
@@ -86,14 +111,11 @@ export default async (id) => {
     displayName: external.displayName,
     email: external.emails[0].value,
 
-    level: {
-      number: internal.level.number
-    },
+    friends: internal.friends || [],
 
-    wallet: {
-      lambdas: internal.wallet.lambdas,
-      credits: internal.wallet.credits
-    }
+    level: internal.level || { number: 0 },
+
+    wallet: internal.wallet || { lambdas: 100, coins: 0 }
   };
 
   return profile;

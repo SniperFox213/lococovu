@@ -1,38 +1,55 @@
 <script>
   // Importing modules
-  import friends from "../../../../stores/friends.js";
+  import friends from "../../stores/friends.js";
+  import axios from "axios";
 
   import { fade } from "svelte/transition";
   import { onMount } from "svelte";
 
-  import Icon from "../../../../Icons/index.svelte";
+  import Icon from "../../Icons/index.svelte";
 
+  let hidden = false;
   // Current User's profile
   let profile = {
     loaded: false,
     status: {}
   };
 
-  onMount(() => {
-    // Let's now subscribe to
-    // this store to check for
-    // updates.
-    friends.subscribe((obj) => {
-      // Let's find this user's profile.
-      obj.forEach((x) => {
-        if (x.id == id) {
-          profile = x;
-          profile.loaded = true;
-        }
-      });
-    });
+  onMount(async () => {
+    // Let's check if we have this friend
+    // cached
+    if ($friends.find((x) => x.id == id && x.cached == true)) {
+      // Let's now load this cached information;
+      profile = $friends.find((x) => x.id == id && x.cached == true);
+    } else {
+      // And now let's get this
+      // user's information from our servers
+      try {
+        let userProfile = await axios.get(`https://lococovu.me/api/profile/${id}`);
+        
+        // Preparing profile object
+        let newProfile  = userProfile.data;
+        newProfile.status = {
+          type: "online"
+        };
+        newProfile.loaded = true;
+
+        profile = newProfile;
+      
+        // And now let's add this profile to
+        // our "cache"
+        friends.cache(newProfile);
+      } catch (error) {
+        hidden = true;
+      };
+    };
   });
 
   // Exporting some settings.
   export let id;
 </script>
 
-<div class="relative my-4 mx-6 p-3 flex items-center justify-between bg-icon-button rounded-md { profile.status.type == "away" ? "opacity-60" : profile.status.type == "offline" ? "opacity-30" : "opacity-80" }">	
+<div class="{ hidden ? "hidden" : "flex" } { profile.loaded == false ? "h-16" : "" } relative my-4 mx-6 p-3 items-center justify-between bg-icon-button rounded-md { profile.status.type == "away" ? "opacity-60" : profile.status.type == "offline" ? "opacity-30" : "opacity-80" }">	
   { #if !profile.loaded }
     <!-- Loading screen -->
     <div out:fade style="z-index: 2;" class="absolute inset-0 w-full h-full bg-icon-button rounded-md flex justify-center items-center">
@@ -54,7 +71,7 @@
 
       <!-- Name -->
       <div class="ml-3 text-left">
-        <h1 class="text-md text-white font-bold">{ profile.nickname }</h1>
+        <h1 class="text-md text-white font-bold">{ profile.nickname == null ? profile.displayName : profile.nickname }</h1>
 
         <!-- Status -->
         <div class="flex items-center">

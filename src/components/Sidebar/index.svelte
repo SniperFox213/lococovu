@@ -89,7 +89,7 @@
   </div>
 
   <!-- Free-hours Status -->
-  <div class="px-4 my-6">
+  <div class="px-4 mt-6">
     <div class="w-full h-2 rounded-md bg-input relative">
       <div class="w-1/3 absolute h-2 bg-yellow-400 rounded-md"></div>
     </div>
@@ -109,7 +109,7 @@
   <!-- Links -->
   <div class="flex-grow mt-3 px-4 relative">
     
-    { #each pages as page }
+    { #each pages.filter((x) => x.id != null) as page }
       <div on:click={(e) => {
         if (currentPage != page.id) {
           goto(page.href);

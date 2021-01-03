@@ -7,17 +7,23 @@
     "title": "Исследовать"
   },
   {
-    "id": "library",
-    "icon": "grid",
-    "href": "/app/library",
+    "id": "friends",
+    "icon": "message-circle",
 
-    "title": "Библиотека"
+    "href": "/app/friends",
+
+    "title": "Друзья"
   },
   {
-    "id": "marketplace",
-    "icon": "shopping-bag",
-    "href": "/app/marketplace",
+    "icon": "grid",
 
-    "title": "Магазин"
+    "title": "Библиотека",
+    "subtitle": "В разработке"
+  },
+  {
+    "icon": "shopping-bag",
+
+    "title": "Магазин",
+    "subtitle": "В разработке"
   }
 ]
