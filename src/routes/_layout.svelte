@@ -49,25 +49,14 @@
 	<title>
 		{path ? path.charAt(0).toUpperCase() + path.slice(1) : "Index"}
 	</title>
+
+	<link rel="stylesheet" href="./animations.css">
 </svelte:head>
-
-<style>
-  /* Logotype Animation */
-  #logotype {
-		animation: pulse 1.5s infinite ease-in-out;
-	}
-
-	@keyframes pulse {
-		0%   { opacity: 100% }
-		50%  { opacity: 50% }
-		100% { opacity: 100% }
-	}
-</style>
 
 { #if !loaded}
 	<div style="z-index: 999;" out:fade class="absolute bg-container w-full h-screen flex justify-center items-center">
 		<!-- Logotype -->
-		<div class="w-full md:w-2/3 lg:w-1/3 flex justify-center items-center">
+		<div style="animation: pulse 1.5s infinite ease-in-out;" class="w-full md:w-2/3 lg:w-1/3 flex justify-center items-center">
 			<img id="logotype" class="w-1/12" src="./logotype/small-white.svg" alt="Lococovu Logotype">
 		</div>
 	</div>
