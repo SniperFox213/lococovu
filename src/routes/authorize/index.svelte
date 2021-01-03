@@ -1,8 +1,10 @@
 <script>
   // Importing modules
   import { fade } from "svelte/transition";
-  import { onMount } from "svelte";
-  import { goto } from "@sapper/app";
+  import profile from "../../stores/profile.js";
+
+  import Cookie from "cookie-universal";
+  const cookies = Cookie();
 
   import Spinner from "../../components/Loader/Spinner.svelte";
 
@@ -39,13 +41,22 @@
         <!-- Divider -->
         <div style="width: 1.2px; height: 1.35rem;" class="hidden lg:block mx-2 rounded-md bg-white"></div>
 
-        <p class="hidden lg:block text-md text-white">Авторизация</p>
+        { #if $profile.id != null }
+          <p class="hidden lg:block text-md text-white">Аккаунты</p>
+        { :else }
+          <p class="hidden lg:block text-md text-white">Авторизация</p>
+        { /if }
       </div>
 
       <!-- Links -->
       <div class="flex items-center">
         <a class="text-xs text-white mx-4 opacity-50" href="/">Главная</a>
-        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Авторизация</a>
+        
+        {#if $profile.id != null}
+          <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Аккаунты</a>
+        { :else }
+          <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Авторизация</a>
+        {/if}
       </div>
     </div>
 
@@ -53,42 +64,99 @@
     <div style="z-index: 2;" class="w-full lg:w-2/3 flex flex-col items-center justify-center">
       <!-- Text -->
       <div class="text-center">
-        <h1 class="text-2xl text-white">Авторизация</h1>
-        <p class="text-xs text-gray-100">Для того, что бы начать пользоваться нашимы сервисами, Вам нужно авторизоваться.</p>
+
+        { #if $profile.id != null }
+          <h1 class="text-2xl text-white">Аккаунты</h1>
+          <p class="text-xs text-gray-100">Уупс... Вы уже авторизованы на сайте! Тем не менее, тут вы сможете зайти на сайт под другим аккаунтом. Просто нажмите на кнопку <span class="border-b border-dotted border-gray-100">"Войти под другим аккаунтом"</span> и всё!</p>  
+        { :else }
+          <h1 class="text-2xl text-white">Авторизация</h1>
+          <p class="text-xs text-gray-100">Для того, что бы начать пользоваться нашимы сервисами, Вам нужно авторизоваться.</p>
+        { /if }
       </div>
 
       <!-- Buttons -->
       <div class="mt-4 px-4">
-        <button on:click={(e) => {
-          buttonClicked = true;
-          window.location.href = "https://authed.unfull.ml/callback?url=https://lococovu.me/authorize/:token&provider=google";
-        }} class="relative w-full cursor-pointer my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80">
-          { #if buttonClicked }
-            <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-icon-button rounded-md">
-              <Spinner color="#fff" />
+        { #if $profile.id != null }
+          <!-- Current Profile -->
+          <button class="relative w-full cursor-pointer my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80">
+            <!-- Icon -->
+            <div style="background: url({ $profile.internalAvatar }); background-size: cover;" class="w-12 h-12 rounded-md"></div>
+
+            <!-- Texts -->
+            <div class="ml-3 text-left">
+              <h1 class="text-base text-white">{ $profile.nickname == null ? $profile.displayName : $profile.nickname }</h1>
+              <p class="text-xs text-gray-100"><span class="border-b border-dotted border-gray-100">Google:</span> { $profile.email }</p>
             </div>
-          { /if }
 
-          <!-- Logotype -->
-          <img style="height: 1.5rem; width: 1.5rem;" src="./logotype/google-white.svg" alt="Google Logotype">
+            <!-- Buttons -->
+            <div class="absolute flex items-center right-0 h-full pr-3">
+              <!-- Settings -->
+              <button class="mx-3 w-8 h-8 rounded-md bg-input flex justify-center items-center">
+                <Icon name="settings" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+              </button>
 
-          <!-- Texts -->
-          <div class="ml-3 text-left">
-            <h1 class="text-base text-white">Использовать Google</h1>
-            <p class="text-xs text-gray-100">Для авторизации будет использован ваш личный аккаунт Google</p>
-          </div>
-        </button>
+              <!-- Log out -->
+              <button on:click={(e) => {
+                profile.forceProfile({ id: null });
+                cookies.remove("token", { path: "/" });
+              }} class="w-8 h-8 rounded-md bg-input flex justify-center items-center">
+                <Icon name="x" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+              </button>
+            </div>
+          </button>
 
-        <button class="w-full my-4 p-3 border border-dashed border-gray-700 rounded-md flex items-center opacity-50 cursor-not-allowed">
-          <!-- Logo -->
-          <Icon name="list" attrs={{ width: "1.5rem", height: "1.5rem", class: "text-white" }} />
+          <button on:click={(e) => {
+              buttonClicked = true;
+              window.location.href = "https://authed.unfull.ml/callback?url=http://localhost:3000/authorize/:token&provider=google&design=%7B%22appBackground%22%3A%22%23151820%22%2C%22loaderBackground%22%3A%22%23151820%22%2C%22loaderColor%22%3A%22%23fff%22%2C%22containerBackground%22%3A%22%23151820%22%2C%22logotypeColor%22%3A%22%23fff%22%2C%22textHeading%22%3A%22%23fff%22%2C%22textParagraph%22%3A%22%23F3F4F5%22%7D";
+            }} class="relative w-full my-4 p-3 { buttonClicked ? "" : "border border-dashed border-gray-700" } rounded-md flex items-center cursor-pointer">
+            
+            { #if buttonClicked }
+              <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-icon-button rounded-md">
+                <Spinner color="#fff" />
+              </div>
+            { /if }
 
-          <!-- Texts -->
-          <div class="ml-3 text-left">
-            <h1 class="text-base text-white">Другие методы авторизации</h1>
-            <p class="text-xs text-gray-100">Другие методы авторизации нахоядтся в разработке. Скоро всё будет, не переживайте!</p>
-          </div>
-        </button>
+            <!-- Logo -->
+            <Icon name="log-in" attrs={{ width: "1.5rem", height: "1.5rem", class: "text-white" }} />
+
+            <!-- Texts -->
+            <div class="ml-3 text-left">
+              <h1 class="text-base text-white">Войти под другим аккаунтом</h1>
+              <p class="text-xs text-gray-100">Для данного действия будет использован Ваш личный аккаунт Google</p>
+            </div>
+          </button>
+        { :else }
+          <button on:click={(e) => {
+            buttonClicked = true;
+            window.location.href = "https://authed.unfull.ml/callback?url=http://localhost:3000/authorize/:token&provider=google&design=%7B%22appBackground%22%3A%22%23151820%22%2C%22loaderBackground%22%3A%22%23151820%22%2C%22loaderColor%22%3A%22%23fff%22%2C%22containerBackground%22%3A%22%23151820%22%2C%22logotypeColor%22%3A%22%23fff%22%2C%22textHeading%22%3A%22%23fff%22%2C%22textParagraph%22%3A%22%23F3F4F5%22%7D";
+          }} class="relative w-full cursor-pointer my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80">
+            { #if buttonClicked }
+              <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-icon-button rounded-md">
+                <Spinner color="#fff" />
+              </div>
+            { /if }
+
+            <!-- Logotype -->
+            <img style="height: 1.5rem; width: 1.5rem;" src="./logotype/google-white.svg" alt="Google Logotype">
+
+            <!-- Texts -->
+            <div class="ml-3 text-left">
+              <h1 class="text-base text-white">Использовать Google</h1>
+              <p class="text-xs text-gray-100">Для авторизации будет использован ваш личный аккаунт Google</p>
+            </div>
+          </button>
+
+          <button class="w-full my-4 p-3 border border-dashed border-gray-700 rounded-md flex items-center opacity-50 cursor-not-allowed">
+            <!-- Logo -->
+            <Icon name="list" attrs={{ width: "1.5rem", height: "1.5rem", class: "text-white" }} />
+
+            <!-- Texts -->
+            <div class="ml-3 text-left">
+              <h1 class="text-base text-white">Другие методы авторизации</h1>
+              <p class="text-xs text-gray-100">Другие методы авторизации нахоядтся в разработке. Скоро всё будет, не переживайте!</p>
+            </div>
+          </button>
+        { /if }
       </div>
     </div>
 
