@@ -70,7 +70,7 @@
       </div>
     { :else }
       <!-- Logotype -->
-      <img class="w-1/12" src="./logotype/small-white.svg" alt="Lococovu Logotype">
+      <img class="w-4/12 lg:w-1/12" src="./logotype/small-white.svg" alt="Lococovu Logotype">
 
       <!-- Text -->
       <h1 class="text-sm text-white font-medium opacity-75 mt-2">Обрабатываем...</h1>

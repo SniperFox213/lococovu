@@ -61,13 +61,13 @@
     </div>
 
     <!-- Content -->
-    <div style="z-index: 2;" class="w-full lg:w-2/3 flex flex-col items-center justify-center">
+    <div style="z-index: 2;" class="w-full lg:w-2/3 flex flex-col items-center justify-center px-4">
       <!-- Text -->
       <div class="text-center">
 
         { #if $profile.id != null }
           <h1 class="text-2xl text-white">Аккаунты</h1>
-          <p class="text-xs text-gray-100">Уупс... Вы уже авторизованы на сайте! Тем не менее, тут вы сможете зайти на сайт под другим аккаунтом. Просто нажмите на кнопку <span class="border-b border-dotted border-gray-100">"Войти под другим аккаунтом"</span> и всё!</p>  
+          <p class="text-xs text-gray-100">Хотите зайти под другим аккаунтом? Нажмите на кнопку <span class="border-b border-dotted border-gray-100">"Войти под другим аккаунтом"</span> и следуйте инструкциям!<br /><br />Хотите выйти? Просто нажмите на крестик рядом с вашим текущим аккаунтом.</p>  
         { :else }
           <h1 class="text-2xl text-white">Авторизация</h1>
           <p class="text-xs text-gray-100">Для того, что бы начать пользоваться нашимы сервисами, Вам нужно авторизоваться.</p>
