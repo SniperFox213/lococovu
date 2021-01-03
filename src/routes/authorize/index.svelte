@@ -15,7 +15,6 @@
   import Icon from "../../Icons/index.svelte";
   import PageTransition from "../../components/Loader/PageTransition.svelte";
 
-  let loading = false;
   let profiles = [];
   let tokens = cookies.get('tokens');
 

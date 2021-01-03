@@ -14,6 +14,14 @@
 
   import pages from "../../config/pages.json";
 
+  let tokens = cookies.get('tokens');
+
+  if (tokens != null) {
+    tokens = tokens.split(',');
+  } else {
+    tokens = [];
+  };
+
   // currentPage variable
   let currentPage = "index";
   
@@ -138,12 +146,20 @@
       <!-- Accounts -->
       <div on:click={(e) => {
         goto('/authorize');
-      }} class="cursor-pointer flex items-center w-full text-white py-2 px-2 opacity-50">
+      }} class="cursor-pointer flex items-center w-full text-white my-2 py-1 px-4 opacity-50 relative">
         <!-- Icon -->
         <Icon name="list" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
 
         <!-- Title -->
         <p class="text-sm ml-4">Аккаунты</p>
+        
+        { #if tokens.length > 0 }
+          <div class="absolute top-0 right-0">
+            <div class="w-4 h-4 bg-indigo-400 rounded-full opacity-80 flex justify-center items-center text-xs text-white">
+              { tokens.length }
+            </div>
+          </div>
+        { /if }
       </div>
 
       <!-- Logout -->
@@ -152,7 +168,7 @@
         profile.forceProfile({ id: null });
 
         goto('/');
-      }} class="cursor-pointer flex items-center w-full text-white py-2 px-2 opacity-50">
+      }} class="cursor-pointer flex items-center w-full text-white my-2 py-1 px-2 opacity-50">
         <!-- Icon -->
         <svg style="width: 1rem; width: 1rem;" class="text-red-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
 
