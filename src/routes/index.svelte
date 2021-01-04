@@ -304,21 +304,11 @@
         <Icon name="chevron-down" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
       </button>
 
-      <button on:click={(e) => {
-        window.location.href = "https://discord.gg/36c2k7PFNj";
-      }} class="px-4 py-2 rounded-md hidden lg:flex items-center bg-icon-button mx-3">
-        <!-- Icon -->
-        <img style="height: 1rem; width: 1rem;" src="./icons/Discord-Logo-White.svg" alt="Discord Logo">
-      
-        <!-- Text -->
-        <p class="text-sm text-white ml-2">Наш Дискорд</p>
-      </button>
-
       { #if $profile.id != null }
         <!-- Go to App -->
         <button on:click={(e) => {
           goto('/app');
-        }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="mx-3 px-4 py-2 rounded-md hidden lg:flex items-center">
+        }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="mr-3 px-4 py-2 rounded-md hidden lg:flex items-center">
           <!-- Icon -->
           <Icon name="airplay" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
 
@@ -327,10 +317,7 @@
         </button>
 
         <!-- Profile -->
-        <div class="mx-3 hidden lg:flex items-center">
-          <!-- Avatar -->
-          <div style="background: url('{ $profile.internalAvatar }'); background-size: cover;" class="w-12 h-12 rounded-md"></div>
-
+        <div class="hidden lg:flex items-center">
           { #if $accounts.profiles.length > 0 }
              <button on:click={(e) => {
                goto('/authorize')
@@ -347,8 +334,18 @@
         </div>
       { :else }
         <button on:click={(e) => {
+          window.location.href = "https://discord.gg/36c2k7PFNj";
+        }} class="px-4 py-2 rounded-md hidden lg:flex items-center bg-icon-button mr-3">
+          <!-- Icon -->
+          <img style="height: 1rem; width: 1rem;" src="./icons/Discord-Logo-White.svg" alt="Discord Logo">
+        
+          <!-- Text -->
+          <p class="text-sm text-white ml-2">Наш Дискорд</p>
+        </button>
+
+        <button on:click={(e) => {
           goto('/authorize');
-        }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="mx-3 px-4 py-2 rounded-md hidden lg:flex items-center">
+        }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="px-4 py-2 rounded-md hidden lg:flex items-center">
           <!-- Icon -->
           <Icon name="log-in" attrs={{ width: "1.25rem", height: "1.25rem", color: "#fff" }} />
 
