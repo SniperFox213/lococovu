@@ -70,7 +70,7 @@
 <!-- Page's Layout -->
 <main class="w-full h-screen relative flex justify-center">
   <!-- Header -->
-  <div style="z-index: 2;" class="absolute w-full top-0 w-full px-8 py-9 flex items-center justify-between lg:justify-start">
+  <div style="z-index: 2;" class="absolute h-24 w-full top-0 w-full px-8 flex items-center justify-between lg:justify-start">
     <!-- Logotype -->
     <div class="flex items-center">
       <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="Lococovu Logotype">

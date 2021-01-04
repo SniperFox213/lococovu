@@ -265,7 +265,7 @@
   { /if }
 
   <!-- Header -->
-  <header class="w-full fixed top-0 py-6 px-8 flex items-center justify-between">
+  <header class="w-full fixed top-0 h-24 px-8 flex items-center justify-between">
     <!-- Logotype/Links -->
     <div class="flex items-center">
       <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="">
