@@ -1,7 +1,9 @@
 <script>
   // Importing modules
   import { goto } from "@sapper/app";
+  
   import profile from "../stores/profile.js";
+  import accounts from "../stores/accounts.js";
 
   import Cookie from "cookie-universal";
   const cookies = Cookie();
@@ -9,14 +11,6 @@
   // Importing components
   import PageTransition from "../components/Loader/PageTransition.svelte";
   import Icon from "../Icons/index.svelte";
-  
-  let tokens = cookies.get('tokens');
-
-  if (tokens != null) {
-    tokens = tokens.split(',');
-  } else {
-    tokens = [];
-  };
 
   let menuOpened = false;
 </script>
@@ -111,10 +105,10 @@
                           <!-- Text -->
                           <p class="text-sm ml-1 text-white">Аккаунты</p>
 
-                          { #if tokens.length > 0 }
+                          { #if $accounts.profiles.length > 0 }
                             <div class="absolute top-0 right-0 pr-5 pt-1">
                               <div class="w-4 h-4 bg-indigo-400 rounded-full opacity-80 flex justify-center items-center text-xs text-white">
-                                { tokens.length }
+                                { $accounts.profiles.length }
                               </div>
                             </div>
                           { /if }
@@ -289,7 +283,7 @@
       { /if }
 
       <!-- Mobile: Account List -->
-      { #if tokens.length > 0 }
+      { #if $accounts.profiles.length > 0 }
         <button on:click={(e) => {
           goto('/authorize')
         }} class="w-8 h-8 mr-3 cursor-pointer rounded-md bg-input flex lg:hidden justify-center items-center relative">
@@ -297,7 +291,7 @@
 
           <div style="top: -.3rem; right: -.3rem;" class="absolute">
             <div class="w-4 h-4 bg-indigo-400 rounded-full opacity-80 flex justify-center items-center text-xs text-white">
-              { tokens.length }
+              { $accounts.profiles.length }
             </div>
           </div>
         </button>      
@@ -337,7 +331,7 @@
           <!-- Avatar -->
           <div style="background: url('{ $profile.internalAvatar }'); background-size: cover;" class="w-12 h-12 rounded-md"></div>
 
-          { #if tokens.length > 0 }
+          { #if $accounts.profiles.length > 0 }
              <button on:click={(e) => {
                goto('/authorize')
              }} class="w-10 h-10 ml-3 cursor-pointer rounded-md bg-icon-button hidden lg:flex justify-center items-center relative">
@@ -345,7 +339,7 @@
 
                 <div style="top: -.45rem; right: -.45rem;" class="absolute">
                   <div class="w-4 h-4 bg-indigo-400 rounded-full opacity-80 flex justify-center items-center text-xs text-white">
-                    { tokens.length }
+                    { $accounts.profiles.length }
                   </div>
                 </div>
              </button>

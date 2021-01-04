@@ -3,24 +3,18 @@
   import { onMount } from "svelte";
   import Icon from "../../Icons/index.svelte";
 
-  import Cookie from "cookie-universal";
-  const cookies = Cookie();   
+  import profile from "../../stores/profile.js";
+  import accounts from "../../stores/accounts.js";
 
   import { goto } from "@sapper/app";
 
-  import profile from "../../stores/profile.js";
+  import Cookie from "cookie-universal";
+  const cookies = Cookie();
+
   import { stores } from "@sapper/app";
   const { page } = stores();
 
   import pages from "../../config/pages.json";
-
-  let tokens = cookies.get('tokens');
-
-  if (tokens != null) {
-    tokens = tokens.split(',');
-  } else {
-    tokens = [];
-  };
 
   // currentPage variable
   let currentPage = "index";
@@ -166,10 +160,10 @@
         <!-- Title -->
         <p class="text-sm ml-4">Аккаунты</p>
         
-        { #if tokens.length > 0 }
+        { #if $accounts.profiles.length > 0 }
           <div class="absolute top-0 right-0">
             <div class="w-4 h-4 bg-indigo-400 rounded-full opacity-80 flex justify-center items-center text-xs text-white">
-              { tokens.length }
+              { $accounts.profiles.length }
             </div>
           </div>
         { /if }

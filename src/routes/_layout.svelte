@@ -7,6 +7,7 @@
 	const cookies = Cookie();
 
 	import profile from "../stores/profile.js";
+	import accounts from "../stores/accounts.js";
 
 	let loaded = false;
 
@@ -28,6 +29,26 @@
 			};
 		} else {
 			loaded = true;
+		};
+
+		// Let's check if we have any other accounts
+		// (and let's load their information if they exists)
+		if (cookies.get('tokens')) {
+			let token  = cookies.get('token');
+			let tokens = cookies.get('tokens').split(',');
+
+			// Performing some actions (i dunno how to name them)
+			if (tokens == null) {
+				if (token) {
+					tokens = [token];
+				};
+			} else {
+				if (!tokens.includes(token)) {
+					tokens.push(token);
+				};
+			};
+
+			accounts.loadTokens(tokens == null ? [] : tokens);
 		};
 	});
 
