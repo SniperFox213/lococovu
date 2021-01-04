@@ -64,41 +64,41 @@
 <!-- Page Transition Component -->
 <PageTransition />
 
+<!-- Background -->
+<div id="background" style="z-index: 1; background-image: url('./background/1.svg');" class="absolute inset-0 w-full h-full"></div>
+
 <!-- Page's Layout -->
-<main class="w-full h-screen relative flex">
-  <!-- Authorize -->
-  <section class="relative w-full lg:w-1/2 h-full flex flex-col items-center justify-center">
-    <!-- Background -->
-    <div id="background" style="z-index: 1; background-image: url('./background/1.svg');" class="absolute inset-0 w-full h-full"></div>
+<main class="w-full h-screen relative flex justify-center">
+  <!-- Header -->
+  <div style="z-index: 2;" class="absolute w-full top-0 w-full px-8 py-9 flex items-center justify-between lg:justify-start">
+    <!-- Logotype -->
+    <div class="flex items-center">
+      <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
+      
+      <!-- Divider -->
+      <div style="width: 1.2px; height: 1.35rem;" class="hidden lg:block mx-2 rounded-md bg-white"></div>
 
-    <!-- Header -->
-    <div style="z-index: 2;" class="absolute top-0 w-full px-6 py-4 flex items-center justify-between">
-      <!-- Logotype -->
-      <div class="flex items-center">
-        <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
-        
-        <!-- Divider -->
-        <div style="width: 1.2px; height: 1.35rem;" class="hidden lg:block mx-2 rounded-md bg-white"></div>
-
-        { #if tokens.length > 0 }
-          <p class="hidden lg:block text-md text-white">Аккаунты</p>
-        { :else }
-          <p class="hidden lg:block text-md text-white">Авторизация</p>
-        { /if }
-      </div>
-
-      <!-- Links -->
-      <div class="flex items-center">
-        <a class="text-xs text-white mx-4 opacity-50" href="/">Главная</a>
-        
-        { #if tokens.length > 0 }
-          <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Аккаунты</a>
-        { :else }
-          <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Авторизация</a>
-        { /if }
-      </div>
+      { #if tokens.length > 0 }
+        <p class="hidden lg:block text-md text-white">Аккаунты</p>
+      { :else }
+        <p class="hidden lg:block text-md text-white">Авторизация</p>
+      { /if }
     </div>
 
+    <!-- Links -->
+    <div class="flex items-center ml-2">
+      <a class="text-xs text-white mx-4 opacity-50" href="/">Главная</a>
+      
+      { #if tokens.length > 0 }
+        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Аккаунты</a>
+      { :else }
+        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Авторизация</a>
+      { /if }
+    </div>
+  </div>
+
+  <!-- Authorize -->
+  <section class="relative w-full lg:w-1/2 h-full flex flex-col items-center justify-center">
     <!-- Content -->
     <div style="z-index: 2;" class="w-full lg:w-2/3 h-2/3 flex flex-col items-center justify-center px-4">
       <!-- Text -->
@@ -252,7 +252,7 @@
   </section>
 
   <!-- Images (or Text) -->
-  <section class="hidden lg:flex relative w-1/2 h-full bg-gray-200">
+  <!-- <section class="hidden lg:flex relative w-1/2 h-full bg-gray-200">
     
-  </section>
+  </section> -->
 </main>

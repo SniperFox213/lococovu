@@ -1,11 +1,5 @@
 <script>
   // Importing modules
-  import { onMount } from "svelte";
-  
-	import Cookie from "cookie-universal";
-	const cookies = Cookie();
-
-	import { goto } from "@sapper/app";
 	import { stores } from "@sapper/app";
 	const { page } = stores();
 
@@ -27,12 +21,6 @@
 			currentPage = obj.path
 		};
 	});
-
-  onMount(() => {
-		if (!cookies.get('tutorial')) {
-			goto('/start');
-		};
-  });
 </script>
 
 <svelte:window on:mousemove={(e) => {

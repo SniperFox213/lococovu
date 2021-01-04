@@ -89,22 +89,35 @@
   </div>
 
   <!-- Free-hours Status -->
-  <div class="px-4 mt-6">
+
+  { #if $profile.nickname == null }
+    <!-- Setup Profile -->
+    <div class="mt-2 px-4 w-full">
+      <button style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="w-full px-4 py-2 rounded-md flex justify-center items-center">
+        <!-- Icon -->
+        <Icon name="settings" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+
+        <!-- Text -->
+        <p class="ml-2 text-sm text-white">Настроить аккаунт</p>
+      </button>
+    </div>
+  { /if }
+  <!-- <div class="px-4 mt-6">
     <div class="w-full h-2 rounded-md bg-input relative">
       <div class="w-1/3 absolute h-2 bg-yellow-400 rounded-md"></div>
     </div>
 
-    <!-- Texts -->
+    #Texts
     <div class="mt-2 flex items-center justify-between">
       <div>
         <h1 class="tex-sm text-white font-medium">120/750</h1>
         <p class="text-xs text-gray-100 opacity-75">Бесплатные кредиты</p>
       </div>
 
-      <!-- Help Icon -->
+      #Help Icon
       <svg style="height: 0.9rem; width: 0.9rem;" class="text-white opacity-75" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
     </div>
-  </div>
+  </div> -->
 
   <!-- Links -->
   <div class="flex-grow mt-3 px-4 relative">

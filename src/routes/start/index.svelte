@@ -44,13 +44,7 @@
       <button on:click={(e) => {
         cookies.set('tutorial', true, { path: "/" });
 
-        // Let's now check if our user is authorized
-        // TODO
-        if (true) {
-          goto('/app');
-        } else {
-          goto('/authorize');
-        };
+        goto('/app');
       }} class="w-1/2 mr-4 bg-input rounded-md px-4 py-2 flex justify-center items-center">
         
         <!-- Title -->

@@ -35,10 +35,25 @@
         tokens = tokens.split(',');
       };
 
-      tokens.push($page.params.token);
-      cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
+      // Let's now check if we already have
+      // this token or no.
+      if (!tokens.includes($page.params.token)) {
+        tokens.push($page.params.token);
+        cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
+      };
 
-      goto('/');
+      // And now let's check if this
+      // user completed tutorial/setup profile
+
+      if (!cookies.get('tutorial') ) {
+        goto('/start');
+      } else {
+        if ($profile.nickname == null) {
+          goto('/start/profile');
+        } else {
+          goto('/app');
+        };
+      };
     }).catch((error) => {
       // Error
       error = true;
