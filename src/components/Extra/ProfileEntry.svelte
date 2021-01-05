@@ -77,20 +77,21 @@
   <div style="background-image: url('{ account.internalAvatar }'); background-size: cover; background-position: center;" class="transition duration-300 ease-in-out w-12 h-12 rounded-md { !account.loaded ? "bg-input opacity-50" : "" }"></div>
 
   <!-- Texts -->
-  <div class="{ !account.loaded ? "w-1/2" : "" } relative ml-3 text-left">
-    { #if !account.loaded }
-       <!-- content here -->
-       <div class="w-{ Math.floor(Math.random()*(6 - 4 + 1) + 4) }/6 h-4 rounded-full bg-input opacity-50"></div>
-       
-       <div class="flex">
+  { #if !account.loaded }
+    <div class="w-1/2 ml-3">
+      <div class="w-{ Math.floor(Math.random()*(6 - 4 + 1) + 4) }/6 h-4 rounded-full bg-input opacity-50"></div>
+      
+      <div class="flex">
         <div class="mt-2 w-{ Math.floor(Math.random()*(4 - 2 + 1) + 2) }/6 h-3 rounded-full bg-input opacity-50"></div>
         <div class="ml-3 mt-2 w-{ Math.floor(Math.random()*(4 - 2 + 1) + 2) }/6 h-3 rounded-full bg-input opacity-50"></div>
       </div>
-    { :else }
+    </div>
+  { :else }
+    <div class="ml-3 text-left">
       <h1 in:fade class="text-base text-white ">{ account.nickname == null ? account.displayName : account.nickname }</h1>
       <p in:fade class="text-xs text-gray-100">{@html $profile.id == account.id ? "Текущий аккаунт," : '<span class="border-b border-dotted border-gray-100">Email:</span>' } { account.email }</p>  
-    { /if }
-  </div>
+    </div>
+  { /if }
 
   <!-- Buttons -->
   <div class="absolute flex items-center right-0 h-full pr-3">
