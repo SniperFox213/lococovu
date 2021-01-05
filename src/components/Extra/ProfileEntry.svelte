@@ -216,7 +216,10 @@
         </button>
       { :else }
         <button on:click={(e) => {
-          if (storage.get(`AT-${$profile.id}`)) storage.remove(`AT-${$profile.id}`)
+          if (storage.get(`AT-${$profile.id}`)) {
+            account.needPassword = true;
+            storage.remove(`AT-${$profile.id}`)
+          };
 
           profile.forceProfile({ id: null });
           cookies.remove("token", { path: "/" });
