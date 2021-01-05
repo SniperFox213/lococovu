@@ -4,6 +4,8 @@
   import profile from "../../stores/profile.js";
   import accounts from "../../stores/accounts.js";
 
+  import storage from "local-storage";
+
   import moment from "moment";
 
   import { onMount, afterUpdate } from "svelte";
@@ -19,6 +21,7 @@
   
   let account = {
     loaded: false,
+    security: {}
   };
 
   let loading      = false;
@@ -93,13 +96,27 @@
   async function loadAccount() {
     // And now let's get this profile's
     // information
-    if (id != 0) {
-      let response = await axios.get(`https://lococovu.me/api/profile/${id}`)
-    
-      account        = response.data;
-      account.loaded = true;
+    let response = await axios.get(`https://lococovu.me/api/profile/${id}`)
+  
+    account              = response.data;
+    account.loaded       = true;
+    account.needPassword = false;
+  
+    // Let's now check if this account
+    // needs any passwords  
+    if (account.security.pincode) {
+      if (storage.get(`AT-${account.id}`)) {
+        axios.get(`https://lococovu.me/api/security/code/${storage.get(`AT-${account.id}`)}`)
+        .then(() => {
+          account.needPassword = false;
+        }).catch(() => {
+          storage.remove(`AT-${account.id}`);
+          account.needPassword = true;
+        });
+      } else {
+        account.needPassword = true;
+      };
     };
-
   };
 
   onMount(() => {
@@ -127,7 +144,7 @@
 
 <!-- Profile -->
 <div transition:fade class="relative w-full pb-4">
-  <button class="transition duration-200 ease-in-out relative w-full p-3 rounded-md bg-icon-button flex items-center opacity-80 { $profile.id == account.id && account.loaded ? "border-2 border-solid border-indigo-400" : "border-2 border-transparent" }">
+  <button class="transition duration-200 ease-in-out relative w-full p-3 rounded-md bg-icon-button flex items-center opacity-80 { $profile.id == account.id && account.loaded ? "border-indigo-400" : account.needPassword ? "border-red-400" : "border-transparent" } border-2 border-solid ">
     <!-- Loading state -->
     { #if loading }
       <div style="z-index: 999;" transition:fade class="absolute bg-icon-button rounded-md inset-0 w-full h-full flex justify-center items-center">
@@ -136,7 +153,16 @@
     { /if }
     
     <!-- Icon -->
-    <div style="background-image: url('{ account.internalAvatar }'); background-size: cover; background-position: center;" class="transition duration-300 ease-in-out w-12 h-12 rounded-md { !account.loaded ? "bg-input opacity-50" : "" }"></div>
+    <div style="background-image: url('{ account.internalAvatar }'); background-size: cover; background-position: center;" class="transition duration-300 ease-in-out relative w-12 h-12 rounded-md bg-input { !account.loaded ? "bg-input opacity-50" : "" }">
+      <!-- Account has extra password -->
+      { #if account.loaded }
+        { #if account.security.pincode }
+          <div style="right: -0.5rem; top: -0.5rem;" in:fade class="absolute w-6 h-6 flex justify-center items-center rounded-full bg-input">
+            <Icon name="lock" attrs={{ width: "0.7rem", height: "0.7rem", color: "#fff", "stroke-width": "3" }} />
+          </div>
+        { /if }
+      { /if }
+    </div>
 
     <!-- Texts -->
     { #if !account.loaded }
@@ -151,7 +177,12 @@
     { :else }
       <div class="ml-3 text-left">
         <h1 in:fade class="text-base text-white ">{ account.nickname == null ? account.displayName : account.nickname }</h1>
-        <p in:fade class="text-xs text-gray-100">{@html $profile.id == account.id ? "Текущий аккаунт," : '<span class="border-b border-dotted border-gray-100">Email:</span>' } { account.email }</p>  
+        
+        { #if account.needPassword }
+          <p in:fade class="text-xs text-gray-100 border-b border-dotted border-gray-100">Требуется авторизация</p>
+        { :else }
+          <p in:fade class="text-xs text-gray-100">{@html $profile.id == account.id ? "Текущий аккаунт," : '<span class="border-b border-dotted border-gray-100">Email:</span>' } { account.email }</p>  
+        { /if }
       </div>
     { /if }
 
@@ -176,7 +207,11 @@
           switchToThis()
         }} style="{ account.loaded ? "background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" : "" }" class="{ !account.loaded ? "bg-input opacity-50" : "" } transition duration-300 ease-in-out w-8 h-8 rounded-md flex justify-center items-center">
           { #if account.loaded }
-            <Icon name="chevron-right" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+            { #if account.needPassword }
+              <Icon name="log-in" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+            { :else }
+              <Icon name="chevron-right" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+            { /if }
           { /if }
         </button>
       { :else }

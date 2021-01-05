@@ -15,6 +15,7 @@
   import { stores } from "@sapper/app";
   const { page } = stores();
 
+  import accounts from "../../stores/accounts";
   import profile from "../../stores/profile";
 
   // Importing components
@@ -37,7 +38,7 @@
     let element = document.getElementById("pincode");
     let pincode = element.value;
 
-    axios.get(`http://localhost:3000/api/profile/${account.id}/authorize/${pincode}`)
+    axios.get(`https://lococovu.me/api/profile/${account.id}/authorize/${pincode}`)
     .then((response) => {
       let data = response.data;
 
@@ -46,15 +47,46 @@
         // local storage
         storage.set(`AT-${account.id}`, data.token);
 
-        // And now let's save this token
-        // to cookie and load this profile
-        cookies.set('token', $page.query.token, { path: "/", expires: moment().add('1', 'year').toDate() });
-
         profile.loadProfile($page.query.token)
-        .then((response) => {
-          goto('/app');
+        .then(() => {
+          cookies.set('token', $page.query.token, { path: "/", expires: moment().add('1', 'year').toDate() });
+
+          // And let's now add this token to
+          // tokens cookie
+          let tokens = cookies.get('tokens', { path: "/" });
+          if (tokens == null) {
+            tokens = [];
+          } else {
+            tokens = tokens.split(',');
+          };
+
+          // Let's now check if we already have
+          // this token or no.
+          if (!tokens.includes($page.query.token)) {
+            tokens.push($page.query.token);
+            cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
+          };
+
+          // Here we'll update our accounts storage
+          accounts.loadTokens(tokens);
+
+          // And now let's check if this
+          // user completed tutorial/setup profile
+
+          if (!cookies.get('tutorial') ) {
+            goto('/start');
+          } else {
+            if ($profile.nickname == null) {
+              goto('/start/profile');
+            } else {
+              goto('/app');
+            };
+          };
         }).catch((error) => {
           // Error
+          console.log("ERROR");
+          console.log(error);
+
           loading = false;
         });
       } else {

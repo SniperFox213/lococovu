@@ -61,6 +61,7 @@ function store() {
               done();
             })
             .catch(() => {
+              storage.remove(`AT-${authorizedToken}`);
               reject("authorizePincode");
             });
           } else {
