@@ -80,11 +80,11 @@
   <div class="{ !account.loaded ? "w-1/2" : "" } relative ml-3 text-left">
     { #if !account.loaded }
        <!-- content here -->
-       <div class="w-{ Math.floor(Math.random() * 6) + 4 }/6 h-4 rounded-full bg-input opacity-50"></div>
+       <div class="w-{ Math.floor(Math.random()*(6 - 4 + 1) + 4) }/6 h-4 rounded-full bg-input opacity-50"></div>
        
        <div class="flex">
-        <div class="mt-2 w-{ Math.floor(Math.random() * 4) + 1 }/6 h-3 rounded-full bg-input opacity-50"></div>
-        <div class="ml-3 mt-2 w-{ Math.floor(Math.random() * 3) + 1 }/6 h-3 rounded-full bg-input opacity-50"></div>
+        <div class="mt-2 w-{ Math.floor(Math.random()*(4 - 2 + 1) + 2) }/6 h-3 rounded-full bg-input opacity-50"></div>
+        <div class="ml-3 mt-2 w-{ Math.floor(Math.random()*(4 - 2 + 1) + 2) }/6 h-3 rounded-full bg-input opacity-50"></div>
       </div>
     { :else }
       <h1 in:fade class="text-base text-white ">{ account.nickname == null ? account.displayName : account.nickname }</h1>
