@@ -11,6 +11,15 @@
   
   import ProfileEntry from "../../components/Extra/ProfileEntry.svelte";
 
+  let profiles = [];
+  
+  // Let's now subscribe to our accounts store.
+  accounts.subscribe((obj) => {
+    if (obj.profiles != null) {
+      profiles = obj.profiles.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+    };
+  });
+
   let buttonClicked = false;
 </script>
 
@@ -75,16 +84,16 @@
 
       <!-- Buttons -->
       <div style="overflow: hidden; overflow-y: scroll;" class="mt-4 px-4 { $accounts.profiles.length > 0 ? "w-full flex-grow flex flex-col relative" : "" }">
-        { #if $accounts.profiles.length > 0 }
+        { #if profiles.length > 0 }
           <div class="absolute inset-0 w-full h-full pr-2">
-            { #each $accounts.profiles.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0)) as account }
+            { #each profiles as account }
               <ProfileEntry token={account.token} id={account.id} />
             { /each }
 
             <button on:click={(e) => {
                 buttonClicked = true;
                 window.location.href = "https://authed.unfull.ml/callback?url=https://lococovu.me/authorize/:token&provider=google&design=%7B%22appBackground%22%3A%22%23151820%22%2C%22loaderBackground%22%3A%22%23151820%22%2C%22loaderColor%22%3A%22%23fff%22%2C%22containerBackground%22%3A%22%23151820%22%2C%22logotypeColor%22%3A%22%23fff%22%2C%22textHeading%22%3A%22%23fff%22%2C%22textParagraph%22%3A%22%23F3F4F5%22%7D";
-              }} class="relative w-full mt-4 p-3 { buttonClicked ? "" : "border border-dashed border-gray-700" } rounded-md flex items-center cursor-pointer">
+              }} class="relative w-full mt-4 p-3 border border-dashed border-gray-700 rounded-md flex items-center cursor-pointer">
               
               { #if buttonClicked }
                 <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-container rounded-md">

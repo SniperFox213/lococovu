@@ -9,10 +9,24 @@ const store = () => {
   return {
     subscribe,
 
-    // Function, that'll clear our store
-    clear: () => {
+    // Clears all account information so
+    // they can be replaced
+    empty: () => {
+      update((obj) => {
+        if (obj.profiles != null) {
+          let newProfiles = obj.profiles.map((x) => {
+            return { id: 0, token: 0 };
+          });
+
+          return { tokens: obj.tokens, profiles: newProfiles };
+        };
+      });
+    },
+
+    // Function, that'll 
+    forceStore: (store) => {
       update(() => {
-        return { tokens: [], profiles: [] }
+        return store;
       });
     },
 
@@ -22,11 +36,11 @@ const store = () => {
     loadTokens: (tokens) => {
       // And now let's load token's information
       tokens.forEach((token) => {
-        accounts.loadToken(token);
+        if (token != null) accounts.loadToken(token);
       });
 
       update((store = { tokens: [], profiles: [] }) => {
-        store.tokens = tokens;
+        store.tokens = tokens.filter((x) => x != null);
 
         return store;
       });

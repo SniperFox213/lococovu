@@ -6,7 +6,7 @@
 
   import moment from "moment";
 
-  import { onMount } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
   import axios from "axios";
 
   import Cookie from "cookie-universal";
@@ -31,6 +31,8 @@
       cookies.remove('token', { path: "/" });
     };
 
+    settingsMenu = false;
+
     // Now let's just get tokens list
     // and filter it, to remove all
     // accounts with this id.
@@ -48,11 +50,10 @@
     cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
 
     // Now let's update overall tokens list
-    accounts.clear();
+    let newAccounts = $accounts.profiles;
+    newAccounts = newAccounts.filter((x) => !tokensToDelete.find((d) => d.token == x.token));
 
-    setTimeout(() => {
-      accounts.loadTokens(tokens);
-    }, 60);
+    accounts.forceStore({ tokens, profiles: newAccounts });
   };
 
   // Function, that'll make this account
@@ -84,18 +85,40 @@
     });
   };
 
-  onMount(async () => {
+  // Function, that'll load account information
+  async function loadAccount() {
     // And now let's get this profile's
     // information
-    let response = await axios.get(`https://lococovu.me/api/profile/${id}`)
-  
-    account        = response.data;
-    account.loaded = true;
+    if (id != 0) {
+      let response = await axios.get(`https://lococovu.me/api/profile/${id}`)
+    
+      account        = response.data;
+      account.loaded = true;
+    };
+
+  };
+
+  onMount(() => {
+    prevId = id;
+
+    loadAccount();
   });
 
   // Exporting variables
   export let id;
   export let token;
+
+  let prevId;
+
+  // Some exported variables changed.
+  // we need to update this account's information
+  afterUpdate(() => {
+    if (prevId != id) {
+      prevId = id;
+      account = { loaded: false };
+      loadAccount();
+    };
+  });
 </script>
 
 <!-- Profile -->
