@@ -49,7 +49,10 @@
 
     // Now let's update overall tokens list
     accounts.clear();
-    accounts.loadTokens(tokens);
+
+    setTimeout(() => {
+      accounts.loadTokens(tokens);
+    }, 60);
   };
 
   // Function, that'll make this account

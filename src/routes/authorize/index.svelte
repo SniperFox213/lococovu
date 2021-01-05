@@ -87,7 +87,7 @@
               }} class="relative w-full mt-4 p-3 { buttonClicked ? "" : "border border-dashed border-gray-700" } rounded-md flex items-center cursor-pointer">
               
               { #if buttonClicked }
-                <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-icon-button rounded-md">
+                <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-container rounded-md">
                   <Spinner color="#fff" />
                 </div>
               { /if }
