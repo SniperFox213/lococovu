@@ -60,8 +60,12 @@
         };
       };
     }).catch((error) => {
-      // Error
-      error = true;
+      if (error == "authorizePincode") {
+        goto(`/authorize/pincode?token=${$page.params.token}`);
+      } else {
+        // Error
+        error = true;
+      };
     });
   });
 </script>

@@ -21,6 +21,23 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// Authorize Pincode
+import AuthorizePincode from "../functions/codes/AuthorizeSecurityCode.func";
+
+router.get('/:id/authorize/:pincode', (req, res) => {
+  // Let's call
+  // AuthorizePincode function
+  AuthorizePincode(req.params.id, req.params.pincode)
+  .then((response) => {
+    res.end(JSON.stringify(response));
+  }).catch((error) => {
+    try {
+      res.status(error.response.data.status == null ? 500 : error.response.data.status).end(JSON.stringify(error.response.data));
+    } catch (error) {
+      res.status(500).end(JSON.stringify({ error: "ServerError" }));
+    }
+  });
+});
 
 // Exporting router
 export default router;

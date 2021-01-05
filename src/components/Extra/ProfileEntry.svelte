@@ -61,13 +61,13 @@
   function switchToThis() {
     loading = true;
 
-    // Changing token cookie
-    cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate() });
-
     // Loading this profile into our profile store
     profile.loadProfile(token)
     .then((store) => {
       loading = false;
+
+      // Changing token cookie
+      cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate() });
 
       // Now we'll check if we need to
       // show player tutorial or profile setup page
@@ -81,6 +81,10 @@
         } else {
           goto('/app');
         };
+      };
+    }).catch((error) => {
+      if (error == "authorizePincode") {
+        goto(`/authorize/pincode?token=${token}`);
       };
     });
   };

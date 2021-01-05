@@ -10,4 +10,8 @@ router.use('/', IndexRouter);
 import ProfileRouter from "./routes/profile";
 router.use('/profile', ProfileRouter);
 
+// Securit-related Routes
+import SecurityRouter from "./routes/security";
+router.use('/security', SecurityRouter);
+
 export default router;

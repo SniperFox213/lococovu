@@ -21,8 +21,13 @@
 				profile.loadProfile(cookies.get('token'))
 				.then((response) => {
 					loaded = true;
-				}).catch(() => {
-					loaded = true;
+				}).catch((error) => {
+					if (error == "authorizePincode") {
+						goto(`/authorize/pincode?token=${cookies.get('token')}`);
+						cookies.remove('token', { path: "/" });
+					} else {
+						loaded = true;
+					};
 				});
 			} else {
 				loaded = true;
@@ -39,8 +44,8 @@
 
 			// Performing some actions (i dunno how to name them)
 			if (tokens == null) {
-				if (token) {
-					tokens = [token];
+				if (cookies.get('token')) {
+					tokens = [cookies.get('token')];
 				};
 			} else {
 				if (!tokens.includes(token)) {
@@ -49,10 +54,14 @@
 			};
 
 			accounts.loadTokens(tokens == null ? [] : tokens);
-		};
+		} else {
+			if (cookies.get('token')) {
+				accounts.loadTokens([cookies.get('token')]);
+			};
+		}
 	});
 
-	import { stores } from "@sapper/app";
+	import { stores, goto } from "@sapper/app";
 
 	// You may not want to use `segment`, but it is passed for the time being and will
 	// create a warning if not expected: https://github.com/sveltejs/sapper-template/issues/210

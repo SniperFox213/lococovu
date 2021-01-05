@@ -1,4 +1,6 @@
 import { writable } from "svelte/store";
+
+import storage from "local-storage";
 import axios from "axios";
 
 function store() {
@@ -28,22 +30,42 @@ function store() {
         axios.get(`https://lococovu.me/api/profile/${token}`)
         .then((response) => {
           const data = response.data;
+          const done = () => {
+            update((store) => {
+              // Update Profile
+              store = data;
+  
+              setTimeout(() => {
+                resolve(store);
+              }, 10);
+              return store;
+            });
+          };
 
           // Second Token Check
           if (!data.isToken) {
             reject({ error: "!IsToken" });
           };
 
-          // And now let's update our store.
-          update((store) => {
-            // Update Profile
-            store = data;
+          // Let's check if this account
+          // have pincode authorization
+          if (data.security.pincode != null) {
+            // Let's check if we have AuthorizedToken saved
+            // somewhere in our local-storage
+            let authorizedToken = storage.get(`AT-${data.id}`);
 
-            setTimeout(() => {
-              resolve(store);
-            }, 10);
-            return store;
-          });
+            // And now let's check validity of this token
+            // through internal api
+            axios.get(`https://lococovu.me/api/security/code/${authorizedToken}`)
+            .then((response) => {
+              done();
+            })
+            .catch(() => {
+              reject("authorizePincode");
+            });
+          } else {
+            done();
+          };
         }).catch((error) => {
           reject(error);
         });

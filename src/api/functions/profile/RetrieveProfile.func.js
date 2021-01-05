@@ -23,7 +23,11 @@ const api = "https://authed.unfull.ml/api";
 // 
 //   wallet: {
 //     lambdas: "number",             - INTERNAL
-//     credits: "number"                - INTERNAL
+//     credits: "number"              - INTERNAL
+//   },
+// 
+//   security: {
+//     pincode: "string"              - INTERNAL
 //   }
 // }
 
@@ -71,6 +75,10 @@ export default async (id) => {
       wallet: {
         lambdas: 100,
         credits: 0
+      },
+
+      security: {
+        pincode: null
       }
     }
   };
@@ -115,7 +123,9 @@ export default async (id) => {
 
     level: internal.level || { number: 0 },
 
-    wallet: internal.wallet || { lambdas: 100, coins: 0 }
+    wallet: internal.wallet || { lambdas: 100, coins: 0 },
+  
+    security: internal.security || { pincode: null }
   };
 
   return profile;
