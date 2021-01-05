@@ -74,9 +74,9 @@
       </div>
 
       <!-- Buttons -->
-      <div style="overflow: hidden; overflow-y: auto;" class="mt-4 px-4 { $accounts.profiles.length > 0 ? "w-full flex-grow flex flex-col relative" : "" }">
+      <div style="overflow: hidden; overflow-y: scroll;" class="mt-4 px-4 { $accounts.profiles.length > 0 ? "w-full flex-grow flex flex-col relative" : "" }">
         { #if $accounts.profiles.length > 0 }
-          <div class="absolute inset-0 w-full h-full">
+          <div class="absolute inset-0 w-full h-full pr-2">
             { #each $accounts.profiles.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0)) as account }
               <ProfileEntry token={account.token} id={account.id} />
             { /each }

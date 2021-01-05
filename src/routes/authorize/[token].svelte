@@ -10,8 +10,10 @@
 
   import { onMount } from "svelte";
   import profile from "../../stores/profile.js";
+  import accounts from "../../stores/accounts";
 
   import { stores } from "@sapper/app";
+
   const { page } = stores();
 
   let error;
@@ -41,6 +43,9 @@
         tokens.push($page.params.token);
         cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
       };
+
+      // Here we'll update our accounts storage
+      accounts.loadTokens(tokens);
 
       // And now let's check if this
       // user completed tutorial/setup profile

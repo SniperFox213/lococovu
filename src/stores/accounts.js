@@ -9,6 +9,13 @@ const store = () => {
   return {
     subscribe,
 
+    // Function, that'll clear our store
+    clear: () => {
+      update(() => {
+        return { tokens: [], profiles: [] }
+      });
+    },
+
     // Function, that'll load all tokens
     // and their profile's ids (to make them
     // unique)
