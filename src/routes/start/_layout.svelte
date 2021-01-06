@@ -14,7 +14,7 @@
     if (cookies.get('tutorial')) {
       // Tutorial is skipped
 
-      if ($page.path != "/start/profile") {
+      if (!$page.path.includes("profile")) {
         goto('/start/complete');
       };
     };

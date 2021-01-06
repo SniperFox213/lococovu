@@ -70,8 +70,20 @@ router.post('/:token/pincode', (req, res) => {
         pincode: hash(req.body.pincode)
       }
     })
-  .then((response) => {
-    res.end(JSON.stringify(response));
+  .then(() => {
+    // And now let's authorize user using
+    // his new pincode and return a Security Code
+    if (req.params.token.includes("-")) {
+      res.end(JSON.stringify({
+        token: 0,
+        type: "AuthorizedPincode"
+      }));
+    } else {
+      AuthorizePincode(response.token, req.body.pincode) 
+      .then((response) => {
+        res.end(JSON.stringify(response));
+      });
+    };
   }).catch((error) => {
     try {
       res.status(error.response.data.status == null ? 500 : error.response.data.status).end(JSON.stringify(error.response.data));
