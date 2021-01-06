@@ -2,6 +2,8 @@
 import express from "express";
 const router = express.Router();
 
+import hash from "hasha";
+
 // Functions
 import RetrieveProfile from "../functions/profile/RetrieveProfile.func.js";
 
@@ -28,6 +30,46 @@ router.get('/:id/authorize/:pincode', (req, res) => {
   // Let's call
   // AuthorizePincode function
   AuthorizePincode(req.params.id, req.params.pincode)
+  .then((response) => {
+    res.end(JSON.stringify(response));
+  }).catch((error) => {
+    try {
+      res.status(error.response.data.status == null ? 500 : error.response.data.status).end(JSON.stringify(error.response.data));
+    } catch (error) {
+      res.status(500).end(JSON.stringify({ error: "ServerError" }));
+    }
+  });
+});
+
+// Change Profile Information
+import ChangeInformation from "../functions/profile/ChangeInformation.func";
+
+// Account Information
+router.post('/:token/information', (req, res) => {
+  ChangeInformation(req.params.token, 
+    { 
+      nickname: req.body.nickname,
+      description: req.body.description || null 
+    })
+  .then((response) => {
+    res.end(JSON.stringify(response));
+  }).catch((error) => {
+    try {
+      res.status(error.response.data.status == null ? 500 : error.response.data.status).end(JSON.stringify(error.response.data));
+    } catch (error) {
+      res.status(500).end(JSON.stringify({ error: "ServerError" }));
+    }
+  });
+});
+
+// Install pincode
+router.post('/:token/pincode', (req, res) => {
+  ChangeInformation(req.params.token,
+    {
+      security: {
+        pincode: hash(req.body.pincode)
+      }
+    })
   .then((response) => {
     res.end(JSON.stringify(response));
   }).catch((error) => {
