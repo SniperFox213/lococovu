@@ -3,6 +3,8 @@
   import profile from "../../../stores/profile.js";
   import { fade } from "svelte/transition";
 
+  import { onMount } from "svelte";
+
   import { goto } from "@sapper/app";
 
   import { stores } from "@sapper/app";
