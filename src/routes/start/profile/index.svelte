@@ -4,6 +4,11 @@
   import profile from "../../../stores/profile.js";
   import { fade } from "svelte/transition";
 
+  import { onMount } from "svelte";
+
+  import { stores } from "@sapper/app";
+  const { page } = stores();
+
   import storage from "local-storage";
 
   import axios from "axios";
@@ -35,6 +40,19 @@
     if ($profile.security.pincode != null) {
       type  = "code";
       token = storage.get(`AT-${$profile.id}`);
+
+      // Let's check if we have any Security Codes
+      // passed to our page query
+      if (token == null) {
+        if ($page.query.code != null) {
+          token = $page.query.code;
+        } else {
+          storage.set('temp-wizard-nickname', nickname);
+          storage.set('temp-wizard-description', description);
+
+          goto(`/authorize/pincode?token=${cookies.get('token')}&return=${encodeURIComponent(`/start/profile?nextStep=true&id=${$profile.id}`)}&type=confirmation&action=informationChange`);
+        };
+      };
     };
 
     // And now let's update our account information
@@ -52,13 +70,29 @@
           });
         }, 250);
       }).catch((error) => {
-        console.log("ERROR");
-        console.log(error);
+        // TODO
+        console.log(error)
         loading = false;
       });
     }
 
   };
+
+  onMount(() => {
+    if ($page.query.nextStep) {
+      loading = true;
+
+      nickname    = storage.get('temp-wizard-nickname');
+      description = storage.get('temp-wizard-description');
+
+      setTimeout(() => {
+        nextStep();
+
+        storage.remove('temp-wizard-nickname');
+        storage.remove('temp-wizard-description');
+      }, 250);
+    };
+  });
 </script>
 
 <style>

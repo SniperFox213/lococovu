@@ -11,12 +11,12 @@ export default async (id, profile) => {
   let account = {
     id: id,
 
-    nickname: profile.nickname || null,
-    wallet: profile.wallet || null,
-    level: profile.level || null,
+    nickname: profile.nickname || undefined,
+    wallet: profile.wallet || undefined,
+    level: profile.level || undefined,
 
     security: {
-      pincode: profile.security == null ? null : profile.security.pincode || null
+      pincode: profile.security == null ? undefined : profile.security.pincode || undefined
     }
   };
 

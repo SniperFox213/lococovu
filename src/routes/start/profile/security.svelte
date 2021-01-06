@@ -5,6 +5,9 @@
 
   import { goto } from "@sapper/app";
 
+  import { stores } from "@sapper/app";
+  const { page } = stores();
+
   import axios from "axios";
   import storage from "local-storage";
   
@@ -36,6 +39,18 @@
       if ($profile.security.pincode != null) {
         type  = "code";
         token = storage.get(`AT-${$profile.id}`);
+
+        // Let's check if we have any Security Codes
+        // passed to our page query
+        if (token == null) {
+          if ($page.query.code != null) {
+            token = $page.query.code;
+          } else {
+            storage.set('temp-wizard-pincode', pincode);
+
+            goto(`/authorize/pincode?token=${cookies.get('token')}&return=${encodeURIComponent(`/start/profile/security?nextStep=true&id=${$profile.id}`)}&type=confirmation&action=pincodeChange`);
+          };
+        };
       };
 
       if (token != null) {
@@ -71,6 +86,20 @@
       };
     };
   };
+
+  onMount(() => {
+    if ($page.query.nextStep) {
+      loading = true;
+
+      pincode    = storage.get('temp-wizard-pincode');
+
+      setTimeout(() => {
+        nextStep();
+
+        storage.remove('temp-wizard-pincode');
+      }, 250);
+    };
+  });
 </script>
 
 <!-- Page Transition -->

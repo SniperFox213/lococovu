@@ -148,10 +148,42 @@
   
     <div class="w-full lg:w-2/3 relative flex flex-col items-center">
       <!-- Texts -->
-      <div class="text-center">
-        <h1 class="text-2xl text-white">Безопасность</h1>
-        <p class="text-xs text-gray-100">Для того, что бы авторизоваться в этот аккаунт, вам нужно вписать специальный пароль/пинкод, который вы присваивали этому аккаунту.</p>
-      </div>
+
+      { #if $page.query.type == "confirmation" }
+        <div class="text-center">
+          <h1 class="text-2xl text-white">Подтверждение личности</h1>
+          <p class="text-xs text-gray-100">Для того, что бы продолжить текущее действие Вам нужно авторизоваться, использовав свой <span class="border-b border-dotted border-gray-100">ТЕКУЩИЙ</span> пароль. {@html $page.query.action != null ? "<br /><br />Действие, которое будет совершенно с Вашим аккаунтом:" : "" }</p>
+
+          { #if $page.query.action != null }
+            <div class="mt-4 w-full flex justify-center">
+              { #if $page.query.action == "informationChange" }
+                <div class="w-5/6 flex items-center rounded-md bg-icon-button border-2 border-red-500 px-4 py-2 opacity-75">
+                  <Icon name="alert-triangle" attrs={{ width: "1.4rem", height: "1.4rem", color: "#fff" }} />
+
+                  <div class="ml-2 text-left">
+                    <h1 class="text-md text-white font-medium">Смена пароля</h1>
+                    <p class="text-xs text-gray-100 opacity-80">Ваш пароль будет изменён, и мы не знаем на какой ¯\_(ツ)_/¯</p>
+                  </div>
+                </div>
+              { :else if $page.query.action == "pincodeChange" }
+                <div class="w-5/6 flex items-center rounded-md bg-icon-button px-4 py-2 opacity-75">
+                  <Icon name="alert-triangle" attrs={{ width: "1.4rem", height: "1.4rem", color: "#fff" }} />
+
+                  <div class="ml-2 text-left">
+                    <h1 class="text-md text-white font-medium">Изменения Игрового профиля</h1>
+                    <p class="text-xs text-gray-100 opacity-80">Некоторые данные Вашего Игрового профиля будут изменены.</p>
+                  </div>
+                </div>
+              { /if }
+            </div>
+          { /if }
+        </div>
+      { :else }
+        <div class="text-center">
+          <h1 class="text-2xl text-white">Безопасность</h1>
+          <p class="text-xs text-gray-100">Для того, что бы авторизоваться в этот аккаунт, вам нужно вписать специальный пароль/пинкод, который вы присваивали этому аккаунту.</p>
+        </div>
+      { /if }
 
       <!-- Account -->
       <div class="my-6 flex w-5/6 p-3 bg-icon-button rounded-md relative">
