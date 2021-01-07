@@ -12,6 +12,10 @@
 <!-- Page Transition Component && Page Background -->
 <PageTransition /> <Background />
 
+<svelte:head>
+  <title>{ $_("landing.pages.index.title") } - Lococovu</title>
+</svelte:head>
+
 <!-- Page's layout -->
 <main class="relative">
   <!-- Header && Mobile Menu -->
