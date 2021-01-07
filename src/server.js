@@ -3,12 +3,9 @@ import cors from "cors";
 import express from "express";
 import compression from "compression";
 import * as sapper from "@sapper/server";
-import dotenv from "dotenv";
 import bodyParser from "body-parser";
 
-import api from "./api/index";
-
-dotenv.config();
+import "./i18n.js";
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
@@ -19,6 +16,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Backend
+import api from "./api/index";
+
 app.use('/api', api);
 
 // Frontend

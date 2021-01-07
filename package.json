@@ -28,6 +28,7 @@
     "moment": "^2.29.1",
     "sirv": "^1.0.10",
     "svelte-feather-icon": "^2.0.0",
+    "svelte-i18n": "^3.3.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

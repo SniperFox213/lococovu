@@ -1,33 +1,32 @@
 <script>
   // Importing modules
+  import { _ } from "svelte-i18n";
   import { goto } from "@sapper/app";
   
+  import { stores } from "@sapper/app";
+  const { page } = stores();
+
   import profile from "../stores/profile.js";
   import accounts from "../stores/accounts.js";
 
-  import Cookie from "cookie-universal";
-  const cookies = Cookie();
+  // Importing configuration files
+  import pages from "../config/landing/pages.json";
 
   // Importing components
+  import Button from "../components/Button/index.svelte";
+  import Logotype from "../components/Branding/Logotype/index.svelte";
+  import Background from "../components/Special/Background.svelte";
+
   import PageTransition from "../components/Loader/PageTransition.svelte";
   import Icon from "../Icons/index.svelte";
 
   let menuOpened = false;
 </script>
 
-<svelte:window on:mousemove={(e) => {
-  let el = document.getElementById("background");
+<!-- Page Transition Component && Page Background -->
+<PageTransition /> <Background />
 
-  el.style.backgroundPositionX = -Math.round(e.pageX/20) + "px";
-  el.style.backgroundPositionY = -Math.round(e.pageY/20) + "px";
-}} />
-
-<!-- Page Transition Component -->
-<PageTransition />
-
-<!-- Page's Layout -->
-<div id="background" style="background-image: url('./background/1.svg');" class="absolute inset-0 w-full h-full"></div>
-
+<!-- Page's layout -->
 <main class="relative">
   <!-- Mobile: Menu -->
   { #if menuOpened }
@@ -35,8 +34,8 @@
       <!-- Mini-Header -->
       <div class="w-full my-6 flex items-center justify-between px-6">
         <!-- Logotype -->
-        <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
-      
+        <Logotype type="small" attrs={{ color: "#000", size: "24" }} />
+        
         <!-- Close Menu Button -->
         <button on:click={(e) => {
           menuOpened = false;
@@ -262,14 +261,13 @@
   <header class="w-full fixed top-0 h-24 px-8 flex items-center justify-between">
     <!-- Logotype/Links -->
     <div class="flex items-center">
-      <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="">
+      <Logotype type="small" attrs={{ size: "6" }} />
 
       <!-- Links -->
       <div class="ml-2 hidden lg:flex items-center">
-        <a class="border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/">Главная</a>
-        <a class="text-xs text-white mx-4 opacity-50 cursor-not-allowed" href="/">Библиотека</a>
-        <a class="text-xs text-white mx-4 opacity-50 cursor-not-allowed" href="/">Команда</a>
-        <a class="text-xs text-white mx-4 opacity-50 cursor-not-allowed" href="/">Поддержка</a>
+        { #each pages.filter((x) => x.title != null) as link}
+          <a class="{ $page.path.includes(link.id) ? "border-b border-solid border-indigo-400 text-sm" : "text-xs opacity-75" } text-white mx-4" href="{ link.href }">{ $_(link.title) }</a>
+        { /each }
       </div>
     </div>
     
