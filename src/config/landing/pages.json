@@ -3,7 +3,9 @@
     "id": "/",
     "href": "/",
 
-    "title": "landing.pages.index.title"
+    "title": "landing.pages.index.title",
+
+    "mobile": {}
   },
   {
     "id": "library",
