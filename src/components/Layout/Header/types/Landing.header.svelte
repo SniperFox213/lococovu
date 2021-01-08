@@ -5,13 +5,13 @@
   const { page } = stores();
 
   // Importing stores
-  import pages from "../../../config/landing/pages.json";
-  import accounts from "../../../stores/accounts.js";
-  import profile from "../../../stores/profile.js";
+  import pages from "../../../../config/landing/pages.json";
+  import accounts from "../../../../stores/accounts.js";
+  import profile from "../../../../stores/profile.js";
 
   // Importing components
-  import Icon from "../../Icon.svelte";
-  import Logotype from "../../Branding/Logotype/index.svelte";
+  import Icon from "../../../Icon.svelte";
+  import Logotype from "../../../Branding/Logotype/index.svelte";
   import MobileMenu from "../components/MobileMenu.landing.svelte";
 
   // Variable, that determines

@@ -26,7 +26,9 @@ module.exports = {
 				'icon-button': '#262b3f',
 
 				'input': '#0d0f17',
-				'container': '#151820'
+				'container': '#151820',
+
+				'gradient-01': 'linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)'
 			},
 
 			// Padding

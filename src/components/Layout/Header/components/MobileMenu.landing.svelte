@@ -4,14 +4,14 @@
   import { goto, stores } from "@sapper/app";
   const { page } = stores();
 
-  import pages from "../../../config/landing/pages.json";
+  import pages from "../../../../config/landing/pages.json";
 
   // Importing stores
-  import profile from "../../../stores/profile.js";
-  import accounts from "../../../stores/accounts.js";
+  import profile from "../../../../stores/profile.js";
+  import accounts from "../../../../stores/accounts.js";
 
   // Importing modules
-  import Icon from "../../Icon.svelte";
+  import Icon from "../../../Icon.svelte";
 
   // We don't need to export
   // anything.

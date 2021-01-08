@@ -3,8 +3,8 @@
   import { _ } from "svelte-i18n";
 
   // Importing components
-  import Header from "../components/Header/index.svelte";
-  import Background from "../components/Special/Background.svelte";
+  import Header from "../components/Layout/Header/index.svelte";
+  import Background from "../components/Layout/Background.svelte";
 
   import PageTransition from "../components/Loader/PageTransition.svelte";
 </script>
