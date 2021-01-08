@@ -1,60 +1,134 @@
 <script>
+  // Importing modules
+  import { stores } from "@sapper/app";
+  const { page } = stores();
+
+  import { goto } from "@sapper/app";
+
   // Importing components
   import Background from "../../components/Layout/Background.svelte";
   import Icon from "../../components/Icon.svelte";
+
+  // Some variables
+  let links = [
+    {
+      id: "typo",
+      href: "/design/typo",
+
+      title: "Типография"
+    },
+    {
+      id: "buttons",
+      href: "/design/buttons",
+
+      title: "Кнопки"
+    },
+    {
+      id: "inputs",
+      href: "/design/inputs",
+
+      title: "Поля ввода"
+    },
+    {
+      id: "badges",
+      href: "/design/badges",
+
+      title: "Бэйджи"
+    },
+    {
+      id: "tooltips",
+      href: "/design/tooltips",
+
+      title: "Подсказки"
+    },
+    {
+      id: "images",
+      href: "/design/images",
+
+      title: "Картинки"
+    },
+    {
+      id: "cards",
+      href: "/design/cards",
+
+      title: "Карточки"
+    },
+    {
+      id: "dividers",
+      href: "/design/dividers",
+
+      title: "Разделители"
+    },
+    {
+      id: "loaders",
+      href: "/design/loaders",
+
+      title: "Лоадеры"
+    },
+    {
+      id: "branding",
+      href: "/design/branding",
+
+      title: "Брэндинг"
+    },
+    {
+      id: "other",
+      href: "/design/other",
+
+      title: "Другое"
+    }
+  ]
 </script>
+
+<svelte:head>
+  <title>{ links.find((x) => $page.path.includes(x.id)) != null ? links.find((x) => $page.path.includes(x.id)).title : "Главная" } - Lococovu Design System</title>
+</svelte:head>
 
 <!-- Page's layout -->
 <main class="w-full">
   <!-- Hero Section -->
-  <section class="w-full h-screen relative flex justify-center items-center">
-    <!-- Background -->
-    <Background />
-
-    <!-- Texts -->
-    <div style="z-index: 2;" class="w-1/3 flex flex-col items-center justify-center">
-      <!-- Logotype -->
-      <img class="w-1/6" src="./logotype/small-white.svg" alt="Lococovu Logotype">
+  { #if $page.path == "/design" }
+    <section class="w-full h-screen relative flex justify-center items-center">
+      <!-- Background -->
+      <Background />
 
       <!-- Texts -->
-      <div class="my-6 text-center">
-        <!-- Heading -->
-        <h3 class="text-4xl text-white font-medium">Design System</h3>
-        
-        <!-- Description -->
-        <p class="text-base text-gray-100 opacity-80 mt-2">Что это такое? Design System - это набор всевозможных компонентов, которые используются при разработке проекта. В нашем случае, Design System - это набор всех кнопочек, текста, иконочек, бэйджиков и так и так далее.</p>
-      </div>
+      <div style="z-index: 2;" class="w-1/3 flex flex-col items-center justify-center">
+        <!-- Logotype -->
+        <img class="w-1/6" src="./logotype/small-white.svg" alt="Lococovu Logotype">
 
-      <!-- Buttons -->
-      <div class="w-full flex">
-        <button class="px-4 py-2 rounded-md w-1/2 mr-4 bg-input">
-          <p class="text-white text-sm">Узнать больше</p>
-        </button>
+        <!-- Texts -->
+        <div class="my-6 text-center">
+          <!-- Heading -->
+          <h3 class="text-4xl text-white font-medium">Design System</h3>
+          
+          <!-- Description -->
+          <p class="text-base text-gray-100 opacity-80 mt-2">Что это такое? Design System - это набор всевозможных компонентов, которые используются при разработке проекта. В нашем случае, Design System - это набор всех кнопочек, текста, иконочек, бэйджиков и так и так далее.</p>
+        </div>
 
-        <button class="px-4 py-2 rounded-md w-1/2 bg-input">
-          <p class="text-white text-sm">Github</p>
-        </button>
+        <!-- Buttons -->
+        <div class="w-full flex">
+          <button class="px-4 py-2 rounded-md w-1/2 mr-4 bg-input">
+            <p class="text-white text-sm">Узнать больше</p>
+          </button>
+
+          <button class="px-4 py-2 rounded-md w-1/2 bg-input">
+            <p class="text-white text-sm">Github</p>
+          </button>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  { /if }
 
   <section class="w-full flex relative bg-gray-200">
     <!-- Sidebar -->
     <sidebar class="w-3/12 flex flex-col px-8 py-8 border-r border-gray-300">
       <!-- Links -->
-      <a class="text-base text-black border-b-2 border-indigo-400 my-2" href="/design">Главная</a>
-
-      <a class="text-sm text-black opacity-60 my-2" href="/design/typo">Типография</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/buttons">Кнопки</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/inputs">Поля ввода</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/badges">Бэйджики</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/tooltips">Подсказки</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/images">Картинки</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/cards">Карточки</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/dividers">Разделители</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/loaders">Лоадеры</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/branding">Брэндинг</a>
-      <a class="text-sm text-black opacity-60 my-2" href="/design/other">Другое</a>
+      <a class="text-black { $page.path == "/design" ? "text-base border-b-2 border-indigo-400" : "text-sm opacity-60" } mt-2 mb-4" href="/design">Главная</a>
+      
+      { #each links as link }
+        <a class="text-black { $page.path.includes(link.id) ? "text-base border-b-2 border-indigo-400" : "text-sm opacity-60" } my-2" href="{ link.href }">{ link.title }</a>
+      { /each }
     
       <!-- Buttons -->
       <div class="bg-input rounded-md p-3 mt-6">
@@ -73,7 +147,7 @@
 
     <!-- Content -->
     <div class="w-11/12 h-min-screen relative pt-12">
-      <div class="w-full px-6 pb-12 relative">
+      <div class="w-full px-6 pb-24 relative">
         <slot></slot>
       </div>
 
