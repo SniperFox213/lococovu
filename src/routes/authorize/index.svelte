@@ -6,7 +6,7 @@
   import Spinner from "../../components/Loader/Spinner.svelte";
 
   // Importing components
-  import Icon from "../../Icons/index.svelte";
+  import Icon from "../../components/Icon.svelte";
   import PageTransition from "../../components/Loader/PageTransition.svelte";
   
   import ProfileEntry from "../../components/Extra/ProfileEntry.svelte";

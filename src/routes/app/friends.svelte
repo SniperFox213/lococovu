@@ -6,7 +6,7 @@
   import notifications from "../../stores/notifications.js";
 
   // Importing components
-  import Icon from "../../Icons/index.svelte";
+  import Icon from "../../components/Icon.svelte";
   import AddFriendPopover from "../../components/Screens/AddFriendPopover.svelte";
 
   let addFriendPopover = false;

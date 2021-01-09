@@ -1,6 +1,6 @@
 <script>
   // Importing modules
-  import Icon from "../../Icons/index.svelte";
+  import Icon from "../../components/Icon.svelte";
 
   import { goto } from "@sapper/app";
   import moment from "moment";

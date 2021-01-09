@@ -7,7 +7,7 @@
   const dispatch = createEventDispatcher();
 
   // Importing component
-  import Icon from "../../Icons/index.svelte";
+  import Icon from "../../components/Icon.svelte";
 
   let page = "main";
 </script>

@@ -16,7 +16,7 @@
 
   // Importing components
   import { fade, slide } from "svelte/transition";
-  import Icon from "../../Icons/index.svelte";
+  import Icon from "../../components/Icon.svelte";
   import Spinner from "../Loader/Spinner.svelte";
   
   let account = {

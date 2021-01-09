@@ -1,7 +1,7 @@
 <script>
   // Importing modules
   import { onMount } from "svelte";
-  import Icon from "../../Icons/index.svelte";
+  import Icon from "../../components/Icon.svelte";
 
   import profile from "../../stores/profile.js";
   import accounts from "../../stores/accounts.js";

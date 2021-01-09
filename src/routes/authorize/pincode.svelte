@@ -21,7 +21,7 @@
   // Importing components
   import { fade } from "svelte/transition";
   import PageTransition from "../../components/Loader/PageTransition.svelte";
-  import Icon from "../../Icons/index.svelte";
+  import Icon from "../../components/Icon.svelte";
   import Spinner from "../../components/Loader/Spinner.svelte";
 
   // Account object

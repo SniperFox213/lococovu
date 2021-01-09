@@ -1,7 +1,4 @@
 <script>
-  // Importing modules
-  import Icon from "../../../Icons/index.svelte";
-
   // Importing notifications + friends stores
   import notifications from "../../../stores/notifications.js";
   import NotificationCard from "./components/NotificationCard.svelte";
