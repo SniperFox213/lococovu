@@ -8,6 +8,12 @@
   export let white = false;
   export let dark = false;
 
+  // @export style
+  export let style;
+
+  // @export opacity
+  export let opacity = true;
+
   // @export classes
   // - Custom classes
   export let classes;
@@ -21,7 +27,7 @@
   // change
   afterUpdate(() => {
     // Undefined size of caption
-    if (size != "sm" && size != "xs") {
+    if (size != "sm" && size != "xs" && size != "md") {
       size = "sm";
     };
 
@@ -32,6 +38,6 @@
   })
 </script>
 
-<p class="text-{ size } text-gray-{ white ? "100" : "900" } opacity-{ size == "sm" ? "80" : "60" } { classes }">
+<p style="{ style }" class="text-{ size } text-gray-{ white ? "100" : "900" } { opacity ? `opacity-${ size == "sm" ? "80" : "60" }` : "" } { classes }">
   <slot></slot>
 </p>

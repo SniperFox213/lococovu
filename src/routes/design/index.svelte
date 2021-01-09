@@ -1,26 +1,28 @@
 <script>
   // Importing components
   import Icon from "../../components/Icon.svelte";
+
+  import { H3, H5, Paragraph, Caption } from "../../components/typography";
 </script>
 
 <!-- Information Section -->
 <section>
   <!-- Heading -->
-  <h3 class="text-4xl text-black font-medium">Зачем?</h3>
+  <H3 dark>Зачем?</H3>
 
   <!-- Paragraph -->
-  <p class="text-base text-gray-900 opacity-80 mt-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem reiciendis vel voluptatem quia commodi, ex accusamus laboriosam, voluptatibus facere sit velit? Doloribus iste praesentium nisi?<br /><br />Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni voluptates et dolores aut atque eaque earum ullam ipsa voluptatum, quidem suscipit ipsum assumenda rerum porro laudantium? Ducimus qui quos ipsa. Delectus culpa eaque eveniet explicabo!</p>
+  <Paragraph dark>Па приколу</Paragraph>
 
   <!-- Buttons -->
   <div class="bg-gray-300 border-l-2 rounded-r-md border-gray-400 w-full p-4 mt-4">
     <div class="flex items-center">
       <Icon name="link" attrs={{ width: "1rem", height: "1rem", color: "#000" }} />
 
-      <h5 class="text-2xl text-black ml-2">Полезные ссылки</h5>
+      <H5 classes="ml-2" dark>Полезные ссылки</H5>
     </div>
     
-    <p class="text-base text-gray-900 opacity-80 mt-2 w-2/3">Вот вам немного полезных и прикольных ссылок на наши соц. сети. Там вы всегда сможете пообщаться с разработчиками проекта, с простыми игроками и подобными шляпами. Так же на нашем <span class="border-b border-dotted border-gray-100">Github'e</span> вы сможете найти полный исходный код всего этого проекта (Frontend + Backend; без внешний API)</p>
-  
+    <Paragraph classes="w-2/3" dark>Вот вам немного полезных и прикольных ссылок на наши соц. сети. Там вы всегда сможете пообщаться с разработчиками проекта, с простыми игроками и подобными шляпами. Так же на нашем <span class="border-b border-dotted border-gray-100">Github'e</span> вы сможете найти полный исходный код всего этого проекта (Frontend + Backend; без внешний API)</Paragraph>
+
     <div class="mt-4 flex items-center">
       <!-- Discord -->
       <button class="px-4 py-2 rounded-md bg-input flex items-center">
@@ -28,7 +30,7 @@
         <img style="width: 1rem; height: 1rem;" src="./icons/Discord-Logo-White.svg" alt="Discord Logo">
 
         <!-- Text -->
-        <p class="text-sm text-white ml-1">Discord</p>
+        <Caption opacity={false} classes="ml-1">Discord</Caption>
       </button>
 
       <!-- Github -->
@@ -37,7 +39,7 @@
         <Icon name="github" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
 
         <!-- Text -->
-        <p class="text-sm text-white ml-1">Github</p>
+        <Caption opacity={false} classes="ml-1">Github</Caption>
       </button>
     </div>
   </div>

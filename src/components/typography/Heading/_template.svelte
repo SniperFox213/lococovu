@@ -4,6 +4,9 @@
 
   // Exporting some variables
 
+  // @export style
+  export let style;
+
   // @export classes
   // - Custom classes
   export let classes;
@@ -24,6 +27,6 @@
   });
 </script>
 
-<h1 class="{ white ? "text-white" : "text-black" } { classes }">
+<h1 style="{ style }" class="{ white ? "text-white" : "text-black" } { classes }">
   <slot></slot>
 </h1>

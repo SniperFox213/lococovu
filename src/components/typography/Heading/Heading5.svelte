@@ -4,6 +4,9 @@
 
   export let white;
   export let dark;
+
+  export let classes;
+  export let style;
 </script>
 
-<Template white={white} dark={dark} size="5" classes="text-2xl"><slot></slot></Template>
+<Template style={style} white={white} dark={dark} size="5" classes="text-2xl { classes }"><slot></slot></Template>

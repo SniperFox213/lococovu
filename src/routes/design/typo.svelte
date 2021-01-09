@@ -5,31 +5,29 @@
     Paragraph,
     Caption
   } from "../../components/typography";
+
+  import SyntaxHighlighter from "../../components/other/SyntaxHighlighter.svelte";
 </script>
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-</style>
-
 <!-- Texts -->
-<h3 class="text-4xl text-black font-medium my-2">Типография</h3>
-<p class="text-base text-gray-900 opacity-80 my-1">Типография - это один из самых главных компонентов любого веб-приложения. А главных компонентов там много, так что да. Типография отвечает за размер различных шрифтов, за то, как они будут выглядеть и какие вообще можно использовать размеры, цвета и подобное.<br /><br />Типография на Лококову максимально проста и банальна. Максимум два шрифта, 6 размеров для различных заголовков (постоянно используются максимум 3 размера), один размер под параграф (обычный текст) и пару размеров для сверх-маленького цвета. И всё это только в двух цветах - белый и чёрный. Шрифты и размеры текстов, с их двумя цветами, представленны ниже.</p>
+<H2 dark>Типография</H2>
+<Paragraph dark>Типография - это один из самых главных компонентов любого веб-приложения. А главных компонентов там много, так что да. Типография отвечает за размер различных шрифтов, за то, как они будут выглядеть и какие вообще можно использовать размеры, цвета и подобное.<br /><br />Типография на Лококову максимально проста и банальна. Максимум два шрифта, 6 размеров для различных заголовков (постоянно используются максимум 3 размера), один размер под параграф (обычный текст) и пару размеров для сверх-маленького цвета. И всё это только в двух цветах - белый и чёрный. Шрифты и размеры текстов, с их двумя цветами, представленны ниже.</Paragraph>
 
 <!-- Fonts -->
-<div class="my-6 w-full">
+<div class="mt-16 mb-6 w-full">
   <!-- Text -->
-  <h3 class="text-4xl text-black font-medium my-2">Шрифты</h3>
+  <H3 dark>Шрифты</H3>
 
   <!-- Fonts (black) -->
   <div class="flex my-4">
-    <div class="w-1/2 mr-4 flex flex-col items-center justify-center bg-gray-100 shadow-md rounded-md px-4 py-6 relative">
+    <div class="w-1/2 mr-4 text-center flex flex-col items-center justify-center bg-gray-100 shadow-md rounded-md px-4 py-6 relative">
       <!-- Text -->
-      <h3 style="font-family: 'Montserrat', sans-serif;" class="text-4xl text-black font-bold">Хитрая лиса...</h3>
-      <h5 style="font-family: 'Montserrat', sans-serif;" class="text-2xl text-gray-900 text-center">пробралась в твой дом и удалила всю порнушку.</h5>
-      
+      <H3 classes="font-primary" dark>Хитрая лиса...</H3>
+      <H5 classes="font-primary" dark>пробралась в твой дом</H5>
+
       <!-- Badge -->
-      <div class="absolute m-2 top-0 right-0 rounded-md bg-input shadow-md flex items-center justify-center px-4 py-2">
-        <p class="text-xs text-white"><span class="border-b border-dotted border-gray-100">Montserrat</span>, белый</p>
+      <div class="absolute m-2 top-0 right-0 rounded-md bg-input shadow-md flex items-center justify-center px-2.5 py-1">
+        <Caption size="xs" opacity={false}><span class="border-b border-dotted border-gray-100">Montserrat</span>, белый</Caption>
       </div>
     </div>
 
@@ -38,15 +36,15 @@
       <img class="w-1/6" src="./icons/old_shrugging_guy.png" alt="">
 
       <!-- Text -->
-      <p class="text-sm text-gray-900 opacity-80 mt-1 text-center">Больше шрифтов нету. Пока что довольствуемся только одним.<br />(Он нам просто идеально подходит)</p>
+      <Paragraph classes="mt-1 text-center" dark>Больше шрифтов нету. Пока что довольствуемся только одним.</Paragraph>
     </div>
   </div>
 </div>
 
 <!-- Typography -->
-<h3 class="text-4xl text-black font-medium my-2">Компоненты</h3>
+<H3 dark>Компоненты</H3>
 
-<div class="w-full flex relative mt-6">
+<div class="w-full flex relative my-6">
   <!-- Light -->
   <div class="w-1/2 mr-4 bg-input rounded-md p-5">
     <!-- List -->

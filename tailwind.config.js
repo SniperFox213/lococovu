@@ -21,6 +21,11 @@ module.exports = {
 	},
 	theme: {
 		extend: {
+			// Font Family
+			fontFamily: {
+				'primary': 'Montserrat, sans-serif;'
+			},
+
 			// Background Color
 			backgroundColor: {
 				'icon-button': '#262b3f',

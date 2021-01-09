@@ -8,6 +8,12 @@
   export let white = false;
   export let dark = false;
 
+  // @export style 
+  export let style;
+
+  // @export opacity
+  export let opacity = true;
+
   // @export classes
   // - Custom classes
   export let classes;
@@ -22,6 +28,6 @@
   })
 </script>
 
-<p class="text-base text-gray-{ white ? "100" : "900" } opacity-90 { classes }">
+<p style="{ style }" class="text-base text-gray-{ white ? "100" : "900" } { opacity ? "opacity-85" : "" } { classes }">
   <slot></slot>
 </p>
