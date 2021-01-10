@@ -14,4 +14,8 @@ router.use('/profile', ProfileRouter);
 import SecurityRouter from "./routes/security";
 router.use('/security', SecurityRouter);
 
+// Callback-related Route
+import CallbackRoute from "./routes/callback";
+router.use('/callback', CallbackRoute);
+
 export default router;

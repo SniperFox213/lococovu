@@ -1,16 +1,29 @@
 <script>
-	export let status;
-	export let error;
+	// Importing components
+	import Background from "../components/Layout/Background.svelte";
+	import PageTransition from "../components/Loader/PageTransition.svelte";
 
-	const mode = process.env.NODE_ENV;
-	const dev = mode === "development";
+	import { H2, Paragraph } from "../components/typography";
+
+	let images = [
+		"/icons/sad_man.gif",
+		"/icons/sad_man_2.gif",
+		"/icons/sad_spiderman.gif",
+	];
 </script>
 
-<section class="flex flex-1 flex-col items-center justify-center">
-	<h1 class="text-red-700 text-2xl">{error.message}</h1>
-	<h2 class="mt-1 text-red-700 text-lg">{status}</h2>
-</section>
+<!-- Background && PageTransition -->
+<Background /> <PageTransition />
 
-{#if dev && error.stack}
-	<pre>{error.stack}</pre>
-{/if}
+<!-- Page's Layout -->
+<main class="relative w-full h-screen flex justify-center items-center">
+	<div class="w-1/3 h-1/2 flex items-center justify-center text-center rounded-md bg-input relative">
+		<div style="z-index: 2;" class="flex flex-col items-center text-center px-6">
+			<H2>Ничего не найденно</H2>
+			<Paragraph>Вероятнее всего, произошла какая-то ошибка. Просто проигнорируйте. Ну или не проигнорируйте. Всё от вас зависит.</Paragraph>
+		</div>
+
+		<!-- Sad Background -->
+		<div style="background-image: url({ images[Math.floor(Math.random() * images.length )] }); background-size: cover;" class="absolute inset-0 w-full h-full rounded-md opacity-60"></div>
+	</div>
+</main>

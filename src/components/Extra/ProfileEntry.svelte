@@ -4,6 +4,9 @@
   import profile from "../../stores/profile.js";
   import accounts from "../../stores/accounts.js";
 
+  import { stores } from "@sapper/app";
+  const { page } = stores();
+
   import storage, { get } from "local-storage";
 
   import moment from "moment";
@@ -69,20 +72,28 @@
     .then((store) => {
       loading = false;
 
-      // Changing token cookie
-      cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate() });
+      if (!$page.query.chooseOne) cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate() });
 
-      // Now we'll check if we need to
-      // show player tutorial or profile setup page
-      if (!cookies.get('tutorial')) {
-        // Redirect player to tutorial page
-        goto('/start?return=/authorize');
-      } else {
-        // Redirect to profile setup page
-        if (store.nickname == null) {
-          goto('/start/profile?return=/authorize');
+      if ($page.query.return != null) {
+        // Redirect user to this return page
+        if ($page.query.chooseOne) {
+          goto(`${$page.query.return}${$page.query.query != null ? `${$page.query.query}&token=${token}` : `?token=${token}`}`);
         } else {
-          goto('/app');
+          goto(`${$page.query.return}${$page.query.query != null ? $page.query.query : ""}`);
+        };
+      } else {
+        // Now we'll check if we need to
+        // show player tutorial or profile setup page
+        if (!cookies.get('tutorial')) {
+          // Redirect player to tutorial page
+          goto('/start?return=/authorize');
+        } else {
+          // Redirect to profile setup page
+          if (store.nickname == null) {
+            goto('/start/profile?return=/authorize');
+          } else {
+            goto('/app');
+          };
         };
       };
     }).catch((error) => {
@@ -144,7 +155,7 @@
 
 <!-- Profile -->
 <div transition:fade class="relative w-full pb-4">
-  <button class="transition duration-200 ease-in-out relative w-full p-3 rounded-md bg-icon-button flex items-center opacity-80 { $profile.id == account.id && account.loaded ? "border-indigo-400" : account.needPassword ? "border-red-400" : "border-transparent" } border-2 border-solid ">
+  <button class="transition duration-200 ease-in-out relative w-full p-3 rounded-md bg-icon-button flex items-center opacity-80 { !$page.query.chooseOne ? $profile.id == account.id && account.loaded ? "border-2 border-indigo-400" : "border-2 border-transparent" : "border-2 border-transparent" } border-solid ">
     <!-- Loading state -->
     { #if loading }
       <div style="z-index: 999;" transition:fade class="absolute bg-icon-button rounded-md inset-0 w-full h-full flex justify-center items-center">
@@ -158,7 +169,7 @@
       { #if account.loaded }
         { #if account.security.pincode }
           <div style="right: -0.5rem; top: -0.5rem;" in:fade class="absolute w-6 h-6 flex justify-center items-center rounded-full bg-input">
-            <Icon name="lock" attrs={{ width: "0.7rem", height: "0.7rem", color: "#fff", "stroke-width": "3" }} />
+            <Icon name="lock" attrs={{ width: "0.7rem", height: "0.7rem", color: "#fff", "stroke-width": "2.5" }} />
           </div>
         { /if }
       { /if }
@@ -181,7 +192,7 @@
         { #if account.needPassword }
           <p in:fade class="text-xs text-gray-100 border-b border-dotted border-gray-100">Требуется авторизация</p>
         { :else }
-          <p in:fade class="text-xs text-gray-100">{@html $profile.id == account.id ? "Текущий аккаунт," : '<span class="border-b border-dotted border-gray-100">Email:</span>' } { account.email }</p>  
+          <p in:fade class="text-xs text-gray-100">{@html $profile.id == account.id && !$page.query.chooseOne ? "Текущий аккаунт," : '<span class="border-b border-dotted border-gray-100">Email:</span>' } { account.email }</p>  
         { /if }
       </div>
     { /if }
@@ -202,10 +213,10 @@
       </button>
 
       <!-- Log out or Log into -->
-      { #if $profile.id != account.id }
+      { #if !$page.query.chooseOne ? $profile.id != account.id : true }
         <button on:click={(e) => {
           switchToThis()
-        }} style="{ account.loaded ? "background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" : "" }" class="{ !account.loaded ? "bg-input opacity-50" : "" } transition duration-300 ease-in-out w-8 h-8 rounded-md flex justify-center items-center">
+        }} style="{ account.loaded && !account.needPassword ? "background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" : "" }" class="{ !account.loaded ? "opacity-50" : "" } bg-input transition duration-300 ease-in-out w-8 h-8 rounded-md flex justify-center items-center">
           { #if account.loaded }
             { #if account.needPassword }
               <Icon name="log-in" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
@@ -225,7 +236,7 @@
           cookies.remove("token", { path: "/" });
         }} class="{ !account.loaded ? "opacity-50" : "" } transition duration-300 ease-in-out w-8 h-8 rounded-md bg-input flex justify-center items-center">
           { #if account.loaded }
-            <Icon name="x" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+            <Icon name="log-out" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
           { /if }
         </button>
       { /if }

@@ -3,6 +3,8 @@
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 
+	import { goto } from "@sapper/app";
+
 	import Cookie from "cookie-universal";
 	const cookies = Cookie();
 

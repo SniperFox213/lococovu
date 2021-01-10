@@ -1,9 +1,14 @@
 <script>
   // Importing modules
+  import { _ } from "svelte-i18n";
+
   import { fade } from "svelte/transition";  
   import accounts from "../../stores/accounts.js";
 
   import Spinner from "../../components/Loader/Spinner.svelte";
+
+  import { stores } from "@sapper/app";
+  const { page } = stores();
 
   // Importing components
   import Icon from "../../components/Icon.svelte";
@@ -73,12 +78,27 @@
       <!-- Text -->
       <div class="text-center">
 
-        { #if $accounts.profiles.length > 0 }
-          <h1 class="text-2xl text-white">Аккаунты</h1>
-          <p class="text-xs text-gray-100">Тут будет весь список ваших активных аккаунтов. Просто выбирайте аккаунт и нажимайте на стрелочку вправо. Хотите добавить новый аккаунт? Нажмите на кнопку <span class="border-b border-dotted border-gray-100">"Войти под другим аккаунтом"</span> и следуйте инструкциям!<br /><br />Хотите выйти? Просто нажмите на крестик рядом с вашим текущим аккаунтом.</p>  
+        <!-- Title TODO -->
+        { #if $page.query.title != null }
+          <h1 class="text-2xl text-white">{ $_($page.query.title) }</h1>
         { :else }
-          <h1 class="text-2xl text-white">Авторизация</h1>
-          <p class="text-xs text-gray-100">Для того, что бы начать пользоваться нашимы сервисами, Вам нужно авторизоваться.</p>
+          { #if $accounts.profiles.length > 0 }
+            <h1 class="text-2xl text-white">Аккаунты</h1>
+          { :else }
+            <h1 class="text-2xl text-white">Авторизация</h1>
+          { /if }
+
+        { /if }
+
+        <!-- Subtitle TODO -->
+        { #if $page.query.subtitle != null }
+          <p class="text-xs text-gray-100">{@html $_($page.query.subtitle)}</p>
+        { :else }
+          { #if $accounts.profiles.length > 0 }
+            <p class="text-xs text-gray-100">Тут будет весь список ваших активных аккаунтов. Просто выбирайте аккаунт и нажимайте на стрелочку вправо. Хотите добавить новый аккаунт? Нажмите на кнопку <span class="border-b border-dotted border-gray-100">"Войти под другим аккаунтом"</span> и следуйте инструкциям!<br /><br />Хотите выйти? Просто нажмите на крестик рядом с вашим текущим аккаунтом.</p>  
+          { :else }
+            <p class="text-xs text-gray-100">Для того, что бы начать пользоваться нашимы сервисами, Вам нужно авторизоваться.</p>
+          { /if }
         { /if }
       </div>
 
