@@ -2,6 +2,8 @@
   // Importing modules
   import Icon from "../../components/Icon.svelte";
 
+  import storage from "local-storage";
+
   import { goto } from "@sapper/app";
   import moment from "moment";
 
@@ -50,13 +52,24 @@
       // And now let's check if this
       // user completed tutorial/setup profile
 
-      if (!cookies.get('tutorial') ) {
-        goto('/start');
+      // Let's firstly check if we have any
+      // return URL
+      if (storage.get('auth-return')) {
+        let returnURL   = storage.get('auth-return');
+        let returnQuery = storage.get('auth-return-query');
+        storage.remove('auth-return');
+        storage.remove('auth-return-query');
+
+        goto(`${returnURL}${ returnQuery != null ? `${returnQuery}&token=${$page.params.token}` : `?token=${$page.params.token}` }`);
       } else {
-        if ($profile.nickname == null) {
-          goto('/start/profile');
+        if (!cookies.get('tutorial') ) {
+          goto('/start');
         } else {
-          goto('/app');
+          if ($profile.nickname == null) {
+            goto('/start/profile');
+          } else {
+            goto('/app');
+          };
         };
       };
     }).catch((error) => {

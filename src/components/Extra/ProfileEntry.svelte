@@ -97,6 +97,11 @@
         };
       };
     }).catch((error) => {
+      if ($page.query.return != null) {
+        storage.set('auth-return', $page.query.return);
+        storage.set('auth-return-query', $page.query.query);
+      };
+
       if (error == "authorizePincode") {
         goto(`/authorize/pincode?token=${token}`);
       };

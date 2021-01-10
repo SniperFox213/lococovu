@@ -82,7 +82,7 @@
         <img class="w-1/6 mb-2" src="./logotype/small-white.svg" alt="">
 
         <!-- Texts -->
-        <H2>Авторизованно</H2>
+        <H2>Авторизовано</H2>
         <Paragraph>Вы успешно авторизовались. Теперь вы можете вернуться обратно в Майнкрафт и начать играть и веселиться!</Paragraph>
       </div>
 
@@ -93,7 +93,7 @@
   { :else if state == "error" }
     <div class="w-1/3 h-1/2 flex items-center justify-center rounded-md bg-input relative">
       <div style="z-index: 2;" class="flex flex-col items-center text-center px-6">
-        <H2>Ничего не найденно</H2>
+        <H2>Ничего не найдено</H2>
         <Paragraph>Вероятнее всего, произошла какая-то ошибка. Просто проигнорируйте. Ну или не проигнорируйте. Всё от вас зависит.</Paragraph>
       </div>
 

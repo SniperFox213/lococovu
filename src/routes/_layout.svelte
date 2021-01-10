@@ -3,7 +3,8 @@
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 
-	import { goto } from "@sapper/app";
+	import { goto, stores } from "@sapper/app";
+	const { page } = stores();
 
 	import Cookie from "cookie-universal";
 	const cookies = Cookie();
@@ -25,6 +26,12 @@
 					loaded = true;
 				}).catch((error) => {
 					if (error == "authorizePincode") {
+				
+						if ($page.query.return != null) {
+							storage.set('auth-return', $page.query.return);
+							storage.set('auth-return-query', $page.query.query);
+						};
+
 						goto(`/authorize/pincode?token=${cookies.get('token')}`);
 						cookies.remove('token', { path: "/" });
 					} else {

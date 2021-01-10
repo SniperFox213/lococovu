@@ -7,6 +7,8 @@
 
   import Spinner from "../../components/Loader/Spinner.svelte";
 
+  import storage from "local-storage";
+
   import { stores } from "@sapper/app";
   const { page } = stores();
 
@@ -24,6 +26,17 @@
       profiles = obj.profiles.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
     };
   });
+
+  function authorizeGoogle() {
+    buttonClicked = true;
+
+    if ($page.query.return != null) {
+      storage.set('auth-return', $page.query.return);
+      storage.set('auth-return-query', $page.query.query);
+    };
+
+    window.location.href = "https://authed.unfull.ml/callback?url=https://lococovu.me/authorize/:token&provider=google&design=%7B%22appBackground%22%3A%22%23151820%22%2C%22loaderBackground%22%3A%22%23151820%22%2C%22loaderColor%22%3A%22%23fff%22%2C%22containerBackground%22%3A%22%23151820%22%2C%22logotypeColor%22%3A%22%23fff%22%2C%22textHeading%22%3A%22%23fff%22%2C%22textParagraph%22%3A%22%23F3F4F5%22%7D";
+  };
 
   let buttonClicked = false;
 </script>
@@ -110,10 +123,7 @@
               <ProfileEntry token={account.token} id={account.id} />
             { /each }
 
-            <button on:click={(e) => {
-                buttonClicked = true;
-                window.location.href = "https://authed.unfull.ml/callback?url=https://lococovu.me/authorize/:token&provider=google&design=%7B%22appBackground%22%3A%22%23151820%22%2C%22loaderBackground%22%3A%22%23151820%22%2C%22loaderColor%22%3A%22%23fff%22%2C%22containerBackground%22%3A%22%23151820%22%2C%22logotypeColor%22%3A%22%23fff%22%2C%22textHeading%22%3A%22%23fff%22%2C%22textParagraph%22%3A%22%23F3F4F5%22%7D";
-              }} class="relative w-full mt-4 p-3 border border-dashed border-gray-700 rounded-md flex items-center cursor-pointer">
+            <button on:click={(e) => {authorizeGoogle()}} class="relative w-full mt-4 p-3 border border-dashed border-gray-700 rounded-md flex items-center cursor-pointer">
               
               { #if buttonClicked }
                 <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-container rounded-md">
@@ -132,10 +142,7 @@
             </button>
           </div>
         { :else }
-          <button on:click={(e) => {
-            buttonClicked = true;
-            window.location.href = "https://authed.unfull.ml/callback?url=https://lococovu.me/authorize/:token&provider=google&design=%7B%22appBackground%22%3A%22%23151820%22%2C%22loaderBackground%22%3A%22%23151820%22%2C%22loaderColor%22%3A%22%23fff%22%2C%22containerBackground%22%3A%22%23151820%22%2C%22logotypeColor%22%3A%22%23fff%22%2C%22textHeading%22%3A%22%23fff%22%2C%22textParagraph%22%3A%22%23F3F4F5%22%7D";
-          }} class="relative w-full cursor-pointer my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80">
+          <button on:click={(e) => {authorizeGoogle()}} class="relative w-full cursor-pointer my-4 p-3 rounded-md bg-icon-button flex items-center opacity-80">
             { #if buttonClicked }
               <div in:fade class="absolute inset-0 w-full h-full flex justify-center items-center bg-icon-button rounded-md">
                 <Spinner color="#fff" />
