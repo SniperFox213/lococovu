@@ -74,7 +74,7 @@ export default async (token, pincode) => {
       callback = JSON.parse(callback);
     };
 
-    if (callback) {
+    if (callback.url != null) {
       // Deleting this callback's information
       storage.remove('auth.callback');
 
