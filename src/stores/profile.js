@@ -63,7 +63,7 @@ function store() {
             })
             .catch(() => {
               storage.remove(`AT-${authorizedToken}`);
-              reject("authorizePincode");
+              reject({ error: "authorizePincode", id: data.id });
             });
           } else {
             done();

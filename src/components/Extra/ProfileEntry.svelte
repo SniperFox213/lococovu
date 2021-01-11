@@ -37,8 +37,6 @@
       cookies.remove('token', { path: "/" });
     };
 
-    settingsMenu = false;
-
     // Now let's just get tokens list
     // and filter it, to remove all
     // accounts with this id.
@@ -159,11 +157,11 @@
 </script>
 
 <!-- Profile -->
-<div transition:fade class="relative w-full pb-4">
+<div in:fade class="relative w-full pb-4">
   <button class="transition duration-200 ease-in-out relative w-full p-3 rounded-md bg-icon-button flex items-center opacity-80 { !$page.query.chooseOne ? $profile.id == account.id && account.loaded ? "border-2 border-indigo-400" : "border-2 border-transparent" : "border-2 border-transparent" } border-solid ">
     <!-- Loading state -->
     { #if loading }
-      <div style="z-index: 999;" transition:fade class="absolute bg-icon-button rounded-md inset-0 w-full h-full flex justify-center items-center">
+      <div style="z-index: 999;" in:fade class="absolute bg-icon-button rounded-md inset-0 w-full h-full flex justify-center items-center">
         <Spinner size={20} color="#fff" />
       </div>
     { /if }

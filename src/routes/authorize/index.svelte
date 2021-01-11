@@ -4,6 +4,7 @@
 
   import { fade } from "svelte/transition";  
   import accounts from "../../stores/accounts.js";
+  import profile from "../../stores/profile.js";
 
   import Spinner from "../../components/Loader/Spinner.svelte";
 
@@ -12,28 +13,75 @@
   import { stores } from "@sapper/app";
   const { page } = stores();
 
+  import Cookie from "cookie-universal";
+  const cookies = Cookie();
+
+  // Importing actions
+  import authorizeProfile from "../../actions/profile/authorizeProfile.action";
+
   // Importing components
+  // - other
   import Icon from "../../components/Icon.svelte";
   import PageTransition from "../../components/Loader/PageTransition.svelte";
-  
-  import ProfileEntry from "../../components/Extra/ProfileEntry.svelte";
+  import Background from "../../components/Layout/Background.svelte";
+
+  // - cards
+  import { Profile } from "../../components/cards";
+
+  // - typography
+  import { H2, Paragraph, Caption } from "../../components/typography";
 
   let profiles = [];
   
   // Let's now subscribe to our accounts store.
   accounts.subscribe((obj) => {
     if (obj.profiles != null) {
+      // Sorting profiles
       profiles = obj.profiles.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
+    
+      // Let's now check if this account
+      // needs any authorization codes
+      profiles = profiles.map((x) => {
+        let profile = x;
+
+        if (storage.get(`AT-${x.id}`)) profile.securityCode = storage.get(`AT-${x.id}`);
+
+        return profile
+      });
     };
   });
 
+  // Function to logout from account
+  function logout() {
+    // Let's just delete current cookie
+    // and delete this profile's information
+    if (storage.get(`AT-${$profile.id}`)) {
+      storage.remove(`AT-${$profile.id}`)
+    };
+
+    profile.forceProfile({ id: null });
+    cookies.remove("token", { path: "/" });
+  };
+
+  // Function, that'll switch to this
+  // account (we'll just use authorizeProfile action)
+  function switchTo(token) {
+    authorizeProfile(token);
+  };
+
+  // Function, that'll redirect user
+  // to Google Authorization page
   function authorizeGoogle() {
     buttonClicked = true;
 
-    if ($page.query.return != null) {
-      storage.set('auth-return', $page.query.return);
-      storage.set('auth-return-query', $page.query.query);
+    let callback = {
+      url: $page.query.return,
+      query: $page.query.query
     };
+
+    // And now let's save it
+    // TODO: 
+    if (callback.url != null) storage.set('auth.callback', JSON.stringify(callback));
 
     window.location.href = "https://authed.unfull.ml/callback?url=https://lococovu.me/authorize/:token&provider=google&design=%7B%22appBackground%22%3A%22%23151820%22%2C%22loaderBackground%22%3A%22%23151820%22%2C%22loaderColor%22%3A%22%23fff%22%2C%22containerBackground%22%3A%22%23151820%22%2C%22logotypeColor%22%3A%22%23fff%22%2C%22textHeading%22%3A%22%23fff%22%2C%22textParagraph%22%3A%22%23F3F4F5%22%7D";
   };
@@ -41,18 +89,8 @@
   let buttonClicked = false;
 </script>
 
-<svelte:window on:mousemove={(e) => {
-  let el = document.getElementById("background");
-
-  el.style.backgroundPositionX = -Math.round(e.pageX/20) + "px";
-  el.style.backgroundPositionY = -Math.round(e.pageY/20) + "px";
-}} />
-
-<!-- Page Transition Component -->
-<PageTransition />
-
-<!-- Background -->
-<div id="background" style="z-index: 1; background-image: url('./background/1.svg');" class="absolute inset-0 w-full h-full"></div>
+<!-- Background && PageTransition -->
+<Background /><PageTransition />
 
 <!-- Page's Layout -->
 <main class="w-full h-screen relative flex justify-center">
@@ -84,7 +122,7 @@
     </div>
   </div>
 
-  <!-- Authorize -->
+  <!-- Main Container -->
   <section class="relative w-full lg:w-1/2 h-full flex flex-col items-center justify-center">
     <!-- Content -->
     <div style="z-index: 2;" class="w-full lg:w-2/3 h-2/3 flex flex-col items-center justify-center px-4">
@@ -115,12 +153,57 @@
         { /if }
       </div>
 
-      <!-- Buttons -->
+      <!-- Profiles List -->
       <div style="overflow: hidden; overflow-y: auto;" class="mt-4 px-4 { $accounts.profiles.length > 0 ? "w-full flex-grow flex flex-col relative" : "" }">
         { #if profiles.length > 0 }
           <div class="absolute inset-0 w-full h-full pr-2">
-            { #each profiles as account }
-              <ProfileEntry token={account.token} id={account.id} />
+            { #each profiles as p }
+              <Profile let:bottomMenu={settingsMenu} let:account={account} id={p.id} attrs={{ showPasswordAvailability: true, checkSecurityCode: p.securityCode || true }} classes={ $profile.id == p.id ? "border-2 border-indigo-400 border-solid" : "border-2 border-transparent" }>
+                <!-- Subtext Section -->
+                <div slot="subtext">
+                  { #if $profile.id == account.id }
+                    <Caption>Текущий аккаунт</Caption>
+                  { :else }
+                    { #if account.needPassword }
+                      <Caption><span class="border-b border-dotted border-gray-100">Требуется авторизация</span></Caption>
+                    { :else }
+                      <Caption>Email: <span class="border-b border-dotted border-gray-100">{ account.email }</span></Caption>
+                    { /if }
+                  { /if }
+                </div>
+
+                <!-- Buttons Section -->
+                <div slot="buttons" class="flex items-center justify-center">
+                  
+                  <!-- Settings Button -->
+                  <button class="{ !account.loaded ? "opacity-50" : "" } { settingsMenu ? "border-2 border-solid border-indigo-400" : "" } transition duration-300 ease-in-out mx-3 w-8 h-8 rounded-md bg-input flex justify-center items-center">
+                    { #if account.loaded }
+                      <Icon name="settings" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+                    { /if }
+                  </button>
+
+                  <!-- Login or Logout Button -->
+                  { #if $profile.id == account.id }
+                    <!-- Logout Button -->
+                    <button on:click={logout(p.token, p.id)} class="{ !account.loaded ? "opacity-50" : "" } transition duration-300 ease-in-out w-8 h-8 rounded-md bg-input flex justify-center items-center">
+                      { #if account.loaded }
+                        <Icon name="log-out" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+                      { /if }
+                    </button>
+                  { :else }
+                    <!-- Login Button -->
+                    <button on:click={switchTo(p.token)} style="{ account.loaded && !account.needPassword ? "background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" : "" }" class="{ !account.loaded ? "opacity-50" : "" } bg-input transition duration-300 ease-in-out w-8 h-8 rounded-md flex justify-center items-center">
+                      { #if account.loaded }
+                        { #if account.needPassword }
+                          <Icon name="log-in" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+                        { :else }
+                          <Icon name="chevron-right" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+                        { /if }
+                      { /if }
+                    </button>
+                  { /if }
+                </div>
+              </Profile>
             { /each }
 
             <button on:click={(e) => {authorizeGoogle()}} class="relative w-full mt-4 p-3 border border-dashed border-gray-700 rounded-md flex items-center cursor-pointer">
@@ -178,9 +261,4 @@
       <p class="text-xs text-gray-100 opacity-75 w-2/3 text-center">Продолжая, вы соглашаетесь с <span class="border-b border-dotted border-gray-100">Правилами использования сервиса unfull.authed</span> и с <span class="border-b border-dotted border-gray-100">Правилами использования сервиса lococovu.me</span> <br />Там нет ничего странного и необычного, да ага!</p>
     </div>
   </section>
-
-  <!-- Images (or Text) -->
-  <!-- <section class="hidden lg:flex relative w-1/2 h-full bg-gray-200">
-    
-  </section> -->
 </main>

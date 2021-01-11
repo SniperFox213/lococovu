@@ -1,22 +1,17 @@
 <script>
   // Importing modules
   import axios from "axios";
-  import storage from "local-storage";
 
   import { goto } from "@sapper/app";
   import { onMount } from "svelte";
 
-  import moment from "moment";
-
-  import Cookie from "cookie-universal";
-  const cookies = Cookie();
+  // Importing actions
+  import getProfile from "../../actions/profile/getProfile.action";
+  import authorizeProfile from "../../actions/profile/authorizeProfile.action";
 
   // Importing stores
   import { stores } from "@sapper/app";
   const { page } = stores();
-
-  import accounts from "../../stores/accounts";
-  import profile from "../../stores/profile";
 
   // Importing components
   import { fade } from "svelte/transition";
@@ -38,91 +33,20 @@
     let element = document.getElementById("pincode");
     let pincode = element.value;
 
-    axios.get(`https://lococovu.me/api/profile/${account.id}/authorize/${pincode}`)
-    .then((response) => {
-      let data = response.data;
-
-      if (data.token != null) {
-        // Let's save this token into our
-        // local storage
-        storage.set(`AT-${account.id}`, data.token);
-
-        profile.loadProfile($page.query.token)
-        .then(() => {
-          cookies.set('token', $page.query.token, { path: "/", expires: moment().add('1', 'year').toDate() });
-
-          // And let's now add this token to
-          // tokens cookie
-          let tokens = cookies.get('tokens', { path: "/" });
-          if (tokens == null) {
-            tokens = [];
-          } else {
-            tokens = tokens.split(',');
-          };
-
-          // Let's now check if we already have
-          // this token or no.
-          if (!tokens.includes($page.query.token)) {
-            tokens.push($page.query.token);
-            cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
-          };
-
-          // Here we'll update our accounts storage
-          accounts.loadTokens(tokens);
-
-          // And now let's check if this
-          // user completed tutorial/setup profile
-
-          // Let's firstly check if we have any
-          // return URL
-          if (storage.get('auth-return')) {
-            let returnURL   = storage.get('auth-return');
-            let returnQuery = storage.get('auth-return-query');
-            storage.remove('auth-return');
-            storage.remove('auth-return-query');
-
-            goto(`${returnURL}${ returnQuery != null ? `${returnQuery}&token=${$page.query.token}` : `?token=${$page.query.token}` }`);
-          } else {
-            if (!cookies.get('tutorial') ) {
-              goto('/start');
-            } else {
-              if ($profile.nickname == null) {
-                goto('/start/profile');
-              } else {
-                goto('/app');
-              };
-            };
-          };
-        }).catch((error) => {
-          // Error
-          console.log("ERROR");
-          console.log(error);
-
-          loading = false;
-        });
-      } else {
-        // Error
-        loading = false;
-      };
-    }).catch((error) => {
-      // Error
-      loading = false;
-    });
+    // Authorizing user
+    authorizeProfile($page.query.token, pincode);
   };
 
   // onMount event
-  onMount(() => {
+  onMount(async () => {
     // Checkinf something mandatory
     if ($page.query.token == null) {
       goto('/authorize');
     };
 
     // Let's get some information about this account
-    axios.get(`https://lococovu.me/api/profile/${$page.query.token}`)
-    .then((response) => {
-      account        = response.data;
-      account.loaded = true;
-    });
+    account        = await getProfile($page.query.token);
+    account.loaded = true;
   });
 </script>
 

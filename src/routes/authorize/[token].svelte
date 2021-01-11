@@ -2,84 +2,24 @@
   // Importing modules
   import Icon from "../../components/Icon.svelte";
 
-  import storage from "local-storage";
-
   import { goto } from "@sapper/app";
-  import moment from "moment";
-
-  import Cookie from "cookie-universal";
-  const cookies = Cookie();
-
   import { onMount } from "svelte";
-  import profile from "../../stores/profile.js";
-  import accounts from "../../stores/accounts";
 
   import { stores } from "@sapper/app";
-
   const { page } = stores();
 
+  // Importing actions
+  import authorizeProfile from "../../actions/profile/authorizeProfile.action";
+
+  // Some variables
   let error;
 
+  // onMount event
+  // - Here we'll authorize
+  // this user and save his information
+  // (token) into cookies storage
   onMount(() => {
-    // Now let's try to load this user's
-    // information using Profile Store
-    profile.loadProfile($page.params.token)
-    .then(() => {
-      // And now we need to save this user's
-      // token as cookie and redirect
-      // user to main page.
-      cookies.set('token', $page.params.token, { path: "/", expires: moment().add('1', 'year').toDate() });
-
-      // And let's now add this token to
-      // tokens cookie
-      let tokens = cookies.get('tokens', { path: "/" });
-      if (tokens == null) {
-        tokens = [];
-      } else {
-        tokens = tokens.split(',');
-      };
-
-      // Let's now check if we already have
-      // this token or no.
-      if (!tokens.includes($page.params.token)) {
-        tokens.push($page.params.token);
-        cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
-      };
-
-      // Here we'll update our accounts storage
-      accounts.loadTokens(tokens);
-
-      // And now let's check if this
-      // user completed tutorial/setup profile
-
-      // Let's firstly check if we have any
-      // return URL
-      if (storage.get('auth-return')) {
-        let returnURL   = storage.get('auth-return');
-        let returnQuery = storage.get('auth-return-query');
-        storage.remove('auth-return');
-        storage.remove('auth-return-query');
-
-        goto(`${returnURL}${ returnQuery != null ? `${returnQuery}&token=${$page.params.token}` : `?token=${$page.params.token}` }`);
-      } else {
-        if (!cookies.get('tutorial') ) {
-          goto('/start');
-        } else {
-          if ($profile.nickname == null) {
-            goto('/start/profile');
-          } else {
-            goto('/app');
-          };
-        };
-      };
-    }).catch((error) => {
-      if (error == "authorizePincode") {
-        goto(`/authorize/pincode?token=${$page.params.token}`);
-      } else {
-        // Error
-        error = true;
-      };
-    });
+    authorizeProfile($page.params.token);
   });
 </script>
 
