@@ -11,9 +11,10 @@ import storage from "local-storage";
 import Cookie from "cookie-universal";
 const cookies = Cookie();
 
-import { goto, stores } from "@sapper/app";
+import { goto } from "@sapper/app";
 
-// http://localhost:3000/authorize/Xfcu8mQMBsnpq4g9
+// Importing actions
+import authorizePincode from "../profile/security/authorizePincode.action";
 
 // Exporting default function
 export default async (token, pincode) => {
@@ -105,15 +106,15 @@ export default async (token, pincode) => {
 
     if (pincode != null) {
       try {
-        let response = await axios.get(`${config.apiURI.internal}/profile/${error.id}/authorize/${pincode}`)
-        storage.set(`AT-${error.id}`, response.data.token);
+        let response = await authorizePincode(error.id, pincode);
+        storage.set(`AT-${error.id}`, response.token);
       
         // And now let's load this profile and
         // let's save this token.
-        profile.loadProfile(response.data.token)
+        profile.loadProfile(response.token)
         .then((response) => {
-          saveToken(response.data.token, cookies);
-          done(response.data.token);
+          saveToken(response.token, cookies);
+          done(response.token);
         });
 
         return;
