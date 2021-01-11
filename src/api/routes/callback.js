@@ -25,7 +25,6 @@ router.get('/code/:code', (req, res) => {
 import AuthorizeCallback from "../functions/profile/callback/AuthorizeCallback.func";
 
 router.post('/authorize/:code/:token', (req, res) => {
-  console.log("YEAH");
   AuthorizeCallback(req.params.code, req.params.token)
   .then((response) => {
     res.end(JSON.stringify(response));

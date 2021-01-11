@@ -72,10 +72,10 @@
 <Background /> <PageTransition />
 
 <!-- Page's Layout -->
-<main class="relative w-full h-screen flex justify-center items-center">
+<main class="relative px-6 lg:px-0 w-full h-screen flex justify-center items-center">
   <!-- Everything's Okay -->
   { #if state == "ok" }
-    <div class="w-1/3 h-1/2 flex items-center justify-center rounded-md bg-input relative">
+    <div class="w-full lg:w-1/3 h-1/2 flex items-center justify-center rounded-md bg-input relative">
       <!-- Texts -->
       <div style="z-index: 2;" class="flex flex-col items-center text-center px-6">
         <!-- Logotype -->
@@ -91,7 +91,7 @@
     </div>
   <!-- Error -->
   { :else if state == "error" }
-    <div class="w-1/3 h-1/2 flex items-center justify-center rounded-md bg-input relative">
+    <div class="w-full lg:w-1/3 h-1/2 flex items-center justify-center rounded-md bg-input relative">
       <div style="z-index: 2;" class="flex flex-col items-center text-center px-6">
         <H2>Ничего не найдено</H2>
         <Paragraph>Вероятнее всего, произошла какая-то ошибка. Просто проигнорируйте. Ну или не проигнорируйте. Всё от вас зависит.</Paragraph>

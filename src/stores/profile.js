@@ -33,7 +33,8 @@ function store() {
           const done = () => {
             update((store) => {
               // Update Profile
-              store = data;
+              store       = data;
+              store.token = token;
   
               setTimeout(() => {
                 resolve(store);
