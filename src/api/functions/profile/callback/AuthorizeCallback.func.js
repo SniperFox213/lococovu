@@ -12,8 +12,9 @@ export default async (code, token) => {
   // Let's firstly retrieve profile
   // with this token.
   RetrieveProfile(token)
-  .then((profile ) => {
+  .then(async (profile ) => {
     if (profile.isToken) {
+      
       // And now let's just create this new
       // Callback Code
       let callbackCode = {
@@ -24,7 +25,7 @@ export default async (code, token) => {
       };
 
       try {
-        let response = storage.query(q.Create(q.Collection("callbackCodes"), { data: callbackCode }));
+        let response = await storage.query(q.Create(q.Collection("callbackCodes"), { data: callbackCode })).catch((error) => console.log(error));
 
         cache.clear(`callbackCode/${code}`);
         return response.data;

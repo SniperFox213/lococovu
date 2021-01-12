@@ -31,33 +31,10 @@
     ]
   };
 
-  // Function, that'll check for code existance
-  function checkCode() {
-    minecraft.get($page.params.code)
-    .then(() => {
-      state = "ok";
-    }).catch(() => {
-      if ($profile.id == null) {
-        goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
-      } else {
-        if ($accounts.profiles.length > 1) {
-          if ($page.query.token == null) {
-            goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&chooseOne=true&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
-          } else {
-            registerCode($page.query.token);
-          };
-        } else {
-          registerCode($profile.token);
-        }
-      };
-    });
-  }
-
-  // Function, that'll authorize our callbackCode
   function registerCode(token) {
     minecraft.finish($page.params.code, token)
     .then(() => {
-      checkCode();
+      state = "ok";
     }).catch(() => {
       state = "error";
     });
@@ -66,8 +43,20 @@
   // onMount function
   // - Here we'll check our callback information
   onMount(() => {
-    if ($page.query.type == "minecraft") {
-      checkCode();
+    if ($profile.id == null) {
+      goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
+    } else {
+      if ($accounts.profiles.length > 1) {
+        if ($page.query.token == null) {
+          goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&chooseOne=true&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
+        } else {
+          registerCode($page.query.token);
+          return;
+        };
+      } else {
+        registerCode($profile.token);
+        return;
+      };
     };
   });
 
