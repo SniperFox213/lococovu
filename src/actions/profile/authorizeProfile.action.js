@@ -79,9 +79,12 @@ export default async (token, pincode) => {
       // Deleting this callback's information
       storage.remove('auth.callback');
 
+      let query = new URLSearchParams(callback.query);
+      if (query.has('token')) query.remove('token');
+
       // And now let's just redirect our user
       // to this uri
-      goto(`${callback.url}${ callback.query != null ? `${callback.query}&token=${token}` : `?token=${token}` }`);
+      goto(`${callback.url}${ callback.query != null ? `${query.toString()}&token=${token}` : `?token=${token}` }`);
     } else {
       // TODO
       // Redirect user to
