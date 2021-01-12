@@ -80,7 +80,9 @@ export default async (token, pincode) => {
       storage.remove('auth.callback');
 
       let query = new URLSearchParams(callback.query);
-      if (query.has('token')) query.remove('token');
+      if (query.has('token')) query.delete('token');
+
+      console.log(query.toString());
 
       // And now let's just redirect our user
       // to this uri
