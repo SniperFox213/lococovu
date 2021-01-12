@@ -2,6 +2,8 @@
 import storage from "../../../storage";
 import { query as q } from "faunadb";
 
+import cache from "apicache";
+
 // Importing functions
 import RetrieveProfile from "../RetrieveProfile.func";
 
@@ -24,6 +26,7 @@ export default async (code, token) => {
       try {
         let response = storage.query(q.Create(q.Collection("callbackCodes"), { data: callbackCode }));
 
+        cache.clear(`callbackCode/${code}`);
         return response.data;
       } catch {
         throw new Error(JSON.stringify({ status: 500, error: "ServerError" }));

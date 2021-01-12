@@ -2,6 +2,8 @@
 import express from "express";
 const router = express.Router();
 
+import cache from "apicache";
+
 // Importing functions and processing
 // with routes
 
@@ -10,7 +12,9 @@ const router = express.Router();
 
 import GetCallback from "../functions/profile/callback/GetCallback.func";
 
-router.get('/code/:code', (req, res) => {
+router.get('/code/:code', cache("5 minutes"), (req, res) => {
+  req.apicacheGroup = `callbackCode/${req.params.code}`;
+  
   GetCallback(req.params.code)
   .then((response) => {
     res.end(JSON.stringify(response));
