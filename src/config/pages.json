@@ -15,6 +15,14 @@
     "title": "Друзья"
   },
   {
+    "id": "settings",
+    "icon": "settings",
+
+    "href": "/app/settings",
+
+    "title": "Настройки"
+  },
+  {
     "icon": "grid",
 
     "title": "Библиотека",
