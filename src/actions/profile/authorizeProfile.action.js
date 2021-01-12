@@ -17,7 +17,7 @@ import { goto } from "@sapper/app";
 import authorizePincode from "../profile/security/authorizePincode.action";
 
 // Exporting default function
-export default async (token, pincode) => {
+export default async (token, pincode, attrs = { storeInCookies: true }) => {
   let query = new URLSearchParams(window.location.search);
   const originalCallback = {
     url: query.get('return'),
@@ -28,7 +28,7 @@ export default async (token, pincode) => {
   // storage
   function saveToken(token, cookies) {
     // And now let's update current token
-    cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate() });
+    if (attrs.storeInCookies) cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate() });
 
     // Let's firstly get all tokens
     let tokens = cookies.get('tokens', { path: "/" });
@@ -124,8 +124,8 @@ export default async (token, pincode) => {
       
         // And now let's just save this
         // token
-        saveToken(response.token, cookies);
-        done(response.token);
+        saveToken(token, cookies);
+        done(token);
 
         return;
       } catch {};
@@ -141,8 +141,6 @@ export default async (token, pincode) => {
 
       goto(`/authorize/pincode?token=${token}`);
     } else {
-      console.log("ERROR");
-      console.log(error);
       throw new Error();
     }
   });

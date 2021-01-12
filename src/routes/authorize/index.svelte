@@ -158,10 +158,10 @@
         { #if profiles.length > 0 }
           <div class="absolute inset-0 w-full h-full pr-2">
             { #each profiles as p }
-              <Profile let:bottomMenu={settingsMenu} let:account={account} id={p.id} attrs={{ showPasswordAvailability: true, checkSecurityCode: p.securityCode || true }} classes={ $profile.id == p.id ? "border-2 border-indigo-400 border-solid" : "border-2 border-transparent" }>
+              <Profile let:bottomMenu={settingsMenu} let:account={account} id={p.id} attrs={{ showPasswordAvailability: true, checkSecurityCode: p.securityCode || true }} classes={ $page.query.action != "choose" && $profile.id == p.id ? "border-2 border-indigo-400 border-solid" : "border-2 border-transparent" }>
                 <!-- Subtext Section -->
                 <div slot="subtext">
-                  { #if $profile.id == account.id }
+                  { #if $page.query.action != "choose" && $profile.id == account.id }
                     <Caption>Текущий аккаунт</Caption>
                   { :else }
                     { #if account.needPassword }
@@ -183,7 +183,7 @@
                   </button>
 
                   <!-- Login or Logout Button -->
-                  { #if $profile.id == account.id }
+                  { #if $page.query.action != "choose" && $profile.id == account.id }
                     <!-- Logout Button -->
                     <button on:click={logout(p.token, p.id)} class="{ !account.loaded ? "opacity-50" : "" } transition duration-300 ease-in-out w-8 h-8 rounded-md bg-input flex justify-center items-center">
                       { #if account.loaded }

@@ -48,7 +48,7 @@
 
     if ($accounts.profiles.length > 1) {
       if ($page.query.token == null) {
-        goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&chooseOne=true&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
+        goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=choose&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
       } else {
         finish($page.query.token);
         return;
