@@ -124,11 +124,13 @@ export default async (token, pincode) => {
       
         // And now let's load this profile and
         // let's save this token.
-        profile.loadProfile(response.token)
-        .then((response) => {
-          saveToken(response.token, cookies);
-          done(response.token);
-        });
+        setTimeout(() => {
+          profile.loadProfile(response.token)
+          .then((response) => {
+            saveToken(response.token, cookies);
+            done(response.token);
+          });
+        }, 1000);
 
         return;
       } catch {};
