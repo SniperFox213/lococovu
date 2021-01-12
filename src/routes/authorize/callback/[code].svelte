@@ -37,6 +37,8 @@
   };
 
   function chooseAnother() {
+    console.log("PAGE:");
+    console.log($page);
     goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&chooseOne=true&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
   };
 
@@ -73,16 +75,24 @@
     if ($profile.id == null && $accounts.profiles.length < 1) {
       goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
     } else {
-      // Let's now check account information
-      if ($page.query.token != null && $page.query.token != $profile.token) {
-        getProfile($page.query.token)
+      if ($profile.id == null && $page.query.token == null ) {
+        getProfile($accounts.profiles[0].token)
         .then((response) => {
           uid = response.id;
           loading = false;
-        }).catch(() => state = "error");
+        }).catch(() => state == "error");
       } else {
-        uid = $profile.id;
-        loading = false;
+        // Let's now check account information
+        if ($page.query.token != null && $page.query.token != $profile.token) {
+          getProfile($page.query.token)
+          .then((response) => {
+            uid = response.id;
+            loading = false;
+          }).catch(() => state = "error");
+        } else {
+          uid = $profile.id;
+          loading = false;
+        };
       };
     }
   });

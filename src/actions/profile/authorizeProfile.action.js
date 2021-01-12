@@ -79,14 +79,22 @@ export default async (token, pincode) => {
       // Deleting this callback's information
       storage.remove('auth.callback');
 
-      let query = new URLSearchParams(callback.query);
-      if (query.has('token')) query.delete('token');
+      let params = new URLSearchParams(callback.query);
 
-      console.log(query.toString());
+      // Updating our query string
+      if (params.has('token')) params.delete('token')
+      // Let's firstly check for size
+      // of our parameters
+
+      // Just don't touch anything here
+      let size = 0;
+      for (let value of params.values()) {
+        size++;
+      };
 
       // And now let's just redirect our user
       // to this uri
-      goto(`${callback.url}${ callback.query != null ? `${query.toString()}&token=${token}` : `?token=${token}` }`);
+      goto(`${callback.url}${ size > 0 ? `?${params.toString()}&token=${token}` : `?token=${token}` }`);
     } else {
       // TODO
       // Redirect user to
