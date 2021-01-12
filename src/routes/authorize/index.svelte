@@ -66,7 +66,10 @@
   // Function, that'll switch to this
   // account (we'll just use authorizeProfile action)
   function switchTo(token) {
-    authorizeProfile(token);
+    let attrs = { storeInCookies: true };
+    if ($page.query.action == "choose") attrs.storeInCookies = false;
+
+    authorizeProfile(token, null, attrs);
   };
 
   // Function, that'll redirect user
