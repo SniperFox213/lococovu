@@ -31,36 +31,43 @@
     ]
   };
 
+  // Function, that'll check for code existance
+  function checkCode() {
+    minecraft.get($page.params.code)
+    .then(() => {
+      state = "ok";
+    }).catch(() => {
+      if ($profile.id == null) {
+        goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
+      } else {
+        if ($accounts.profiles.length > 1) {
+          if ($page.query.token == null) {
+            goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&chooseOne=true&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
+          } else {
+            registerCode($page.query.token);
+          };
+        } else {
+          registerCode($profile.token);
+        }
+      };
+    });
+  }
+
+  // Function, that'll authorize our callbackCode
+  function registerCode(token) {
+    minecraft.finish($page.params.code, token)
+    .then(() => {
+      checkCode();
+    }).catch(() => {
+      state = "error";
+    });
+  };
+
   // onMount function
   // - Here we'll check our callback information
   onMount(() => {
     if ($page.query.type == "minecraft") {
-      // Let's firstly check if we already
-      // have this callbackCode registered
-      minecraft.get($page.params.code)
-      .then(() => {
-        state = "ok";
-      }).catch(() => {
-        if ($profile.id == null) {
-          // Redirect user to authorization page
-          goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
-        } else {
-          // And now let's check current user's profiles
-          if ($accounts.profiles.length > 1) {
-            if ($page.query.token == null) {
-              goto(`/authorize?return=${encodeURIComponent(`${$page.path}`)}${ window.location.search != null ? `&query=${encodeURIComponent(window.location.search)}` : "" }&action=authorization&chooseOne=true&title=authorization.callback.title&subtitle=authorization.callback.subtitle`);
-            } else {
-              // Authorize user
-              minecraft.finish($page.params.code, $page.query.token)
-              .then(() => state = "ok").catch(() => state = "error");
-            };
-          } else {
-            // Authorize user
-            minecraft.finish($page.params.code, $profile.token)
-            .then(() => state = "ok").catch(() => state = "error");
-          };
-        };
-      });
+      checkCode();
     };
   });
 
