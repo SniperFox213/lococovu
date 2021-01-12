@@ -122,15 +122,10 @@ export default async (token, pincode) => {
         let response = await authorizePincode(error.id, pincode);
         storage.set(`AT-${error.id}`, response.token);
       
-        // And now let's load this profile and
-        // let's save this token.
-        setTimeout(() => {
-          profile.loadProfile(response.token)
-          .then((response) => {
-            saveToken(response.token, cookies);
-            done(response.token);
-          });
-        }, 1000);
+        // And now let's just save this
+        // token
+        saveToken(response.token, cookies);
+        done(response.token);
 
         return;
       } catch {};
