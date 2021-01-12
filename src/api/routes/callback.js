@@ -12,7 +12,7 @@ import cache from "apicache";
 
 import GetCallback from "../functions/profile/callback/GetCallback.func";
 
-router.get('/code/:code', cache("5 minutes"), (req, res) => {
+router.get('/code/:code', cache.middleware("5 minutes"), (req, res) => {
   req.apicacheGroup = `callbackCode/${req.params.code}`;
   
   GetCallback(req.params.code)
