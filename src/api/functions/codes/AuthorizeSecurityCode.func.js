@@ -44,9 +44,9 @@ export default async (id, pincode) => {
       // to user
       return token;
     } else {
-      return { status: 404, error: "WrongPincode" };
+      throw new Error(JSON.stringify({ status: 404, error: "WrongPincode" }));
     };
   } else {
-    return { status: 500, error: "PincodeIsNotSet" };
+    throw new Error(JSON.stringify({ status: 500, error: "PincodeIsNotSet" }));
   };
 };

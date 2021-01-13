@@ -16,7 +16,14 @@ function store() {
     subscribe,
 
     // Function, that'll load our user information
-    loadProfile: (token) => {
+    loadProfile: (token, attributes = {}) => {
+      const attrs = {
+        ignoreSavedPincode: attributes.ignoreSavedPincode || false
+      };
+      
+      console.log("PROFILE ATTRS:");
+      console.log(attrs);
+
       // Let's now check if it's a
       // token or no.
       if (token.split('').length != 16) {
@@ -51,9 +58,14 @@ function store() {
           // Let's check if this account
           // have pincode authorization
           if (data.security.pincode != null) {
+            console.log("AUTH");
+            console.log(attrs.ignoreSavedPincode);
             // Let's check if we have AuthorizedToken saved
             // somewhere in our local-storage
-            let authorizedToken = storage.get(`AT-${data.id}`);
+            let authorizedToken = attrs.ignoreSavedPincode ? null : storage.get(`AT-${data.id}`);
+
+            console.log("AUTHORIZED PINCODE");
+            console.log(authorizedToken);
 
             // And now let's check validity of this token
             // through internal api
@@ -62,7 +74,8 @@ function store() {
               done();
             })
             .catch(() => {
-              storage.remove(`AT-${authorizedToken}`);
+              if (!attrs.ignoreSavedPincode) storage.remove(`AT-${authorizedToken}`);
+              
               reject({ error: "authorizePincode", id: data.id });
             });
           } else {

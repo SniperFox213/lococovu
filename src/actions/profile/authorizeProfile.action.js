@@ -1,7 +1,4 @@
 // Importing modules
-import axios from "axios";
-import config from "../../config/api/default.json";
-
 import profile from "../../stores/profile";
 import accounts from "../../stores/accounts";
 
@@ -17,7 +14,13 @@ import { goto } from "@sapper/app";
 import authorizePincode from "../profile/security/authorizePincode.action";
 
 // Exporting default function
-export default async (token, pincode, attrs = { storeInCookies: true }) => {
+export default async (token, pincode, attributes = {}) => {
+  const attrs = { 
+    storeInCookies: attributes.storeInCookies || true,
+    ignoreSavedPincode: attributes.ignoreSavedPincode || false,
+    fromPincodePage: attributes.fromPincodePage || false
+  };
+
   let query = new URLSearchParams(window.location.search);
   const originalCallback = {
     url: query.get('return'),
@@ -105,7 +108,10 @@ export default async (token, pincode, attrs = { storeInCookies: true }) => {
   };
 
   // Let's firstly authorize our user.
-  profile.loadProfile(token)
+  console.log("ATTRIBUTES PROFILE");
+  console.log(attrs);
+
+  profile.loadProfile(token, attrs)
   .then((response) => {
     // Let's firstly save this token
     saveToken(token, cookies);
@@ -114,41 +120,55 @@ export default async (token, pincode, attrs = { storeInCookies: true }) => {
 
     // Let's get Security Code
     let securityCode = storage.get(`AT-${response.id}`);
+
     done(token, securityCode);
   }).catch(async (error) => {
+    console.log("ERROR");
+
     // Let's now check if we have
     // pincode (and then let's try to
     // authorize)
-
+    console.log("PINCODE:");
+    console.log(pincode);
     if (pincode != null) {
+      console.log("PINCODE ISN't NULL");
       try {
         let response = await authorizePincode(error.id, pincode);
-        storage.set(`AT-${error.id}`, response.token);
-      
+        if (!attrs.ignoreSavedPincode) storage.set(`AT-${error.id}`, response.token);
+
         // And now let's just save this
         // token
         setTimeout(() => {
           profile.loadProfile(token)
           .then((response) => {
+            console.log("SAVE TOKEN + DONE");
+
             saveToken(token, cookies);
             done(token, response.token);
           });
         }, 500);
 
         return;
-      } catch {};
+      } catch {
+        console.log("ERROR #4");
+      };
     };
 
     // Checking error information
+    console.log("ERROR INF:");
+    console.log(error);
 
     // @error authorizePincode
     if (error.error == "authorizePincode") {  
       // Let's firstly store our callback
       // information
+      console.log("STORE CALLBACk");
       storeCallback(originalCallback.url, originalCallback.query);
 
-      goto(`/authorize/pincode?token=${token}`);
+      console.log("FUCK IT");
+      if (!attrs.fromPincodePage) goto(`/authorize/pincode?token=${token}`);
     } else {
+      console.log("ERROR #2");
       throw new Error();
     }
   });

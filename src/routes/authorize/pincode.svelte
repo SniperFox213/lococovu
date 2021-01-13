@@ -25,6 +25,7 @@
   };
 
   let loading = false;
+  let error = false;
 
   // Function that'll authorize our user
   function authorize() {
@@ -34,7 +35,23 @@
     let pincode = element.value;
 
     // Authorizing user
-    authorizeProfile($page.query.token, pincode);
+    let attrs = {
+      storeInCookies: $page.query.type == "confirmation" ? false : true,
+      ignoreSavedPincode: $page.query.type == "confirmation" ? true : false,
+      fromPincodePage: true
+    };
+
+    console.log("PINCODE ATTRS");
+    console.log(attrs);
+    console.log("++++++++++++++++++");
+
+    authorizeProfile($page.query.token, pincode, attrs)
+    .then((response) => {
+
+    }).catch((error) => {
+      loading = false;
+      error = true;
+    });
   };
 
   // onMount event
@@ -91,7 +108,7 @@
 
           { #if $page.query.action != null }
             <div class="mt-4 w-full flex justify-center">
-              { #if $page.query.action == "informationChange" }
+              { #if $page.query.action == "pincodeChange" }
                 <div class="w-5/6 flex items-center rounded-md bg-icon-button border-2 border-red-500 px-4 py-2 opacity-75">
                   <Icon name="alert-triangle" attrs={{ width: "1.4rem", height: "1.4rem", color: "#fff" }} />
 
@@ -100,7 +117,7 @@
                     <p class="text-xs text-gray-100 opacity-80">Ваш пароль будет изменён, и мы не знаем на какой ¯\_(ツ)_/¯</p>
                   </div>
                 </div>
-              { :else if $page.query.action == "pincodeChange" }
+              { :else if $page.query.action == "informationChange" }
                 <div class="w-5/6 flex items-center rounded-md bg-icon-button px-4 py-2 opacity-75">
                   <Icon name="alert-triangle" attrs={{ width: "1.4rem", height: "1.4rem", color: "#fff" }} />
 
@@ -164,6 +181,10 @@
           <input disabled={ !account.loaded } type="password" id="pincode" class="text-sm w-full text-gray-400 bg-input" placeholder="Пароль">
         </div>
       </div>
+
+      { #if error }
+        <p>Ошибка нахуй</p>
+      { /if }
 
       <!-- Buttons -->
       <div class="{ !account.loaded ? "opacity-50" : "" } w-5/6 flex">

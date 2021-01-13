@@ -52,10 +52,10 @@
         });
       } else {
         // Let's firstly save our callback
-        storage.set('auth.callback', JSON.stringify({ url: "/app/settings/security", query: `?action=updatePincode&pincode=${pincode}` }));
+        storage.set('auth.callback', JSON.stringify({ url: "/app/settings/security", query: `?action=updatePincode&hello=nibbaUbba&pincode=${pincode}` }));
 
         // Redirect user to login page
-        goto(`/authorize/pincode?token=${$profile.token}`);
+        goto(`/authorize/pincode?token=${$profile.token}&type=confirmation&action=pincodeChange`);
       };
     };
   };
