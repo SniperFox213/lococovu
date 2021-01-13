@@ -41,14 +41,8 @@
       fromPincodePage: true
     };
 
-    console.log("PINCODE ATTRS");
-    console.log(attrs);
-    console.log("++++++++++++++++++");
-
     authorizeProfile($page.query.token, pincode, attrs)
-    .then((response) => {
-
-    }).catch((error) => {
+    .then(() => {}).catch(() => {
       loading = false;
       error = true;
     });
@@ -104,31 +98,7 @@
       { #if $page.query.type == "confirmation" }
         <div class="text-center">
           <h1 class="text-2xl text-white">Подтверждение личности</h1>
-          <p class="text-xs text-gray-100">Для того, что бы продолжить текущее действие Вам нужно авторизоваться, использовав свой <span class="border-b border-dotted border-gray-100">ТЕКУЩИЙ</span> пароль. {@html $page.query.action != null ? "<br /><br />Действие, которое будет совершенно с Вашим аккаунтом:" : "" }</p>
-
-          { #if $page.query.action != null }
-            <div class="mt-4 w-full flex justify-center">
-              { #if $page.query.action == "pincodeChange" }
-                <div class="w-5/6 flex items-center rounded-md bg-icon-button border-2 border-red-500 px-4 py-2 opacity-75">
-                  <Icon name="alert-triangle" attrs={{ width: "1.4rem", height: "1.4rem", color: "#fff" }} />
-
-                  <div class="ml-2 text-left">
-                    <h1 class="text-md text-white font-medium">Смена пароля</h1>
-                    <p class="text-xs text-gray-100 opacity-80">Ваш пароль будет изменён, и мы не знаем на какой ¯\_(ツ)_/¯</p>
-                  </div>
-                </div>
-              { :else if $page.query.action == "informationChange" }
-                <div class="w-5/6 flex items-center rounded-md bg-icon-button px-4 py-2 opacity-75">
-                  <Icon name="alert-triangle" attrs={{ width: "1.4rem", height: "1.4rem", color: "#fff" }} />
-
-                  <div class="ml-2 text-left">
-                    <h1 class="text-md text-white font-medium">Изменения Игрового профиля</h1>
-                    <p class="text-xs text-gray-100 opacity-80">Некоторые данные Вашего Игрового профиля будут изменены.</p>
-                  </div>
-                </div>
-              { /if }
-            </div>
-          { /if }
+          <p class="text-xs text-gray-100">Для того, что бы продолжить текущее действие Вам нужно авторизоваться, использовав свой <span class="border-b border-dotted border-gray-100">ТЕКУЩИЙ</span> пароль.</p>
         </div>
       { :else }
         <div class="text-center">
@@ -161,7 +131,7 @@
 
         <!-- Change Account Button -->
         <div class="absolute inset-y-0 right-0 h-full flex items-center pr-3">
-          <button class="{ !account.loaded ? "opacity-50" : "" } transition duration-300 ease-in-out w-10 h-10 rounded-md bg-input flex justify-center items-center">
+          <button class="{ !account.loaded || loading ? "opacity-50" : "" } transition duration-300 ease-in-out w-10 h-10 rounded-md bg-input flex justify-center items-center">
             { #if account.loaded }
               <Icon name="refresh-cw" attrs={{ width: "1.2rem", height: "1.2rem", color: "#fff" }} />
             { /if }
@@ -170,32 +140,28 @@
       </div>
 
       <!-- Pincode -->
-      <div class="{ !account.loaded ? "opacity-50" : "" } w-full flex justify-center items-center mb-6">
-        <div class="flex w-5/6 bg-input p-2 rounded-md">
+      <div class="{ !account.loaded || loading ? "opacity-50" : "" } w-full flex justify-center items-center mb-6">
+        <div class="{ error ? "ring-2 ring-red-400" : "" } flex w-5/6 bg-input p-2 rounded-md">
           <!-- Icon -->
           <div class="w-8 h-8 rounded-md bg-icon-button flex justify-center items-center mr-2">
             <Icon name="lock" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
           </div>
       
           <!-- Input itself -->
-          <input disabled={ !account.loaded } type="password" id="pincode" class="text-sm w-full text-gray-400 bg-input" placeholder="Пароль">
+          <input disabled={ !account.loaded || loading } type="password" id="pincode" class="text-sm w-full text-gray-400 bg-input" placeholder="Пароль">
         </div>
       </div>
 
-      { #if error }
-        <p>Ошибка нахуй</p>
-      { /if }
-
       <!-- Buttons -->
-      <div class="{ !account.loaded ? "opacity-50" : "" } w-5/6 flex">
-        <button disabled={ !account.loaded } class="relative w-full px-4 py-2 rounded-md bg-input flex justify-center items-center">
+      <div class="{ !account.loaded || loading ? "opacity-50" : "" } w-5/6 flex">
+        <button disabled={ !account.loaded || loading } class="relative w-full px-4 py-2 rounded-md bg-input flex justify-center items-center">
           <!-- Icon -->
 
           <!-- Text -->
           <p class="text-sm text-white">Отмена</p>
         </button>
 
-        <button disabled={ !account.loaded } on:click={() => authorize()} class="relative w-full ml-3 px-4 py-2 rounded-md bg-input flex justify-center items-center">
+        <button disabled={ !account.loaded || loading } on:click={() => authorize()} class="relative w-full ml-3 px-4 py-2 rounded-md bg-input flex justify-center items-center">
           { #if loading }
             <div transition:fade class="absolute inset-0 w-full h-full rounded-md bg-input flex justify-center items-center">
               <Spinner size={20} color="#fff" />
@@ -211,5 +177,13 @@
       </div>
     </div>
     
+    <!-- Disclamer -->
+    { #if $page.query.type == "confirmation" }
+      {#if $page.query.action == "pincodeChange"}
+        <div style="z-index: 2;" class="absolute bottom-0 w-full flex justify-center items-center py-4">
+          <p class="text-xs text-gray-100 opacity-75 w-2/3 text-center">После успешной авторизации Ваш текущий пароль будет изменён. Повторим: <span class="border-b border-dotted border-gray-100">это действие изменит пароль от Вашего текущего аккаунта</span>.</p>
+        </div>
+      {/if}
+    { /if }
   </section>
 </main>

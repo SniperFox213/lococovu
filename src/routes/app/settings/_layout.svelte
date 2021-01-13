@@ -40,7 +40,7 @@
 
 <main class="w-full h-full flex relative">
   <!-- Friends List -->
-  <div class="w-full  h-full px-2 relative">
+  <div class="w-full h-full px-2 relative">
     <div class="w-full h-full rounded-md bg-input flex flex-col">
 
       <!-- Mini-Header -->
@@ -65,7 +65,7 @@
       </div>
 
       <!-- List Itself -->
-      <div class="w-full relative pb-8">
+      <div class="w-full pb-8">
         <slot></slot>
       </div>
     </div>

@@ -16,25 +16,34 @@
 
   // Importing components
   import Icon from "../../../components/Icon.svelte";
-  import { H6, Paragraph, Caption } from "../../../components/typography";
+  import { H6, Caption } from "../../../components/typography";
+  import Spinner from "../../../components/Loader/Spinner.svelte";
 
   // Variables
   let pincode;
+  let loading;
+  let containerLoading;
 
-  // Function, that'll
+  // Function, that'll clear our query attributes
+  function clearQuery() {
+    goto('/app/settings/security');
+    pincode = null;
+
+    loading = false;
+    containerLoading = false;
+  };
+
+  // Function, that'll update our pincode
   function updatePincode(token) {
+    loading = true;
+
     // Let's firstly check if we
     // need to get Security Code
     // or no
     if ($profile.security.pincode == null) {
       // Creating our pincode
       setupPincode($profile.token, pincode)
-      .then((response) => {
-        console.log("RESPONSE");
-        console.log(response);
-      }).catch((error) => {
-        console.log("ERROR");
-        console.log(error);
+      .then(() => clearQuery()).catch((error) => {
       });
     } else {
       // Let's now check for Security Code
@@ -43,10 +52,7 @@
 
         // Setting up our pincode
         setupPincode(`-${$page.query.securityCode}`, pincode)
-        .then((response) => {
-          console.log("RESPONSE");
-          console.log(response);
-        }).catch((error) => {
+        .then(() => clearQuery()).catch((error) => {
           console.log("ERROR");
           console.log(error);
         });
@@ -66,10 +72,18 @@
   // no
   onMount(() => {
     if ($page.query.action == "updatePincode") {
+      containerLoading = true;
       updatePincode();
     };
   });
 </script>
+
+{ #if containerLoading }
+  <div out:fade style="z-index: 995;" class="absolute inset-0 bg-input w-full h-full flex flex-col justify-center items-center">
+    <Spinner size="20" color="#fff" />
+    <Caption classes="mt-2">Меняем пароль...</Caption>
+  </div>
+{ /if }
 
 <!-- Password -->
 <div in:fade class="{ $profile.security.pincode == null ? "w-full" : "w-1/2" } px-4 mb-4">
@@ -88,20 +102,26 @@
 
         <!-- Buttons + Input -->
         <div class="mt-2">
-          <div class="flex w-5/6 bg-icon-button rounded-md p-2 relative">
+          <div class="{ loading ? "opacity-50" : "" } flex w-5/6 bg-icon-button rounded-md p-2 relative">
             <!-- Icon -->
             <div class="w-8 h-8 rounded-md bg-input flex justify-center items-center mr-2">
               <Icon name="lock" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
             </div>
         
             <!-- Input itself -->
-            <input bind:value={pincode} class="text-sm w-full text-gray-400 bg-icon-button" placeholder="Пароль" type="password">
+            <input bind:value={pincode} disabled={ loading } class="text-sm w-full text-gray-400 bg-icon-button" placeholder="Новый пароль" type="password">
           
             <!-- Button -->
             <div class="absolute right-0 pr-2">
-              <button on:click={(e) => {
+              <button disabled={ loading } on:click={(e) => {
                 updatePincode();
-              }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="opacity-60 px-4 h-8 rounded-md bg-icon-button">
+              }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="{ loading ? "opacity-50" : "" } px-4 h-8 rounded-md bg-icon-button relative">
+                { #if loading }
+                  <div transition:fade style="background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="absolute inset-0 w-full h-full rounded-md flex justify-center items-center">
+                    <Spinner size={15} color="#fff" />
+                  </div>
+                { /if }
+                
                 <Caption opacity={false}>Сохранить</Caption>
               </button>
             </div>
@@ -110,7 +130,7 @@
       </div>
     </div>
   { :else }
-    <div class="flex w-full bg-icon-button p-2 rounded-md mt-3 opacity-80 relative">
+    <div class="{ loading ? "opacity-50" : "opacity-80" } flex w-full bg-icon-button p-2 rounded-md mt-3 relative">
       <!-- Icon -->
       <div class="w-8 h-8 rounded-md bg-input flex justify-center items-center">
         <Icon name="lock" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
@@ -121,13 +141,19 @@
         if (pincode != null && pincode.split('').length >= 16) {
           e.preventDefault();
         };
-      }} class="ml-2 text-sm text-gray-400 bg-icon-button" placeholder="Пароль" type="password" id="pincode">
+      }} disabled={loading} class="ml-2 text-sm text-gray-400 bg-icon-button" placeholder="Новый пароль" type="password" id="pincode">
     
       <!-- Save Button -->
       <div class="absolute right-0 pr-2">
         <button on:click={(e) => {
           updatePincode();
-        }} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="opacity-60 px-4 h-8 rounded-md bg-icon-button">
+        }} disabled={loading} style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="px-4 h-8 rounded-md flex justify-center items-center relative">
+          { #if loading }
+            <div transition:fade style="background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="absolute inset-0 w-full h-full rounded-md flex justify-center items-center">
+              <Spinner size={15} color="#fff" />
+            </div>
+          { /if }
+
           <Caption opacity={false}>Сохранить</Caption>
         </button>
       </div>

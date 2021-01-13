@@ -20,9 +20,6 @@ function store() {
       const attrs = {
         ignoreSavedPincode: attributes.ignoreSavedPincode || false
       };
-      
-      console.log("PROFILE ATTRS:");
-      console.log(attrs);
 
       // Let's now check if it's a
       // token or no.
@@ -63,9 +60,6 @@ function store() {
             // Let's check if we have AuthorizedToken saved
             // somewhere in our local-storage
             let authorizedToken = attrs.ignoreSavedPincode ? null : storage.get(`AT-${data.id}`);
-
-            console.log("AUTHORIZED PINCODE");
-            console.log(authorizedToken);
 
             // And now let's check validity of this token
             // through internal api
