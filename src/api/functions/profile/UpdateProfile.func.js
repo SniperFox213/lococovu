@@ -21,31 +21,21 @@ export default async (id, profile) => {
   };
 
   // Okay, so now let's check if this object even exists
-  storage.query(
-    q.Get(q.Match(q.Index("SearchUserById"), id))
-  ).then((response) => {
+  try {
+    let response = await storage.query(q.Get(q.Match(q.Index("SearchUserById"), id)));
+
     // We need to update this object
-    storage.query(
-      q.Update(response.ref, { data: account })
-    ).then((response) => {
-      return response.data;
-    }).catch((error) => {
-      console.log("ERROR #2");
-      console.log(error);
+    let profile = await storage.query(q.Update(response.ref, { data: account }));
 
-      throw new Error(JSON.stringify({ status: 500, error: "ServerError" }));
-    });
-  }).catch(() => {
-    // We need to create this object
-    storage.query(
-      q.Create(q.Collection("users"), { data: account })
-    ).then((response) => {
-      return response.data;
-    }).catch((error) => {
-      console.log("ERROR #2");
-      console.log(error);
+    return profile.data;
+  } catch {
+    // Let's create new profile object
+    try {
+      let response = await storage.query(q.Create(q.Collection("users"), { data: account }));
 
-      throw new Error(JSON.stringify({ status: 500, error: "ServerError" }));
-    });
-  });
+      return response.data;
+    } catch {
+      throw new Error(JSON.stringify({ error: "ServerError" }));
+    };
+  };
 };

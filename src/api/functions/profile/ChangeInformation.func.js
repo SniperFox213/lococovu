@@ -28,10 +28,11 @@ export default async (token, data) => {
   if (response.security.pincode && type != "code") throw new Error(JSON.stringify({ status: 400, error: "Unauthorized" }));
 
   // Let's update this account
-  UpdateProfile(response.id, data)
-  .then((response) => {
-    return response;
-  }).catch((error) => {
+  try {
+    let profile = await UpdateProfile(response.id, data);
+
+    return profile;
+  } catch {
     throw new Error(JSON.stringify({ status: 500, error: "ServerError" }));
-  });
+  }
 };

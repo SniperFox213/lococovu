@@ -65,7 +65,7 @@ export default async (token, pincode, attrs = { storeInCookies: true }) => {
 
   // Function, that will be called after all authorization
   // processes
-  function done(token) {
+  function done(token, securityCode) {
     // Let's firstly cehck if we have any callbacks
     let callback = storage.get('auth.callback');
 
@@ -94,7 +94,7 @@ export default async (token, pincode, attrs = { storeInCookies: true }) => {
 
       // And now let's just redirect our user
       // to this uri
-      goto(`${callback.url}${ size > 0 ? `?${params.toString()}&token=${token}` : `?token=${token}` }`);
+      goto(`${callback.url}${ size > 0 ? `?${params.toString()}&token=${token}${ securityCode != null ? `&securityCode=${securityCode}` : "" }` : `?token=${token}${ securityCode != null ? `&securityCode=${securityCode}` : "" }` }`);
     } else {
       // TODO
       // Redirect user to
@@ -106,12 +106,15 @@ export default async (token, pincode, attrs = { storeInCookies: true }) => {
 
   // Let's firstly authorize our user.
   profile.loadProfile(token)
-  .then(() => {
+  .then((response) => {
     // Let's firstly save this token
     saveToken(token, cookies);
 
     // And now let's finish this authorization process
-    done(token);
+
+    // Let's get Security Code
+    let securityCode = storage.get(`AT-${response.id}`);
+    done(token, securityCode);
   }).catch(async (error) => {
     // Let's now check if we have
     // pincode (and then let's try to
@@ -124,8 +127,13 @@ export default async (token, pincode, attrs = { storeInCookies: true }) => {
       
         // And now let's just save this
         // token
-        saveToken(token, cookies);
-        done(token);
+        setTimeout(() => {
+          profile.loadProfile(token)
+          .then((response) => {
+            saveToken(token, cookies);
+            done(token, response.token);
+          });
+        }, 500);
 
         return;
       } catch {};
