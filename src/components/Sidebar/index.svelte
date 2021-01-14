@@ -8,13 +8,13 @@
 
   import { goto } from "@sapper/app";
 
-  import Cookie from "cookie-universal";
-  const cookies = Cookie();
-
   import { stores } from "@sapper/app";
   const { page } = stores();
 
   import pages from "../../config/pages.json";
+
+  // Importing components
+  import { Caption } from "../typography";
 
   // currentPage variable
   let currentPage = "index";
@@ -82,20 +82,30 @@
     </div>
   </div>
 
-  <!-- Free-hours Status -->
+  <!-- Some Buttons -->
 
-  { #if $profile.nickname == null }
-    <!-- Setup Profile -->
-    <div class="mt-2 px-4 w-full">
-      <button style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="w-full px-4 py-2 rounded-md flex justify-center items-center">
+  <div class="mt-2 w-full flex items-center px-4">
+    { #if $profile.nickname == null }
+      <!-- Setup Profile -->
+      <button style="background-color: #4158D0; background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);" class="flex-grow h-8 rounded-md flex justify-center items-center">
         <!-- Icon -->
         <Icon name="settings" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
 
         <!-- Text -->
         <p class="ml-2 text-sm text-white">Настроить аккаунт</p>
       </button>
-    </div>
-  { /if }
+
+      <button on:click={() => goto('/authorize')} class="ml-2 w-8 h-8 rounded-md bg-icon-button flex justify-center items-center">
+        <Icon name="refresh-cw" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+      </button>
+    { :else }
+      <button on:click={() => goto('/authorize')} class="flex-grow h-8 rounded-md bg-icon-button flex justify-center items-center relative">
+        <Icon name="refresh-cw" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
+        
+        <Caption classes="ml-1" opacity={false}>Другой аккаунт</Caption>
+      </button>
+    { /if }
+  </div>
   <!-- <div class="px-4 mt-6">
     <div class="w-full h-2 rounded-md bg-input relative">
       <div class="w-1/3 absolute h-2 bg-yellow-400 rounded-md"></div>
@@ -148,16 +158,16 @@
     <!-- 
       Sidebar Footer 
     -->
-    <div class="absolute bottom-0 pb-8">
+    <!-- <div class="absolute bottom-0 pb-8">
 
-      <!-- Accounts -->
+      #Accounts
       <div on:click={(e) => {
         goto('/authorize');
       }} class="cursor-pointer flex items-center w-full text-white my-2 py-1 pl-2 pr-4 opacity-50 relative">
-        <!-- Icon -->
+        #Icon
         <Icon name="list" attrs={{ width: "1rem", height: "1rem", color: "#fff" }} />
 
-        <!-- Title -->
+        #Title
         <p class="text-sm ml-4">Аккаунты</p>
         
         { #if $accounts.profiles.length > 0 }
@@ -169,19 +179,19 @@
         { /if }
       </div>
 
-      <!-- Logout -->
+      #Logout
       <div on:click={(e) => {
         cookies.remove('token', { path: "/" });
         profile.forceProfile({ id: null });
 
         goto('/');
       }} class="cursor-pointer flex items-center w-full text-white my-2 py-1 px-2 opacity-50">
-        <!-- Icon -->
+        #Icon
         <svg style="width: 1rem; width: 1rem;" class="text-red-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
 
-        <!-- Title -->
+        #Title
         <p class="text-sm ml-4">Выйти</p>
       </div>
-    </div>
+    </div> -->
   </div>
 </sidebar>

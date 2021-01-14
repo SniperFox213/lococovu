@@ -21,6 +21,11 @@ module.exports = {
 	},
 	theme: {
 		extend: {
+			// Font Size
+			fontSize: {
+				'extra-xs': '.55rem'
+			},
+
 			// Font Family
 			fontFamily: {
 				'primary': 'Montserrat, sans-serif;'
@@ -50,7 +55,9 @@ module.exports = {
 				"75%": "75%",
 				"80%": "80%",
 				"90%": "90%",
-				"100%": "100%"
+				"100%": "100%",
+				"110%": "110%",
+				"120%": "120%"
 			}
 		},
 	},

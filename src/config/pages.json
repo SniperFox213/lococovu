@@ -1,10 +1,10 @@
 [
   {
     "id": "index",
-    "icon": "compass",
+    "icon": "home",
     "href": "/app",
 
-    "title": "Исследовать"
+    "title": "Главная"
   },
   {
     "id": "friends",
@@ -15,23 +15,25 @@
     "title": "Друзья"
   },
   {
+    "id": "library",
+    "icon": "grid",
+    "href": "/app/library",
+
+    "title": "Мои игры"
+  },
+  {
+    "id": "marketplace",
+    "icon": "compass",
+    "href": "/app/marketplace",
+    
+    "title": "Игровая библиотека"
+  },
+  {
     "id": "settings",
     "icon": "settings",
 
     "href": "/app/settings",
 
     "title": "Настройки"
-  },
-  {
-    "icon": "grid",
-
-    "title": "Библиотека",
-    "subtitle": "В разработке"
-  },
-  {
-    "icon": "shopping-bag",
-
-    "title": "Магазин",
-    "subtitle": "В разработке"
   }
 ]
