@@ -16,7 +16,7 @@
   // - Here we'll just redirect user
   // to /authorize/callback page
   onMount(() => {
-    if ($page.params.code.split('').length = 3) {
+    if ($page.params.code.split('').length == 3) {
       goto(`/authorize/callback/${$page.params.code}?type=minecraft`);
     } else {
       goto('/error');

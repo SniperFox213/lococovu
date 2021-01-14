@@ -10,29 +10,39 @@
 </script>
 
 <!-- Page Transition Component && Page Background -->
-<PageTransition /> <Background />
+<PageTransition />
 
 <svelte:head>
   <title>{ $_("landing.pages.index.title") } - Lococovu</title>
 </svelte:head>
 
 <!-- Page's layout -->
-<main class="relative">
+<main style="z-index: 1;" class="relative">
   <!-- Header && Mobile Menu -->
   <Header type="landing" />
 
   <!-- Hero Section -->
-  <section class="w-full h-screen flex items-center">
-    <!-- Texts -->
-    <div class="w-full md:w-1/2 md:pl-24 px-4 md:px-0">
-      <h1 class="text-3xl md:text-8xl text-white font-medium">{ $_("landing.wip.title") }</h1>
+  <section style="z-index: 0;" class="w-full h-screen relative flex justify-center items-center">
+    <Background />
 
-      <p class="mt-2 md:mt-8 text-base text-gray-100">{@html $_("landing.wip.subtitle")}</p>
+    <!-- News -->
+    <div style="z-index: 1;" class="w-full md:w-2/3 h-screen md:h-2/3 bg-input rounded-md relative flex justify-center items-center">
+      <!-- Texts -->
+      <div class="w-full px-4 md:px-8 pr-16 md:pr-32">
+        <h1 class="text-2xl md:text-6xl text-white font-medium">{ $_("landing.wip.title") }</h1>
+    
+        <p class="mt-2 md:mt-8 text-base text-gray-100">{@html $_("landing.wip.subtitle")}</p>
+      </div>
+      
+      <!-- Sad Cat emoji -->
+      <div class="absolute bottom-0 right-0 w-1/4">
+        <img src="./icons/Sad_Cat_Thumbs_Up.png" alt="Sad Cat">
+      </div>
     </div>
   </section>
 
-  <!-- Sad Cat emoji -->
-  <div class="absolute bottom-0 right-0 w-1/4">
-    <img src="./icons/Sad_Cat_Thumbs_Up.png" alt="Sad Cat">
-  </div>
+  <!-- Popular Games Section -->
+  <section class="w-full h-screen bg-gray-200">
+
+  </section>
 </main>

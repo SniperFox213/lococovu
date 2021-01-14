@@ -29,7 +29,7 @@
   <MobileMenu on:close={() => menuOpened = false} />
 { /if }
 
-<header class="w-full fixed top-0 h-24 px-8 flex items-center justify-between">
+<header style="z-index: 1;" class="w-full fixed top-0 h-24 px-8 flex items-center justify-between">
   <!-- Logotype/Links -->
   <div class="flex items-center">
     <Logotype type="small" attrs={{ size: "6" }} />
