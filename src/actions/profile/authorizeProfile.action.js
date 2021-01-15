@@ -32,7 +32,7 @@ export default (token, pincode, attributes = {}) => {
     // storage
     function saveToken(token, cookies) {
       // And now let's update current token
-      if (attrs.storeInCookies) cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate() });
+      if (attrs.storeInCookies) cookies.set('token', token, { path: "/", expires: moment().add('1', 'year').toDate(), domain: ".lococovu.me" });
 
       // Let's firstly get all tokens
       let tokens = cookies.get('tokens', { path: "/" });
@@ -46,7 +46,7 @@ export default (token, pincode, attributes = {}) => {
       // this token or no.
       if (!tokens.includes(token)) {
         tokens.push(token);
-        cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate() });
+        cookies.set('tokens', tokens.join(','), { path: "/", expires: moment().add('1', 'year').toDate(), domain: ".lococovu.me" });
       };
 
       // And now let's load profiles;
