@@ -23,7 +23,7 @@ module.exports = {
 		extend: {
 			// Font Size
 			fontSize: {
-				'extra-xs': '.55rem'
+				'extra-xs': '.65rem'
 			},
 
 			// Font Family

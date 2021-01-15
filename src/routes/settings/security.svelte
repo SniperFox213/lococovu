@@ -7,17 +7,17 @@
   import storage from "local-storage";
 
   // Importing actions
-  import setupPincode from "../../../actions/profile/security/setupPincode.action";
+  import setupPincode from "../../actions/profile/security/setupPincode.action";
 
   // Importing stores
-  import profile from "../../../stores/profile";
+  import profile from "../../stores/profile";
   import { stores } from "@sapper/app";
   const { page } = stores();
 
   // Importing components
-  import Icon from "../../../components/Icon.svelte";
-  import { H6, Caption } from "../../../components/typography";
-  import Spinner from "../../../components/Loader/Spinner.svelte";
+  import Icon from "../../components/Icon.svelte";
+  import { H6, Caption } from "../../components/typography";
+  import Spinner from "../../components/Loader/Spinner.svelte";
 
   // Variables
   let pincode;

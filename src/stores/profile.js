@@ -3,6 +3,8 @@ import { writable } from "svelte/store";
 import storage from "local-storage";
 import axios from "axios";
 
+import config from "../config/api/default.json";
+
 function store() {
   // Default Profile Object
   let profile = {
@@ -31,7 +33,7 @@ function store() {
         // Let's now try to connect to authed
         // servers and try to get some information
         // about this token.
-        axios.get(`https://lococovu.me/api/profile/${token}`)
+        axios.get(`${config.apiURI.internal}/profile/${token}`)
         .then((response) => {
           const data = response.data;
           const done = () => {
@@ -63,7 +65,7 @@ function store() {
 
             // And now let's check validity of this token
             // through internal api
-            axios.get(`https://lococovu.me/api/security/code/${authorizedToken}`)
+            axios.get(`${config.apiURI.internal}/security/code/${authorizedToken}`)
             .then((response) => {
               done();
             })

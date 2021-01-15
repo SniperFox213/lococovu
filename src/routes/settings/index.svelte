@@ -3,11 +3,11 @@
   import { fade } from "svelte/transition";
 
   // Importing stores
-  import profile from "../../../stores/profile";
+  import profile from "../../stores/profile";
 
   // Importing components
-  import Icon from "../../../components/Icon.svelte";
-  import { H6, Paragraph, Caption } from "../../../components/typography";
+  import Icon from "../../components/Icon.svelte";
+  import { H6, Paragraph, Caption } from "../../components/typography";
 
   // Variables
   let nickname = $profile.nickname;

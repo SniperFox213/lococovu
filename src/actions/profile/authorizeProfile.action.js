@@ -104,7 +104,7 @@ export default (token, pincode, attributes = {}) => {
         // Redirect user to
         // tutorial or to Profile Setup
         // if needed
-        goto('/app');
+        goto('/settings');
       };
     };
 
