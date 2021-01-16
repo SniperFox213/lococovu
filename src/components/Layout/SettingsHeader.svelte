@@ -50,7 +50,7 @@
 <!-- Header -->
 <div style="z-index: 1;" class="absolute h-24 w-full top-0 w-full flex items-center justify-between">
   <!-- Current Account -->
-  <div class="flex items-center px-12">
+  <div class="flex items-center px-12 relative">
     <div style="background: url({ $profile.internalAvatar }); background-size: cover;" class="w-12 h-12 rounded-md relative"></div>
 
     <div class="mx-2">
