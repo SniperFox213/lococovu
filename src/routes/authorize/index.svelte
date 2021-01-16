@@ -31,6 +31,8 @@
   // - typography
   import { H2, Paragraph, Caption } from "../../components/typography";
 
+  import SettingsHeader from "../../components/Layout/SettingsHeader.svelte";
+
   let profiles = [];
   
   // Let's now subscribe to our accounts store.
@@ -93,37 +95,46 @@
 </script>
 
 <!-- Background && PageTransition -->
-<Background /><PageTransition />
+<Background />
+{ #if !$page.query.fromSettings }
+  <PageTransition />
+{ /if }
 
 <!-- Page's Layout -->
 <main class="w-full h-screen relative flex justify-center">
   <!-- Header -->
-  <div style="z-index: 2;" class="absolute h-24 w-full top-0 w-full px-8 flex items-center justify-between lg:justify-start">
-    <!-- Logotype -->
-    <div class="flex items-center">
-      <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
-      
-      <!-- Divider -->
-      <div style="width: 1.2px; height: 1.35rem;" class="hidden lg:block mx-2 rounded-md bg-white"></div>
 
-      { #if $accounts.profiles.length > 0 }
-        <p class="hidden lg:block text-md text-white">Аккаунты</p>
-      { :else }
-        <p class="hidden lg:block text-md text-white">Авторизация</p>
-      { /if }
-    </div>
-
-    <!-- Links -->
-    <div class="flex items-center ml-2">
-      <a class="text-xs text-white mx-4 opacity-50" href="/">Главная</a>
+  { #if $page.query.fromSettings }
+    <SettingsHeader />
+  { :else }
+    <div style="z-index: 2;" class="absolute h-24 w-full top-0 w-full px-8 flex items-center justify-between lg:justify-start">
+      <!-- Logotype -->
       
-      { #if $accounts.profiles.length > 0 }
-        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Аккаунты</a>
-      { :else }
-        <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Авторизация</a>
-      { /if }
+      <div class="flex items-center">
+        <img style="height: 1.5rem;" src="./logotype/small-white.svg" alt="Lococovu Logotype">
+        
+        <!-- Divider -->
+        <div style="width: 1.2px; height: 1.35rem;" class="hidden lg:block mx-2 rounded-md bg-white"></div>
+
+        { #if $accounts.profiles.length > 0 }
+          <p class="hidden lg:block text-md text-white">Аккаунты</p>
+        { :else }
+          <p class="hidden lg:block text-md text-white">Авторизация</p>
+        { /if }
+      </div>
+
+      <!-- Links -->
+      <div class="flex items-center ml-2">
+        <a class="text-xs text-white mx-4 opacity-50" href="/">Главная</a>
+        
+        { #if $accounts.profiles.length > 0 }
+          <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Аккаунты</a>
+        { :else }
+          <a class="hidden lg:block border-b border-solid border-indigo-400 text-sm text-white mx-4" href="/authorization">Авторизация</a>
+        { /if }
+      </div>
     </div>
-  </div>
+  { /if }
 
   <!-- Main Container -->
   <section class="relative w-full lg:w-1/2 h-full flex flex-col items-center justify-center">
