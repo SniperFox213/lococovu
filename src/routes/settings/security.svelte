@@ -8,6 +8,7 @@
 
   // Importing actions
   import setupPincode from "../../actions/profile/security/setupPincode.action";
+  import authorizePincode from "../../actions/profile/security/authorizePincode.action";
 
   // Importing stores
   import profile from "../../stores/profile";
@@ -25,12 +26,21 @@
   let containerLoading;
 
   // Function, that'll clear our query attributes
-  function clearQuery() {
+  function done() {
     goto('/settings/security');
     pincode = null;
-
     loading = false;
-    containerLoading = false;
+    
+    // Updating user
+    profile.loadProfile($profile.token)
+    .then(() => {
+      containerLoading = false;
+    }).catch((error) => {
+      if (error.error == "authorizePincode") {
+        storage.set("auth.callback", { url: "/settings/security" });
+        goto(`/authorize/pincode?token=${$profile.token}`);
+      };
+    });
   };
 
   // Function, that'll update our pincode
@@ -43,8 +53,16 @@
     if ($profile.security.pincode == null) {
       // Creating our pincode
       setupPincode($profile.token, pincode)
-      .then(() => clearQuery()).catch((error) => {
-      });
+      .then(() => {
+        // Let's now get this
+        // Security Code
+        authorizePincode($profile.id, pincode)
+        .then((response) => {
+          // And now let's save this Security Code
+          storage.set(`AT-${$profile.id}`, response.token);
+          containerLoading = false;
+        }).catch((error) => console.log(error));
+      }).catch((error) => (error) => console.log(error));
     } else {
       // Let's now check for Security Code
       if ($page.query.securityCode != null) {
@@ -52,10 +70,10 @@
 
         // Setting up our pincode
         setupPincode(`-${$page.query.securityCode}`, pincode)
-        // .then(() => clearQuery()).catch((error) => {
-          // console.log("ERROR");
-          // console.log(error);
-        // });
+        .then(() => done()).catch((error) => {
+          console.log("ERROR");
+          console.log(error);
+        });
       } else {
         // Let's firstly save our callback
         storage.set('auth.callback', JSON.stringify({ url: "/settings/security", query: `?action=updatePincode&hello=nibbaUbba&pincode=${pincode}` }));

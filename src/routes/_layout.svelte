@@ -25,12 +25,8 @@
 				.then(() => {
 					loaded = true;
 				}).catch((error) => {
-					if (error == "authorizePincode") {
-				
-						if ($page.query.return != null) {
-							storage.set('auth-return', $page.query.return);
-							storage.set('auth-return-query', $page.query.query);
-						};
+					if (error.error == "authorizePincode") {
+						if ($page.query.return != null) storage.set("auth.callback", { url: $page.query.return, query: $page.query.query });
 
 						goto(`/authorize/pincode?token=${cookies.get('token')}`);
 						cookies.remove('token', { path: "/" });
