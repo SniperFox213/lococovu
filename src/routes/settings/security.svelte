@@ -26,7 +26,7 @@
 
   // Function, that'll clear our query attributes
   function clearQuery() {
-    goto('/app/settings/security');
+    goto('/settings/security');
     pincode = null;
 
     loading = false;
@@ -52,13 +52,13 @@
 
         // Setting up our pincode
         setupPincode(`-${$page.query.securityCode}`, pincode)
-        .then(() => clearQuery()).catch((error) => {
-          console.log("ERROR");
-          console.log(error);
-        });
+        // .then(() => clearQuery()).catch((error) => {
+          // console.log("ERROR");
+          // console.log(error);
+        // });
       } else {
         // Let's firstly save our callback
-        storage.set('auth.callback', JSON.stringify({ url: "/app/settings/security", query: `?action=updatePincode&hello=nibbaUbba&pincode=${pincode}` }));
+        storage.set('auth.callback', JSON.stringify({ url: "/settings/security", query: `?action=updatePincode&hello=nibbaUbba&pincode=${pincode}` }));
 
         // Redirect user to login page
         goto(`/authorize/pincode?token=${$profile.token}&type=confirmation&action=pincodeChange`);
