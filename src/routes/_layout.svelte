@@ -9,6 +9,8 @@
 	import Cookie from "cookie-universal";
 	const cookies = Cookie();
 
+	import storage from "local-storage";
+	
 	import profile from "../stores/profile.js";
 	import accounts from "../stores/accounts.js";
 
