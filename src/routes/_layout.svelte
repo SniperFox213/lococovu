@@ -28,10 +28,14 @@
 					loaded = true;
 				}).catch((error) => {
 					if (error.error == "authorizePincode") {
-						if ($page.query.return != null) storage.set("auth.callback", { url: $page.query.return, query: $page.query.query });
+						if (!$page.path.includes("pincode")) {
+							if ($page.query.return != null) storage.set("auth.callback", { url: $page.query.return, query: $page.query.query });
 
-						goto(`/authorize/pincode?token=${cookies.get('token')}`);
-						cookies.remove('token', { path: "/" });
+							goto(`/authorize/pincode?token=${cookies.get('token')}`);
+						} else {
+							console.log("LOADED");
+							loaded = true;
+						};
 					} else {
 						loaded = true;
 					};

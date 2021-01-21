@@ -24,6 +24,7 @@
     loaded: false
   };
 
+  let token = null;
   let loading = false;
   let error = false;
 
@@ -53,11 +54,11 @@
     // Checkinf something mandatory
     if ($page.query.token == null) {
       goto('/authorize');
+    } else {
+      // Let's get some information about this account
+      account        = await getProfile($page.query.token);
+      account.loaded = true;
     };
-
-    // Let's get some information about this account
-    account        = await getProfile($page.query.token);
-    account.loaded = true;
   });
 </script>
 

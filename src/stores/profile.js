@@ -57,8 +57,6 @@ function store() {
           // Let's check if this account
           // have pincode authorization
           if (data.security.pincode != null) {
-            console.log("AUTH");
-            console.log(attrs.ignoreSavedPincode);
             // Let's check if we have AuthorizedToken saved
             // somewhere in our local-storage
             let authorizedToken = attrs.ignoreSavedPincode ? null : storage.get(`AT-${data.id}`);
@@ -66,7 +64,7 @@ function store() {
             // And now let's check validity of this token
             // through internal api
             axios.get(`${config.apiURI.internal}/security/code/${authorizedToken}`)
-            .then((response) => {
+            .then(() => {
               done();
             })
             .catch(() => {
