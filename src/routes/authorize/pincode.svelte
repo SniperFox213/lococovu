@@ -1,6 +1,6 @@
 <script>
   // Importing modules
-  import axios from "axios";
+  import storage from "local-storage";
 
   import { goto } from "@sapper/app";
   import { onMount } from "svelte";
@@ -51,6 +51,12 @@
 
   // onMount event
   onMount(async () => {
+    // Checking if we have any
+    // return values
+    if ($page.query.return != null) {
+      storage.set("auth.callback", JSON.stringify({ url: $page.query.return }));
+    };
+
     // Checkinf something mandatory
     if ($page.query.token == null) {
       goto('/authorize');

@@ -76,7 +76,11 @@ export default (token, pincode, attributes = {}) => {
       if (callback == null) {
         callback = originalCallback 
       } else {
-        callback = JSON.parse(callback);
+        try {
+          callback = JSON.parse(callback);
+        } catch {
+          callback = originalCallback;
+        };
       };
 
       if (callback.url != null) {
