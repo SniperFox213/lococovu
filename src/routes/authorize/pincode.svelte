@@ -54,7 +54,7 @@
     // Checking if we have any
     // return values
     if ($page.query.return != null) {
-      storage.set("auth.callback", JSON.stringify({ url: $page.query.return }));
+      storage.set("auth.callback", JSON.stringify({ url: $page.query.return, query: $page.query.query }));
     };
 
     // Checkinf something mandatory
