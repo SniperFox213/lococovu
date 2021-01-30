@@ -29,11 +29,18 @@
 				}).catch((error) => {
 					if (error.error == "authorizePincode") {
 						if (!$page.path.includes("pincode")) {
-							if ($page.query.return != null) storage.set("auth.callback", { url: $page.query.return, query: $page.query.query });
+							if ($page.query.return != null) {
+								console.log("YEAH 1");
+								storage.set("auth.callback", JSON.stringify({ url: $page.query.return, query: $page.query.query }));
+							} else {
+								console.log("YEAH 2");
+								console.log($page.query);
+								// Checking for current page path
+								storage.set("auth.callback", JSON.stringify({ url: $page.path, query: new URLSearchParams(window.location.search).toString() }));
+							};
 
 							goto(`/authorize/pincode?token=${cookies.get('token')}`);
 						} else {
-							console.log("LOADED");
 							loaded = true;
 						};
 					} else {
@@ -70,6 +77,13 @@
 				accounts.loadTokens([cookies.get('token')]);
 			};
 		}
+	});
+
+	// Listening for changes
+	page.subscribe((obj) => {
+		if (obj.path.includes("pincode")) {
+			loaded = true;
+		};
 	});
 </script>
 
